@@ -6,8 +6,10 @@ import logInImg from '../../assets/undraw_Login_re_4vu2.png';
 const Login = () => {
     const [enteredEmail, setEnterdEmail] = useState('');
     const [enteredPassword, setEnteredPassword] = useState('');
-    const [enteredEmailIsValid, setEnterdEmailIsValid] = useState(true);
-    const [enteredPasswordIsValid, setEnteredPasswordIsValid] = useState(true);
+    const [enteredEmailIsValid, setEnterdEmailIsValid] = useState(false);
+    const [enteredPasswordIsValid, setEnteredPasswordIsValid] = useState(false);
+    const [enteredEmailTouched, setEnterdEmailTouched] = useState(false);
+    const [enteredPasswordTouched, setEnteredPasswordTouched] = useState(false);
 
     const emailInputChangeHandler = event => {
         setEnterdEmail(event.target.value);
@@ -19,6 +21,8 @@ const Login = () => {
 
     const formSubmissionHandler = event => {
         event.preventDefault();
+        setEnterdEmailTouched(true);
+        setEnteredPasswordTouched(true);
 
         if(enteredEmail.trim() === '' || !enteredEmail.includes('@')){
             setEnterdEmailIsValid(false);
@@ -41,8 +45,11 @@ const Login = () => {
     const mainContainer = `container ${classes.mainContainer}`
     const subContainer = `row  ${classes.subContainer}`;
 
-    const emailInputClasses = enteredEmailIsValid ? `${classes['form-group']}` : `${classes['form-group']} ${classes.invalid}`;
-    const passwordInputClasses = enteredPasswordIsValid ? `${classes['form-group']}` : `${classes['form-group']} ${classes.invalid}`;
+    const enteredEmailIsInvalid = !enteredEmailIsValid && enteredEmailTouched;
+    const enteredPasswordIsInvalid = !enteredPasswordIsValid && enteredPasswordTouched;
+
+    const emailInputClasses = enteredEmailIsInvalid ? `${classes['form-group']} ${classes.invalid}` : `${classes['form-group']}`;
+    const passwordInputClasses = enteredPasswordIsInvalid ? `${classes['form-group']} ${classes.invalid}` : `${classes['form-group']}`;
     return (
         <div className={classes.wrapper}>
             <Card className={mainContainer}>
@@ -58,12 +65,12 @@ const Login = () => {
                                 <div className={emailInputClasses}>
                                     <label htmlFor="email">Email address</label>
                                     <input value={enteredEmail} type="email" className={classes['form-control']} id="email" placeholder="Enter email" onChange={emailInputChangeHandler}/>
-                                    {!enteredEmailIsValid && <p className={classes['error-text']}>Invalid email!</p>}
+                                    {enteredEmailIsInvalid && <p className={classes['error-text']}>Invalid email!</p>}
                                 </div>
                                 <div className={passwordInputClasses}>
                                     <label htmlFor="password">Password</label>
                                     <input value={enteredPassword} type="password" className={classes['form-control']} id="password" placeholder="Password" onChange={passwordInputChangeHandler}/>
-                                    {!enteredPasswordIsValid && <p className={classes['error-text']}>Invalid password!</p>}
+                                    {enteredPasswordIsInvalid && <p className={classes['error-text']}>Invalid password!</p>}
                                 </div>
                                 <button type="submit" className={btnClass}>Sign in</button>
                             </form>
