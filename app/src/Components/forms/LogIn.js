@@ -11,7 +11,7 @@ const Login = () => {
 
     //checking for the validity
     const enteredEmailIsValid = enteredEmail.trim() !== '' || enteredEmail.includes('@');
-    const enteredPasswordIsValid = enteredPassword.length >= 8;
+    const enteredPasswordIsValid = enteredPassword.trim() !== '' && enteredPassword.length >= 8; //the trim here because if the user enter 8 spaces without the trim it considred valid so we must trim and check for the length
 
     // cheching for the un-validty but input must be touched first
     const enteredEmailIsInvalid = !enteredEmailIsValid && enteredEmailTouched;
@@ -64,7 +64,7 @@ const Login = () => {
     // these variables just for controlling the css classes added to the elements
     const emailInputClasses = enteredEmailIsInvalid ? `${classes['form-group']} ${classes.invalid}` : `${classes['form-group']}`;
     const passwordInputClasses = enteredPasswordIsInvalid ? `${classes['form-group']} ${classes.invalid}` : `${classes['form-group']}`;
-    
+
     return (
         <div className={classes.wrapper}>
             <Card className={mainContainer}>
