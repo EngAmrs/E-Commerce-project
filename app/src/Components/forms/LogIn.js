@@ -6,6 +6,8 @@ import logInImg from '../../assets/undraw_Login_re_4vu2.png';
 const Login = () => {
     const [enteredEmail, setEnterdEmail] = useState('');
     const [enteredPassword, setEnteredPassword] = useState('');
+    const [enteredEmailIsValid, setEnterdEmailIsValid] = useState(true);
+    const [enteredPasswordIsValid, setEnteredPasswordIsValid] = useState(true);
 
     const emailInputChangeHandler = event => {
         setEnterdEmail(event.target.value);
@@ -19,8 +21,17 @@ const Login = () => {
         event.preventDefault();
 
         if(enteredEmail.trim() === '' || !enteredEmail.includes('@')){
+            setEnterdEmailIsValid(false);
             return;
         }
+
+        if(enteredPassword.length < 8){
+            setEnteredPasswordIsValid(false);
+            return;
+        }
+
+        setEnterdEmailIsValid(true);
+        setEnteredPasswordIsValid(true);
         console.log(enteredEmail, enteredPassword);
         setEnterdEmail('');
         setEnteredPassword('');
@@ -30,6 +41,8 @@ const Login = () => {
     const mainContainer = `container ${classes.mainContainer}`
     const subContainer = `row  ${classes.subContainer}`;
 
+    const emailInputClasses = enteredEmailIsValid ? `${classes['form-group']}` : `${classes['form-group']} ${classes.invalid}`;
+    const passwordInputClasses = enteredPasswordIsValid ? `${classes['form-group']}` : `${classes['form-group']} ${classes.invalid}`;
     return (
         <div className={classes.wrapper}>
             <Card className={mainContainer}>
@@ -42,13 +55,15 @@ const Login = () => {
                         <Card className={classes['login-form-container']}>
                             <h2>Sign in to your account</h2>
                             <form className={classes['login-form']} onSubmit={formSubmissionHandler}>
-                                <div className={classes['form-group']}>
+                                <div className={emailInputClasses}>
                                     <label htmlFor="email">Email address</label>
-                                    <input value={enteredEmail} type="text" className={classes['form-control']} id="email" placeholder="Enter email" onChange={emailInputChangeHandler}/>
+                                    <input value={enteredEmail} type="email" className={classes['form-control']} id="email" placeholder="Enter email" onChange={emailInputChangeHandler}/>
+                                    {!enteredEmailIsValid && <p className={classes['error-text']}>Invalid email!</p>}
                                 </div>
-                                <div className={classes['form-group']}>
+                                <div className={passwordInputClasses}>
                                     <label htmlFor="password">Password</label>
                                     <input value={enteredPassword} type="password" className={classes['form-control']} id="password" placeholder="Password" onChange={passwordInputChangeHandler}/>
+                                    {!enteredPasswordIsValid && <p className={classes['error-text']}>Invalid password!</p>}
                                 </div>
                                 <button type="submit" className={btnClass}>Sign in</button>
                             </form>

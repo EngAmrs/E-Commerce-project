@@ -91,3 +91,19 @@ label {
 .login-form-footer a {
   color: #007bff;
 }
+
+.invalid input {
+  border: 1px solid #b40e0e;
+  background-color: #fddddd;
+}
+
+.invalid input:focus {
+  border-color: #ff8800;
+  background-color: #fbe8d2;
+}
+
+.error-text {
+  margin-top: 5px;
+  padding-left: 5px;
+  color: #b40e0e;
+}
