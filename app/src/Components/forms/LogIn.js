@@ -1,22 +1,13 @@
-import React, {useState} from "react";
+import React from "react";
 import Card from '../UI/Card';
 import classes from './LogIn.module.css';
 import logInImg from '../../assets/undraw_Login_re_4vu2.png';
+import useInput from "../../hooks/use-input";
 
 const Login = () => {
-    const [enteredEmail, setEnterdEmail] = useState('');
-    const [enteredPassword, setEnteredPassword] = useState('');
-    const [enteredEmailTouched, setEnterdEmailTouched] = useState(false);
-    const [enteredPasswordTouched, setEnteredPasswordTouched] = useState(false);
-
-    //checking for the validity
-    const enteredEmailIsValid = enteredEmail.trim() !== '' || enteredEmail.includes('@');
-    const enteredPasswordIsValid = enteredPassword.trim() !== '' && enteredPassword.length >= 8; //the trim here because if the user enter 8 spaces without the trim it considred valid so we must trim and check for the length
-
-    // cheching for the un-validty but input must be touched first
-    const enteredEmailIsInvalid = !enteredEmailIsValid && enteredEmailTouched;
-    const enteredPasswordIsInvalid = !enteredPasswordIsValid && enteredPasswordTouched;
-
+    const {value: enteredEmail, isValid: enteredEmailIsValid, hasError: emailInputHasError, valueChangeHandler: emailInputChangeHandler, inputBlurHandler: emailInputBlureHandler, reset: resetEmailInput} = useInput(value => value.trim() !== '' || value.includes('@'));
+    const {value: enteredPassword, isValid: enteredPasswordIsValid, hasError: passwordInputHasError, valueChangeHandler: passwordInputChangeHandler, inputBlurHandler: passwordInputBlureHandler, reset: resetPasswordInput} = useInput(value => value.trim() !== '' && value.length >= 8);
+    
     //checking the overall form validty [we dont need state here as we are using onChange so this function is re-evaluated with every key stroke]
     let formIsValid = false;
 
@@ -24,37 +15,20 @@ const Login = () => {
         formIsValid = true;
     }
 
-    const emailInputChangeHandler = event => {
-        setEnterdEmail(event.target.value);
-    }
-
-    const passwordInputChangeHandler = event => {
-        setEnteredPassword(event.target.value);
-    }
-
-    const emailInputBlureHandler = event => {
-        setEnterdEmailTouched(true);
-       
-    }
-
-    const passwordInputBlureHandler = event => {
-        setEnteredPasswordTouched(true);
-    }
-
     const formSubmissionHandler = event => {
         event.preventDefault();
-        setEnterdEmailTouched(true);
-        setEnteredPasswordTouched(true);
+        
+        emailInputBlureHandler();
+        passwordInputBlureHandler();
 
         if(!formIsValid){
             return;
         }
 
         console.log(enteredEmail, enteredPassword);
-        setEnterdEmail('');
-        setEnteredPassword('');
-        setEnterdEmailTouched(false);
-        setEnteredPasswordTouched(false);
+        resetEmailInput();
+        resetPasswordInput();
+        
     }
 
     const btnClass = `${classes.btn} ${classes['btn-primary']}`;
@@ -62,8 +36,8 @@ const Login = () => {
     const subContainer = `row  ${classes.subContainer}`;
 
     // these variables just for controlling the css classes added to the elements
-    const emailInputClasses = enteredEmailIsInvalid ? `${classes['form-group']} ${classes.invalid}` : `${classes['form-group']}`;
-    const passwordInputClasses = enteredPasswordIsInvalid ? `${classes['form-group']} ${classes.invalid}` : `${classes['form-group']}`;
+    const emailInputClasses = emailInputHasError ? `${classes['form-group']} ${classes.invalid}` : `${classes['form-group']}`;
+    const passwordInputClasses = passwordInputHasError ? `${classes['form-group']} ${classes.invalid}` : `${classes['form-group']}`;
 
     return (
         <div className={classes.wrapper}>
@@ -80,12 +54,12 @@ const Login = () => {
                                 <div className={emailInputClasses}>
                                     <label htmlFor="email">Email address</label>
                                     <input value={enteredEmail} type="email" className={classes['form-control']} id="email" placeholder="Enter email" onChange={emailInputChangeHandler} onBlur={emailInputBlureHandler}/>
-                                    {enteredEmailIsInvalid && <p className={classes['error-text']}>Invalid email!</p>}
+                                    {emailInputHasError && <p className={classes['error-text']}>Invalid email!</p>}
                                 </div>
                                 <div className={passwordInputClasses}>
                                     <label htmlFor="password">Password</label>
                                     <input value={enteredPassword} type="password" className={classes['form-control']} id="password" placeholder="Password" onChange={passwordInputChangeHandler} onBlur={passwordInputBlureHandler}/>
-                                    {enteredPasswordIsInvalid && <p className={classes['error-text']}>Invalid password!</p>}
+                                    {passwordInputHasError && <p className={classes['error-text']}>Invalid password!</p>}
                                 </div>
                                 <button type="submit" className={btnClass}>Sign in</button>
                             </form>
