@@ -1,5 +1,6 @@
 /****** Start Header ******/
 #header{
+    position: sticky;
     width: 100%;
     height: 10%;
     background-color: #000;
@@ -156,6 +157,24 @@
     .nav_icons a:nth-child(2)::after, .nav_icons a:nth-child(3){
         left: 10px;
     }
+    .navbar-collapse{
+        background-color: rgba(255, 255, 255, .8);
+        
+    }
+    .navbar  .links a:nth-child(3)::after{
 
-  }
+        top: 0;
+        right: 10px
+    }
+
+ }
+
+ .scrolled{
+    background-color: #fff !important;
+    
+ }
+ .scrolledHeader{
+    width: 0 !important;
+    height: 0 !important;
+ }
 /****** End NavBar ******/

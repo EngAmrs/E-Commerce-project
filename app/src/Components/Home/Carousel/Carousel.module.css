@@ -42,14 +42,27 @@
     z-index: 50;
 }
 
-@media (max-width: 991px) {
+
+
+@media (max-width: 1300px) {
     .caption h3{
-        font-size: 1.2em;
+        font-size: 1.4em;
         word-spacing: -5px;
         white-space:pre !important;
+    }
+    .caption p{
+        font-size: .8em;
+    }
+
+}
+@media (max-width: 776px) {
+    .caption h3{
+        font-size: 1.1em;
+        word-spacing: -5px;
     }
     .caption p{
         display: none;
     }
 
-  }
+}
+

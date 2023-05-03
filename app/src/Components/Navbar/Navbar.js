@@ -1,3 +1,4 @@
+import React, { useState, useEffect } from "react";
 // import { Link } from "react-router-dom";
 import { FaShoppingCart, FaSearch, FaRegHeart } from "react-icons/fa";
 // Bootstrap
@@ -9,9 +10,26 @@ import {
 import './Navbar.css'
 
 const NavbarCom = () => {
+
+    const [scrolled, setScrolled] = useState(false);
+
+    useEffect(() => {
+      const handleScroll = () => {
+        const isScrolled = window.scrollY > 25;
+        if (isScrolled !== scrolled) {
+            setTimeout(()=>{
+            setScrolled(isScrolled);
+        }, 150)
+        }
+      };
+      document.addEventListener("scroll", handleScroll);
+      return () => {
+        document.removeEventListener("scroll", handleScroll);
+      };
+    }, [scrolled]);
     return (   
         <>  
-            <div id="header">
+            <div id="header" className={`navbar-fixed-top ${scrolled ? "scrolledHeader" : ""} `}>
                 <Container>
                     <p>Free shipping for standard order over $100</p>
                     <ul className="account-options">
@@ -22,7 +40,7 @@ const NavbarCom = () => {
                     </ul>
                 </Container>
             </div>
-            <Navbar className="navbar" collapseOnSelect expand="lg" bg="light" variant="light">
+            <Navbar className={`navbar-fixed-top ${scrolled ? "scrolled" : ""} navbar`} collapseOnSelect expand="lg" bg="light" variant="light">
                 <Container>
                     <Navbar.Brand to="home"><span>A</span>ROA</Navbar.Brand>
                     <Navbar.Toggle aria-controls="responsive-navbar-nav" />
