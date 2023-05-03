@@ -35,7 +35,7 @@
     padding-top: 1em;
 
 }
-#header .signIn-btn a{
+#header .signIn-btn{
     color: #6e7bd1;
     font-weight: bolder;
 }
@@ -46,14 +46,13 @@
 
 /****** Start NavBar ******/
 
-a{
-    text-decoration: none;
-}
 .navbar{
-    position: fixed;
+    z-index: 999;
+    position:fixed;
     width: 100%;
     font-family: 'Poppins';
     padding: 1.3em 0 1em 0;
+    background-color: rgba(235, 221, 221, 0) !important;
     
 }
 .navbar-brand {
