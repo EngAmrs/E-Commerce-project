@@ -1,4 +1,4 @@
-import React, {useState, useRef} from "react";
+import React, {useState} from "react";
 import Card from '../UI/Card';
 import classes from './LogIn.module.css';
 import logInImg from '../../assets/undraw_Login_re_4vu2.png';
@@ -6,10 +6,15 @@ import logInImg from '../../assets/undraw_Login_re_4vu2.png';
 const Login = () => {
     const [enteredEmail, setEnterdEmail] = useState('');
     const [enteredPassword, setEnteredPassword] = useState('');
-    const [enteredEmailIsValid, setEnterdEmailIsValid] = useState(false);
-    const [enteredPasswordIsValid, setEnteredPasswordIsValid] = useState(false);
     const [enteredEmailTouched, setEnterdEmailTouched] = useState(false);
     const [enteredPasswordTouched, setEnteredPasswordTouched] = useState(false);
+
+    const enteredEmailIsValid = enteredEmail.trim() !== '' || enteredEmail.includes('@');
+    const enteredPasswordIsValid = enteredPassword.length >= 8;
+
+    const enteredEmailIsInvalid = !enteredEmailIsValid && enteredEmailTouched;
+    const enteredPasswordIsInvalid = !enteredPasswordIsValid && enteredPasswordTouched;
+
 
     const emailInputChangeHandler = event => {
         setEnterdEmail(event.target.value);
@@ -21,19 +26,11 @@ const Login = () => {
 
     const emailInputBlureHandler = event => {
         setEnterdEmailTouched(true);
-        if(enteredEmail.trim() === '' || !enteredEmail.includes('@')){
-            setEnterdEmailIsValid(false);
-            return;
-        }
+       
     }
 
     const passwordInputBlureHandler = event => {
         setEnteredPasswordTouched(true);
-
-        if(enteredPassword.length < 8){
-            setEnteredPasswordIsValid(false);
-            return;
-        }
     }
 
     const formSubmissionHandler = event => {
@@ -41,30 +38,25 @@ const Login = () => {
         setEnterdEmailTouched(true);
         setEnteredPasswordTouched(true);
 
-        if(enteredEmail.trim() === '' || !enteredEmail.includes('@')){
-            setEnterdEmailIsValid(false);
+        if(!enteredEmailIsValid){
             return;
         }
 
-        if(enteredPassword.length < 8){
-            setEnteredPasswordIsValid(false);
+        if(!enteredPasswordIsValid){
             return;
         }
-
-        setEnterdEmailIsValid(true);
-        setEnteredPasswordIsValid(true);
         console.log(enteredEmail, enteredPassword);
         setEnterdEmail('');
         setEnteredPassword('');
+        setEnterdEmailTouched(false);
+        setEnteredPasswordTouched(false);
     }
 
     const btnClass = `${classes.btn} ${classes['btn-primary']}`;
     const mainContainer = `container ${classes.mainContainer}`
     const subContainer = `row  ${classes.subContainer}`;
 
-    const enteredEmailIsInvalid = !enteredEmailIsValid && enteredEmailTouched;
-    const enteredPasswordIsInvalid = !enteredPasswordIsValid && enteredPasswordTouched;
-
+    
     const emailInputClasses = enteredEmailIsInvalid ? `${classes['form-group']} ${classes.invalid}` : `${classes['form-group']}`;
     const passwordInputClasses = enteredPasswordIsInvalid ? `${classes['form-group']} ${classes.invalid}` : `${classes['form-group']}`;
     return (
