@@ -9,12 +9,20 @@ const Login = () => {
     const [enteredEmailTouched, setEnterdEmailTouched] = useState(false);
     const [enteredPasswordTouched, setEnteredPasswordTouched] = useState(false);
 
+    //checking for the validity
     const enteredEmailIsValid = enteredEmail.trim() !== '' || enteredEmail.includes('@');
     const enteredPasswordIsValid = enteredPassword.length >= 8;
 
+    // cheching for the un-validty but input must be touched first
     const enteredEmailIsInvalid = !enteredEmailIsValid && enteredEmailTouched;
     const enteredPasswordIsInvalid = !enteredPasswordIsValid && enteredPasswordTouched;
 
+    //checking the overall form validty [we dont need state here as we are using onChange so this function is re-evaluated with every key stroke]
+    let formIsValid = false;
+
+    if(enteredEmailIsValid && enteredPasswordIsValid) {
+        formIsValid = true;
+    }
 
     const emailInputChangeHandler = event => {
         setEnterdEmail(event.target.value);
@@ -38,13 +46,10 @@ const Login = () => {
         setEnterdEmailTouched(true);
         setEnteredPasswordTouched(true);
 
-        if(!enteredEmailIsValid){
+        if(!formIsValid){
             return;
         }
 
-        if(!enteredPasswordIsValid){
-            return;
-        }
         console.log(enteredEmail, enteredPassword);
         setEnterdEmail('');
         setEnteredPassword('');
@@ -56,9 +61,10 @@ const Login = () => {
     const mainContainer = `container ${classes.mainContainer}`
     const subContainer = `row  ${classes.subContainer}`;
 
-    
+    // these variables just for controlling the css classes added to the elements
     const emailInputClasses = enteredEmailIsInvalid ? `${classes['form-group']} ${classes.invalid}` : `${classes['form-group']}`;
     const passwordInputClasses = enteredPasswordIsInvalid ? `${classes['form-group']} ${classes.invalid}` : `${classes['form-group']}`;
+    
     return (
         <div className={classes.wrapper}>
             <Card className={mainContainer}>
