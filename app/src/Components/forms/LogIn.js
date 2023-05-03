@@ -19,6 +19,23 @@ const Login = () => {
         setEnteredPassword(event.target.value);
     }
 
+    const emailInputBlureHandler = event => {
+        setEnterdEmailTouched(true);
+        if(enteredEmail.trim() === '' || !enteredEmail.includes('@')){
+            setEnterdEmailIsValid(false);
+            return;
+        }
+    }
+
+    const passwordInputBlureHandler = event => {
+        setEnteredPasswordTouched(true);
+
+        if(enteredPassword.length < 8){
+            setEnteredPasswordIsValid(false);
+            return;
+        }
+    }
+
     const formSubmissionHandler = event => {
         event.preventDefault();
         setEnterdEmailTouched(true);
@@ -64,12 +81,12 @@ const Login = () => {
                             <form className={classes['login-form']} onSubmit={formSubmissionHandler}>
                                 <div className={emailInputClasses}>
                                     <label htmlFor="email">Email address</label>
-                                    <input value={enteredEmail} type="email" className={classes['form-control']} id="email" placeholder="Enter email" onChange={emailInputChangeHandler}/>
+                                    <input value={enteredEmail} type="email" className={classes['form-control']} id="email" placeholder="Enter email" onChange={emailInputChangeHandler} onBlur={emailInputBlureHandler}/>
                                     {enteredEmailIsInvalid && <p className={classes['error-text']}>Invalid email!</p>}
                                 </div>
                                 <div className={passwordInputClasses}>
                                     <label htmlFor="password">Password</label>
-                                    <input value={enteredPassword} type="password" className={classes['form-control']} id="password" placeholder="Password" onChange={passwordInputChangeHandler}/>
+                                    <input value={enteredPassword} type="password" className={classes['form-control']} id="password" placeholder="Password" onChange={passwordInputChangeHandler} onBlur={passwordInputBlureHandler}/>
                                     {enteredPasswordIsInvalid && <p className={classes['error-text']}>Invalid password!</p>}
                                 </div>
                                 <button type="submit" className={btnClass}>Sign in</button>
