@@ -18,6 +18,9 @@ const Login = () => {
     const formSubmissionHandler = event => {
         event.preventDefault();
 
+        if(enteredEmail.trim() === '' || !enteredEmail.includes('@')){
+            return;
+        }
         console.log(enteredEmail, enteredPassword);
         setEnterdEmail('');
         setEnteredPassword('');
@@ -41,7 +44,7 @@ const Login = () => {
                             <form className={classes['login-form']} onSubmit={formSubmissionHandler}>
                                 <div className={classes['form-group']}>
                                     <label htmlFor="email">Email address</label>
-                                    <input value={enteredEmail} type="email" className={classes['form-control']} id="email" placeholder="Enter email" onChange={emailInputChangeHandler}/>
+                                    <input value={enteredEmail} type="text" className={classes['form-control']} id="email" placeholder="Enter email" onChange={emailInputChangeHandler}/>
                                 </div>
                                 <div className={classes['form-group']}>
                                     <label htmlFor="password">Password</label>
