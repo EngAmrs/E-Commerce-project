@@ -8,9 +8,12 @@ const BackDrop = (props) => {
 }
 
 const ModelOverlay = (props) => {
-    return <div className={classes.modal}>
-        <div className={classes.content}>{props.children}</div>
-     </div>
+    
+    return  <div className={classes.modelLayer}>
+                <div className={classes.modal}>
+                    <div className={classes.content}>{props.children}</div>
+                </div>
+            </div>
 }
 
 const portalElement = document.getElementById('overlays');
@@ -18,7 +21,7 @@ const portalElement = document.getElementById('overlays');
 const Modal = (props) => {
     return <>
         {ReactDOM.createPortal(<BackDrop onClick={props.onClick}/>, portalElement)}
-        {ReactDOM.createPortal(<ModelOverlay>{props.children}</ModelOverlay>, portalElement)}
+        {ReactDOM.createPortal(<ModelOverlay className={props.className}>{props.children}</ModelOverlay>, portalElement)}
     </>
 }
 

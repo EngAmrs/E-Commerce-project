@@ -14,6 +14,7 @@ const Form = (props) => {
         setView("register");
     };
 
+
     return <Modal onClick={props.onHideLogin}>
         {view === "login" ? <Login onClick={props.onHideLogin} onViewHandler={viewRegisterHandler}/> : <Register onClick={props.onHideLogin} onViewHandler={viewLoginHandler}/>}
     </Modal>

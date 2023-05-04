@@ -78,7 +78,7 @@ const Login = (props) => {
                     {passwordInputHasError && <p className={classes['error-text']}>Invalid password!</p>}
                 </div>
 
-                <button type="submit" className={btnClass}>Sign in</button>
+                <button type="submit" className={btnClass}>Sign In</button>
             </form>
 
             <footer className={classes['login-form-footer']}>

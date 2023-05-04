@@ -12,12 +12,12 @@
 
 h2 {
   font-size: 24px;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   text-align: center;
 }
 
 .form-group {
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 }
 
 label {
@@ -64,12 +64,12 @@ label {
 }
 
 .login-form-footer {
-  margin-top: 20px;
+  margin-top: 10px;
   text-align: center;
 }
 
 .login-form-footer p {
-  margin-bottom: 10px;
+  margin-bottom: 5px;
 }
 
 .login-form-footer a {
