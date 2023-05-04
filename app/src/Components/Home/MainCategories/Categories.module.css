@@ -16,7 +16,7 @@
   #cards_landscape_wrap_2 .card_flyer .image_box{
     background: #ffffff;
     overflow: hidden;
-    box-shadow: 0px 2px 15px rgba(0, 0, 0, 0.50);
+    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.10);
     border-radius: 5px;
   }
   #cards_landscape_wrap_2 .card_flyer .image_box img{
