@@ -1,22 +1,22 @@
 import React , {useState} from 'react';
 import Login from './Components/forms/LogIn';
+import Form from './Components/forms/Form';
 
 function App() {
-  const [logInIsShown, setLogInIsShown] = useState(false);
+  const [formIsShown, setformIsShown] = useState(false);
 
-  const showLoginHandler = ()=> {
-    setLogInIsShown(true);
+  const showFormHandler = ()=> {
+    setformIsShown(true);
   }
 
-  const hideLoginHandler = ()=> {
-    setLogInIsShown(false);
+  const hideFormHandler = ()=> {
+    setformIsShown(false);
   }
 
   return (
    <>
-    {logInIsShown && <Login onHideLogin={hideLoginHandler}/>}
-    <button onClick={showLoginHandler}>Sign In</button>
-    {/* <Login/> */}
+    {formIsShown && <Form onHideLogin={hideFormHandler}/>}
+    <button onClick={showFormHandler}>Sign In</button>
    </>
   );
 }

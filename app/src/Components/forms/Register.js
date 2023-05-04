@@ -1,10 +1,11 @@
 import React from "react";
 import classes from './LogIn.module.css';
 import useInput from "../../hooks/use-input";
+import Modal from "../UI/Modal";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
 
-const Login = (props) => {
+const Register = (props) => {
     const {value: enteredEmail, isValid: enteredEmailIsValid, hasError: emailInputHasError, valueChangeHandler: emailInputChangeHandler, inputBlurHandler: emailInputBlureHandler, reset: resetEmailInput} = useInput(value => value.trim() !== '' || value.includes('@'));
     const {value: enteredPassword, isValid: enteredPasswordIsValid, hasError: passwordInputHasError, valueChangeHandler: passwordInputChangeHandler, inputBlurHandler: passwordInputBlureHandler, reset: resetPasswordInput} = useInput(value => value.trim() !== '' && value.length >= 8);
     
@@ -46,8 +47,7 @@ const Login = (props) => {
             </div>
 
             <div className="mb-5">
-                <h2 className={classes.welcome}>Welcome back!</h2>
-                <h2 className={classes.sign}>Sign in to your account</h2>
+                <h2 className={classes.sign}>Create an account</h2>
             </div>
 
             <form className={classes['login-form']} onSubmit={formSubmissionHandler}>
@@ -61,11 +61,11 @@ const Login = (props) => {
                 <input value={enteredPassword} type="password" className={classes['form-control']} id="password" placeholder="Password" onChange={passwordInputChangeHandler} onBlur={passwordInputBlureHandler}/>
                 {passwordInputHasError && <p className={classes['error-text']}>Invalid password!</p>}
                 </div>
-                <button type="submit" className={btnClass}>Sign in</button>
+                <button type="submit" className={btnClass}>Register</button>
             </form>
 
             <footer className={classes['login-form-footer']}>
-                <p>Don't have an account yet? <a href="#" onClick={props.onViewHandler}>Sign up</a></p>
+                <p>Already have an account<a href="#" onClick={props.onViewHandler}>Sign in</a></p>
             </footer>
 
         </>
@@ -73,4 +73,4 @@ const Login = (props) => {
       );
 };
 
-export default Login;
+export default Register;
