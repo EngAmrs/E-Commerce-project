@@ -45,7 +45,7 @@
 }
 .social-icons a i{
 	box-shadow: rgb(0 0 0 / 8%) 0px 4px 12px;
-    padding: 0.4rem 1rem 0.4rem 1rem;
+    /* padding: 0.4rem 1rem 0.4rem 1rem; */
     border-radius: 3px;
     color: #6e7bd1;
 	font-size: 16px;
