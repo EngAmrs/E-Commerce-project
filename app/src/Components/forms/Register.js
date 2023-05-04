@@ -5,16 +5,14 @@ import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import { faEye } from '@fortawesome/free-solid-svg-icons';
 import { faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import {useFormik} from 'formik';
-import useInput from "../../hooks/use-input";
 import { registerSchema } from '../../schemas/index';
 
-const onSubmit = () => {
-    window.alert("asfadsf")
+const onSubmit = (values, actions) => {
+    actions.resetForm();
 };
 
 const Register = (props) => {
-    const {value: enteredEmail, isValid: enteredEmailIsValid, hasError: emailInputHasError, valueChangeHandler: emailInputChangeHandler, inputBlurHandler: emailInputBlureHandler, reset: resetEmailInput} = useInput(value => value.trim() !== '' || value.includes('@'));
-    const {value: enteredPassword, isValid: enteredPasswordIsValid, hasError: passwordInputHasError, valueChangeHandler: passwordInputChangeHandler, inputBlurHandler: passwordInputBlureHandler, reset: resetPasswordInput} = useInput(value => value.trim() !== '' && value.length >= 8);
+
     const [passwordIsVisible, setPasswordIsVisible] = useState(false);
 
     const togglePasswordVisibility = (event) => {
@@ -35,29 +33,20 @@ const Register = (props) => {
         onSubmit,
     });
 
-    console.log(formik.errors);
-
-    // const formSubmissionHandler = event => {
-    //     event.preventDefault();
-        
-    // }
-
     const btnClass = `${classes.btn} ${classes['btn-primary']}`;
  
     // these variables just for controlling the css classes added to the elements
-    const emailInputClasses = emailInputHasError ? `${classes['form-group']} ${classes.invalid}` : `${classes['form-group']}`;
-    const passwordInputClasses = passwordInputHasError ? `${classes['form-group']} ${classes.invalid}` : `${classes['form-group']}`;
-
-
-    console.log(formik);
-
+    // const emailInputClasses = emailInputHasError ? `${classes['form-group']} ${classes.invalid}` : `${classes['form-group']}`;
+    // const passwordInputClasses = passwordInputHasError ? `${classes['form-group']} ${classes.invalid}` : `${classes['form-group']}`;
     return (
         <div>
+
             <div className="d-flex justify-content-end">
                 <button className={classes.showIcon} onClick={props.onClick}>
                     <FontAwesomeIcon icon={faXmark}/>
                 </button>
             </div>
+
             <div className="mb-1">
                 <h2 className={classes.sign}>Create an account</h2>
             </div>
@@ -67,36 +56,36 @@ const Register = (props) => {
                 <div >
                     <label htmlFor="first_name">First name</label>
                     <input value={formik.values.first_name} type="text" className={classes['form-control']} id="first_name" placeholder="First Name" onChange={formik.handleChange} onBlur={formik.handleBlur}/>
-                    {formik.errors.first_name && <p className={classes['error-text']}>Invalid email!</p>}
+                    {(formik.errors.first_name && formik.touched.first_name) && <p className={classes['error-text']}>{formik.errors.first_name}</p>}
                 </div>
 
-                <div className={passwordInputClasses}>
+                <div>
                     <label htmlFor="last_name">Last name</label>
                     <input value={formik.values.last_name} type="text" className={classes['form-control']} id="last_name" placeholder="Last Name" onChange={formik.handleChange} onBlur={formik.handleBlur}/>
-                    {formik.errors.last_name  && <p className={classes['error-text']}>Invalid password!</p>}
+                    {(formik.errors.last_name && formik.touched.last_name)   && <p className={classes['error-text']}>{formik.errors.last_name}</p>}
                 </div>
 
-                <div className={passwordInputClasses}>
+                <div >
                     <label htmlFor="user_name">User name</label>
                     <input value={formik.values.user_name} type="text" className={classes['form-control']} id="user_name" placeholder="User Name" onChange={formik.handleChange} onBlur={formik.handleBlur}/>
-                    {formik.errors.user_name  && <p className={classes['error-text']}>Invalid password!</p>}
+                    {(formik.errors.user_name && formik.touched.user_name)   && <p className={classes['error-text']}>{formik.errors.user_name}</p>}
                 </div>
 
-                <div className={emailInputClasses}>
+                <div >
                     <label htmlFor="email">Email address</label>
                     <input value={formik.values.email} type="email" className={classes['form-control']} id="email" placeholder="Enter email" onChange={formik.handleChange} onBlur={formik.handleBlur}/>
-                    {formik.errors.email  && <p className={classes['error-text']}>Invalid email!</p>}
+                    {(formik.errors.email && formik.touched.email)   && <p className={classes['error-text']}>{formik.errors.email}</p>}
                 </div>
 
-                <div className={passwordInputClasses}>
+                <div >
                     <label htmlFor="password">Password</label>
                     <div className={classes.password}>
-                        <input value={enteredPassword} type={passwordIsVisible ? 'text' : 'password'} className={classes['form-control']} id="password" placeholder="Password" onChange={passwordInputChangeHandler} onBlur={passwordInputBlureHandler}/>
+                        <input value={formik.values.password} type={passwordIsVisible ? 'text' : 'password'} className={classes['form-control']} id="password" placeholder="Password" onChange={formik.handleChange} onBlur={formik.handleBlur}/>
                         <button className={classes.showIcon} onClick={togglePasswordVisibility}>
                             {passwordIsVisible ? <FontAwesomeIcon icon={faEye} /> : <FontAwesomeIcon icon={faEyeSlash} />}
                         </button>
                     </div>
-                    {formik.errors.password && <p className={classes['error-text']}>Invalid password!</p>}
+                    {(formik.errors.password && formik.touched.password)  && <p className={classes['error-text']}>{formik.errors.password}</p>}
                 </div>
 
                 <button type="submit" className={btnClass}>Register</button>
