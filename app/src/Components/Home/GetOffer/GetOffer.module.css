@@ -4,8 +4,9 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 50vh;
-    background-color: red;
+    height: 40vh;
+    background-image:url('../../../assets//Home//bg-02.jpg');
+    background-size: cover;
     }
     
     .subscribe_now h4 {
@@ -13,8 +14,8 @@
     line-height: 20px;
     letter-spacing: 2px;
     text-transform: uppercase;
-    color: #34495e;
-    font-weight: 800;
+    color: #fff;
+    font-weight: bolder;
     text-align: center;
     }
     
@@ -22,7 +23,7 @@
     font-size: 14px;
     line-height: 20px;
     letter-spacing: 2px;
-    color: #34495e;
+    color: #ccc;
     text-align: center;
     }
     
@@ -50,6 +51,7 @@
     border-top-left-radius: 5px;
     border-bottom-left-radius: 5px;
     padding-left: 10px;
+    outline: none;
     }
     
     .subscribe_form button {
