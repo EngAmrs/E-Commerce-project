@@ -6,7 +6,7 @@ function App() {
   const [formIsShown, setformIsShown] = useState(false);
 
   const showFormHandler = ()=> {
-    setformIsShown(true);
+    setformIsShown(true); 
   }
 
   const hideFormHandler = ()=> {
