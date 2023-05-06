@@ -1,9 +1,78 @@
 import style from './ProductItemts.module.css'
+import './Style.css'
 import {Button} from 'react-bootstrap';
 import { BsHeartFill } from "react-icons/bs";
 import Pagination from 'react-bootstrap/Pagination';
+import { useState } from 'react';
 
 const ProductItems = () => {
+
+    /*
+    *
+    * Start Pagination 
+    * 
+    */
+    const [activePage, setActivePage] = useState(1);
+    const totalPages = 10;
+
+    const handleClick = (pageNumber) => {
+        if(pageNumber > 0 && pageNumber <=   totalPages)
+            setActivePage(pageNumber);
+    };
+
+    const renderPages = () => {
+      const pages = [];  
+      // Render 5 pages at a time
+      const startPage = Math.max(1, activePage - 1);
+      const endPage = Math.min(totalPages, activePage + 1);
+  
+      for (let i = startPage; i <= endPage; i++) {
+        pages.push(
+          <Pagination.Item
+            key={i}
+            active={i === activePage}
+            onClick={() => handleClick(i)}
+            className={style['page-link']}
+          >
+            {i}
+          </Pagination.Item>     
+        );
+      }
+
+      if(activePage > totalPages - 2){
+        pages.pop();
+        pages.push(
+            <>
+            <Pagination.Item
+             key={totalPages}
+             active={totalPages === activePage}
+             onClick={() => handleClick(totalPages)}
+             className={style['page-link']}
+            >{totalPages}</Pagination.Item>
+            </>
+          )
+      }else{
+      pages.push(
+        <>
+        <Pagination.Ellipsis />
+        <Pagination.Item
+         key={totalPages}
+         active={totalPages === activePage}
+         onClick={() => handleClick(totalPages)}
+         className={style['page-link']}
+        >{totalPages}</Pagination.Item>
+        </>
+      )
+      }
+      return pages;
+    };
+
+   /*
+    *
+    * End Pagination 
+    * 
+    */
+
     return ( 
 
         <div id={style.cards_landscape_wrap_2} className='col-md-9'>
@@ -146,27 +215,20 @@ const ProductItems = () => {
                         </div>
                 </div>
             </div>
-        </div>
 
         {/* Pagination */}
-        <Pagination>
-            <Pagination.First />
-            <Pagination.Prev />
-            <Pagination.Item>{1}</Pagination.Item>
-            <Pagination.Ellipsis />
+        <div className={style.pagination}>
+            <Pagination>
+                <Pagination.First onClick={()=> {setActivePage(1)}}className={style['page-link']} />
+                <Pagination.Prev onClick={() => handleClick(activePage - 1)} className={style['page-link']} />
+                {renderPages()}
+                <Pagination.Next onClick={() => handleClick(activePage + 1)} className={style['page-link']} />
+                <Pagination.Last onClick={()=> {setActivePage(totalPages)}} className={style['page-link']} />
+            </Pagination>
+        </div>
+        </div>
 
-            <Pagination.Item>{10}</Pagination.Item>
-            <Pagination.Item>{11}</Pagination.Item>
-            <Pagination.Item active>{12}</Pagination.Item>
-            <Pagination.Item>{13}</Pagination.Item>
-            <Pagination.Item disabled>{14}</Pagination.Item>
-
-            <Pagination.Ellipsis />
-            <Pagination.Item>{20}</Pagination.Item>
-            <Pagination.Next />
-            <Pagination.Last />
-        </Pagination>
-
+  
         </div>
      );
 }

@@ -112,6 +112,25 @@
 
   /* Pagination */
 
+  .pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .pagination li {
+    list-style: none;
+    margin: 0 5px;
+  }
+  .pagination .page-link  a{
+    color: #000  !important;
+  }
+  
+  .pagination .page-link:hover  a {
+    background-color: #6e7bd1;
+    color: #fff  !important;
+  }
+  
   @media (max-width: 557px) {
     #cards_landscape_wrap_2 .card_flyer .text_box{
         display: flex;
