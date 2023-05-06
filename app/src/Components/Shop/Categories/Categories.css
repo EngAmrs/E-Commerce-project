@@ -1,0 +1,41 @@
+*{
+    font-family: 'Poppins';
+}
+
+.card_header{
+    background-color:#6e7bd1;
+    color: #fff;
+    font-weight: bold;
+    padding-top: .9em ;
+    padding-bottom: .9em ;
+    
+
+}
+.list-group .active{
+    background-color:rgba(0, 0, 0, 0.7) !important;
+    color: #fff !important;
+    border: 0;
+    
+}
+.list-group-item{
+    padding-top: .8em;
+    padding-bottom: .8em;
+    transition: .5s;
+}
+
+.list-group-item:hover{
+   padding-left: 2em;
+   color: #6e7bd1 !important;
+
+}
+.load_more{
+    color: #999;
+    cursor: pointer;
+    text-align: center;
+    margin: 10px 0;
+    font-size: 14px;
+    line-height: 34px;
+    font-style: italic;
+    text-decoration: underline;
+}
+

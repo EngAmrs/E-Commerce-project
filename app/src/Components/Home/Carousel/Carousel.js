@@ -1,6 +1,7 @@
 import Carousel from 'react-bootstrap/Carousel';
 import { useState } from 'react';
 import {Button} from 'react-bootstrap';
+import {LinkContainer} from 'react-router-bootstrap'
 import style from './Carousel.module.css'
 const CarouselCom = () => {
 
@@ -39,7 +40,9 @@ const CarouselCom = () => {
           <h3>Get All 
             the looks</h3>
           <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-          <Button className={style.btn}>Shop Now</Button>
+          <LinkContainer to="/shop">
+            <Button className={style.btn}>Shop Now</Button>
+          </LinkContainer>
         </Carousel.Caption>
       </Carousel.Item>
       <Carousel.Item>

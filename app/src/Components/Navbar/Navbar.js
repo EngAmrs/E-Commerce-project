@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 // import { Link } from "react-router-dom";
 import { FaShoppingCart, FaSearch, FaRegHeart } from "react-icons/fa";
+import {LinkContainer} from 'react-router-bootstrap'
 // Bootstrap
 import {
         Container,
@@ -42,12 +43,19 @@ const NavbarCom = () => {
             </div>
             <Navbar className={`navbar-fixed-top ${scrolled ? "scrolled" : ""} navbar`} collapseOnSelect expand="lg" bg="light" variant="light">
                 <Container>
-                    <Navbar.Brand to="home"><span>A</span>ROA</Navbar.Brand>
+                    <LinkContainer to="/">
+                        <Navbar.Brand activeClassName="active"><span>A</span>ROA</Navbar.Brand>
+                    </LinkContainer>
+
                     <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                     <Navbar.Collapse id="responsive-navbar-nav">
                     <Nav className="me-auto links">
-                        <Nav.Link className="activated" to="home">Home</Nav.Link>
-                        <Nav.Link to={"s"}>Shop</Nav.Link>
+                        <LinkContainer to="/home">
+                                <Nav.Link activeClassName="active">Home</Nav.Link>
+                        </LinkContainer>
+                        <LinkContainer to="/shop">
+                            <Nav.Link activeClassName="active">Shop</Nav.Link>
+                        </LinkContainer>
                         <Nav.Link  to="home">Features</Nav.Link>
                         <Nav.Link to={"s"}>Blog</Nav.Link>
                         <Nav.Link to="home">About</Nav.Link>

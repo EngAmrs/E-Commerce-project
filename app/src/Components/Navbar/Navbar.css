@@ -17,6 +17,9 @@
     flex-basis: 50%;
     flex: 1;
     padding-top: 1em;
+    font-size: 1em;
+    color: #ddd;
+    font-style: italic;
     
 }
 #header .account-options{
@@ -81,7 +84,7 @@
     transition: .5s;
 }
 
-.navbar .links .activated{
+.navbar .links .active{
     color: #6f7bca !important;
     font-weight: bold;
 }
@@ -168,6 +171,17 @@
     }
 
  }
+
+ @media (max-width: 556px) {
+    #header {
+        padding-top: 1em;
+        font-size: .7em;
+        color: #ddd;
+        font-style: italic; 
+        
+    }
+ }
+
 
  .scrolled{
     background-color: #fff !important;
