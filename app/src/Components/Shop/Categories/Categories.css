@@ -12,10 +12,14 @@
 
 }
 .list-group .active{
-    background-color:rgba(0, 0, 0, 0.7) !important;
+    background-color:rgba(0, 0, 0, 0.4) !important;
     color: #fff !important;
     border: 0;
     
+}
+.list-group .active:hover{
+    color: #fff !important;
+    padding-left: 1em !important;
 }
 .list-group-item{
     padding-top: .8em;
