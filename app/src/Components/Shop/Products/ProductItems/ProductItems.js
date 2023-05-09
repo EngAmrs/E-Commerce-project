@@ -13,7 +13,7 @@ const ProductItems = () => {
     * 
     */
     const [activePage, setActivePage] = useState(1);
-    const totalPages = 10;
+    const totalPages = 5;
 
     const handleClick = (pageNumber) => {
         if(pageNumber > 0 && pageNumber <=   totalPages)

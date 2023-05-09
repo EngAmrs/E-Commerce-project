@@ -50,7 +50,7 @@ const NavbarCom = () => {
                     <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                     <Navbar.Collapse id="responsive-navbar-nav">
                     <Nav className="me-auto links">
-                        <LinkContainer to="/home">
+                        <LinkContainer to="/">
                                 <Nav.Link activeClassName="active">Home</Nav.Link>
                         </LinkContainer>
                         <LinkContainer to="/shop">

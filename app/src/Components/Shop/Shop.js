@@ -10,7 +10,7 @@ const Shop = () => {
             <Header/>
             <div className={`${style.container} container`}>
                 <div className='row'>
-                    <Categories/>
+                    <Categories/>      
                     <ProductItems/>
                 </div>
             </div>
