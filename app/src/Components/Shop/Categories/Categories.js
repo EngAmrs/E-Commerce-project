@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import {LinkContainer} from 'react-router-bootstrap'
-import { fetchCategories } from '../../../Redux/Slices/CategoriesSlice'
+import { fetchCategories } from '../../../Redux/Slices/ShopSlices/CategoriesSlice'
 import React, { useEffect, Fragment, useState } from "react"
 import { useSelector, useDispatch } from "react-redux";
 import './Categories.css'
@@ -44,7 +44,7 @@ const Categories = () => {
                 {fechStatus()}
                 <ul className="list-group list-group-flush">
                     <LinkContainer to={`/shop`}>
-                            <Link activeClassName={`active`} className="list-group-item list-group-item-action">All Products (1)</Link>
+                            <Link activeClassName={`active`} className="list-group-item list-group-item-action">All Products</Link>
                     </LinkContainer>
                     {categories.map((category) => 
                         <LinkContainer to={`/shop/${category.id}`} key={category.id}>

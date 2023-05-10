@@ -1,11 +1,10 @@
 import style from '../ProductItems/ProductItemts.module.css'
 import '../ProductItems/Style.css'
 import {Button} from 'react-bootstrap';
-import { BsHeartFill } from "react-icons/bs";
+import { BsHeart } from 'react-icons/bs';
 import Pagination from 'react-bootstrap/Pagination';
-import { fetchAllProducts } from '../../../../Redux/Slices/allProductsSlice'
+import { fetchAllProducts } from '../../../../Redux/Slices/ShopSlices/allProductsSlice'
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
 
 const AllProducts = () => {
@@ -101,7 +100,6 @@ const AllProducts = () => {
     * End Pagination 
     * 
     */
-   console.log(products);
 
     return ( 
 
@@ -120,11 +118,10 @@ const AllProducts = () => {
                                         <img src={`${imageUrl}${product.productPic}`} alt={product.name} />
                                     </a>
                                     </div>
-                                    <div className={`${style.text_container} row`}>
-                                        <span className='col-sm-6'>{product.name}</span>
-                                        <span className='col-sm-6'>{product.price}$</span> 
-                                        <span className='col-sm-2'><BsHeartFill/></span>       
-                                        <Button href='' className={`col-sm-7 ${style.add_to_cart}`}>Add to Cart</Button>                                  
+                                    <div className={`${style.text_container}`}>
+                                        <span>{product.name}</span>
+                                        <span><BsHeart/></span>       
+                                        <span>{product.price} $</span> 
                                     </div>
                                 </div>
                             </div>
