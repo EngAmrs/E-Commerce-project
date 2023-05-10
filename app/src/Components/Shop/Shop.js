@@ -9,7 +9,7 @@ const Shop = () => {
         <Fragment>
             <Header/>
             <div className={`${style.container} container`}>
-                <div className='row'>
+                <div className={`${style.main} row`}>
                     <Categories/>      
                     <ProductItems/>
                 </div>

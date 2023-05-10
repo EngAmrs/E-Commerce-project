@@ -2,9 +2,9 @@
 #cards_landscape_wrap_2{
     text-align: center;
   }
-  #cards_landscape_wrap_2 .container{
+  /* #cards_landscape_wrap_2 .container{
     padding-bottom: 100px;
-  }
+  } */
   #cards_landscape_wrap_2 a{
     text-decoration: none;
     outline: none;
@@ -129,6 +129,14 @@
   .pagination .page-link:hover  a {
     background-color: #6e7bd1;
     color: #fff  !important;
+  }
+
+
+  .noProducts, .loading{
+    color: #999;
+    text-align: center;
+    padding-top: 10em;
+    letter-spacing: 2px;
   }
   
   @media (max-width: 557px) {
