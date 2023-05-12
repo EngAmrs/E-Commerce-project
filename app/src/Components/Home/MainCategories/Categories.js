@@ -7,7 +7,6 @@ const Categories = () => {
         <div className={`${style.container} container`}>
             <div className="row">
                 <div className="col-xs-12 col-sm-6 col-md-3 col-lg-4">
-                    <a href="">
                         <div className={style.card_flyer}>
                             <div className={style.text_box}>
                                 <div className={style.image_box}>
@@ -18,10 +17,8 @@ const Categories = () => {
                                 </div>
                             </div>
                         </div>
-                    </a>
                 </div>
                 <div className="col-xs-12 col-sm-6 col-md-3 col-lg-4">
-                    <a href="">
                         <div className={style.card_flyer}>
                             <div className={style.text_box}>
                                 <div className={style.image_box}>
@@ -33,10 +30,8 @@ const Categories = () => {
                                 </div>
                             </div>
                         </div>
-                    </a>
                 </div>
                 <div className="col-xs-12 col-sm-6 col-md-3 col-lg-4">
-                    <a href="">
                         <div className={style.card_flyer}>
                             <div className={style.text_box}>
                                 <div className={style.image_box}>
@@ -48,7 +43,6 @@ const Categories = () => {
                                 </div>
                             </div>
                         </div>
-                    </a>
                 </div>
             </div>
         </div>

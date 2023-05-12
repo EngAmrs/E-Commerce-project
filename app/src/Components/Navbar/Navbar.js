@@ -44,17 +44,17 @@ const NavbarCom = () => {
             <Navbar className={`navbar-fixed-top ${scrolled ? "scrolled" : ""} navbar`} collapseOnSelect expand="lg" bg="light" variant="light">
                 <Container>
                     <LinkContainer to="/">
-                        <Navbar.Brand activeClassName="active"><span>A</span>ROA</Navbar.Brand>
+                        <Navbar.Brand className={(navData) => (navData.isActive ? "active" : 'none')}><span>A</span>ROA</Navbar.Brand>
                     </LinkContainer>
 
                     <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                     <Navbar.Collapse id="responsive-navbar-nav">
                     <Nav className="me-auto links">
                         <LinkContainer to="/">
-                                <Nav.Link activeClassName="active">Home</Nav.Link>
+                                <Nav.Link className={(navData) => (navData.isActive ? "active" : 'none')}>Home</Nav.Link>
                         </LinkContainer>
                         <LinkContainer to="/shop">
-                            <Nav.Link activeClassName="active">Shop</Nav.Link>
+                            <Nav.Link className={(navData) => (navData.isActive ? "active" : 'none')}>Shop</Nav.Link>
                         </LinkContainer>
                         <Nav.Link  to="home">Features</Nav.Link>
                         <Nav.Link to={"s"}>Blog</Nav.Link>

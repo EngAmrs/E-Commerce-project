@@ -4,51 +4,51 @@ const Footer = () => {
 
         <>
 		<footer id="footer">
-			<div class="container">
-				<div class="row">
-					<div class="col-md-3">
+			<div className="container">
+				<div className="row">
+					<div className="col-md-3">
 						<a href="index.html"><h1><span>A</span>ROA</h1></a>
-                      <div class="footer-about">
+                      <div className="footer-about">
                           <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,  </p>
                       </div>
 
 					</div>
-					<div class="col-md-3">
-						<div class="useful-link">
+					<div className="col-md-3">
+						<div className="useful-link">
 							<h2>Useful Links</h2>
-							<img src="./assets/images/about/home_line.png" alt="" class="img-fluid"></img>
-							<div class="use-links">
-								<li><a href="index.html"><i class="fa-solid fa-angles-right"></i> Home</a></li>
-								<li><a href="about.html"><i class="fa-solid fa-angles-right"></i> Shop</a></li>
-								<li><a href="gallery.html"><i class="fa-solid fa-angles-right"></i> About</a></li>
-								<li><a href="contact.html"><i class="fa-solid fa-angles-right"></i> Contact</a></li>
+							<img src="./assets/images/about/home_line.png" alt="" className="img-fluid"></img>
+							<div className="use-links">
+								<li><a href="index.html"><i className="fa-solid fa-angles-right"></i> Home</a></li>
+								<li><a href="about.html"><i className="fa-solid fa-angles-right"></i> Shop</a></li>
+								<li><a href="gallery.html"><i className="fa-solid fa-angles-right"></i> About</a></li>
+								<li><a href="contact.html"><i className="fa-solid fa-angles-right"></i> Contact</a></li>
 							</div>
 						</div>
 
 					</div>
-                    <div class="col-md-3">
-                        <div class="social-links">
+                    <div className="col-md-3">
+                        <div className="social-links">
 							<h2>Follow Us</h2>
 							<img src="./assets/images/about/home_line.png" alt=""></img>
-							<div class="social-icons">
-								<li><a href=""><i class="fa-brands fa-facebook-f"></i> Facebook</a></li>
-								<li><a href=""><i class="fa-brands fa-instagram"></i> Instagram</a></li>
-								<li><a href=""><i class="fa-brands fa-linkedin-in"></i> Linkedin</a></li>
+							<div className="social-icons">
+								<li>Facebook</li>
+								<li>Instagram</li>
+								<li>Linkedin</li>
 							</div>
 						</div>
                     
 
                     </div>
-					<div class="col-md-3">
-						<div class="address">
+					<div className="col-md-3">
+						<div className="address">
 							<h2>Address</h2>
-							<img src="./assets/images/about/home_line.png" alt="" class="img-fluid"></img>
-							<div class="address-links">
-								<li class="address1"><i class="fa-solid fa-location-dot"></i> Kolathur ramankulam-
+							<img src="./assets/images/about/home_line.png" alt="" className="img-fluid"></img>
+							<div className="address-links">
+								<li className="address1"><i className="fa-solid fa-location-dot"></i> Kolathur ramankulam-
 									Malappuram Dt 
 								   Kerala 679338</li>
-								   <li><a href=""><i class="fa-solid fa-phone"></i> +91 90904500112</a></li>
-								   <li><a href=""><i class="fa-solid fa-envelope"></i> mail@1234567.com</a></li>
+								   <li>+91 90904500112</li>
+								   <li>mail@1234567.com</li>
 							</div>
 						</div>
 					</div>
@@ -58,8 +58,8 @@ const Footer = () => {
 
 		</footer>
 		<section id="copy-right">
-			<div class="copy-right-sec"><i class="fa-solid fa-copyright"></i>  
-				lorem ispum lorem ispum 2022 Powerd By <a href="#">lorem ispum</a> 
+			<div className="copy-right-sec"><i className="fa-solid fa-copyright"></i>  
+				lorem ispum lorem ispum 2022 Powerd By lorem ispum
 			</div>
 
 		</section>
