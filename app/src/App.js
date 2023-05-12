@@ -4,23 +4,21 @@ import Home from './Components/Home/Main/Home'
 import NavbarCom from './Components/Navbar/Navbar'
 import Footer from './Components/Footer/Footer'
 import Shop from './Components/Shop/Shop';
+import ProductDetails from './Components/Shop/Products/ProductDetails/ProductDetails';
 
 function App() {
   return (
-    <>
-    
+    <>    
     <Router>
     <NavbarCom />
-      <div className="App">
         <Routes>
           <Route path="/home" element={<Home />} />
           <Route element={<Shop />}>
             <Route path="/shop" />
             <Route path="/shop/:id"/>
          </Route>
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={<Home />} />          
         </Routes>
-      </div>
     <Footer/>
     </Router>
     </>

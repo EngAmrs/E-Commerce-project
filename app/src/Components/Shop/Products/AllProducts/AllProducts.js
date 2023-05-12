@@ -6,8 +6,9 @@ import Pagination from 'react-bootstrap/Pagination';
 import { fetchAllProducts } from '../../../../Redux/Slices/ShopSlices/allProductsSlice'
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import ProductDetails from '../ProductDetails/ProductDetails';
 
-const AllProducts = () => {
+const AllProducts = ({onProductClick}) => {
     // productImage url
     const imageUrl = 'http://localhost:8000/'
     const dispatch = useDispatch()
@@ -22,9 +23,10 @@ const AllProducts = () => {
     const fechStatus = ()=>{
         if(status === "loading"){
             return <p className={style.loading}>{status}</p>
-        } else if(error){
-            return <p className='failed'>Failed to get data, please try again!</p>
-        }
+        } 
+        // else if(error){
+        //     return <p className='failed'>Failed to get data, please try again!</p>
+        // }
     }
     const noProducts = ()=>{
         if(products.length === 0){
@@ -102,7 +104,6 @@ const AllProducts = () => {
     */
 
     return ( 
-
         <div id={style.cards_landscape_wrap_2} className='col-md-9'>
         <div className={`${style.container} container`}>
             <div className="row">
@@ -114,9 +115,7 @@ const AllProducts = () => {
                             <div className={style.card_flyer}>
                                 <div className={style.text_box}>
                                     <div className={style.image_box}>
-                                    <a href="">
-                                        <img src={`${imageUrl}${product.productPic}`} alt={product.name} />
-                                    </a>
+                                    <img onClick={() => onProductClick(product)} src={`${imageUrl}${product.productPic}`} alt={product.name} />
                                     </div>
                                     <div className={`${style.text_container}`}>
                                         <span>{product.name}</span>

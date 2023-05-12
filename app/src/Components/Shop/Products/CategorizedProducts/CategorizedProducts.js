@@ -6,10 +6,10 @@ import { fetchProducts } from '../../../../Redux/Slices/ShopSlices/ProductsSlice
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-const CategorizedProducts = (params) => {
+const CategorizedProducts = (props) => {
     // productImage url
     const imageUrl = 'http://localhost:8000/'
-    const id = params.categoryId;
+    const id = props.categoryId;
     const dispatch = useDispatch()
     const products = useSelector((state) => state.products.products);
     const categoriesCount = useSelector((state) => state.products.count);
@@ -22,9 +22,10 @@ const CategorizedProducts = (params) => {
     const fechStatus = ()=>{
         if(status === "loading"){
             return <p className={style.loading}>{status}</p>
-        } else if(error){
-            return <p className='failed'>Failed to get data, please try again!</p>
-        }
+        } 
+        // else if(error){
+        //     return <p className='failed'>Failed to get data, please try again!</p>
+        // }
     }
     const noProducts = ()=>{
         if(products.length === 0){
@@ -114,9 +115,7 @@ const CategorizedProducts = (params) => {
                         <div className={style.card_flyer}>
                             <div className={style.text_box}>
                                 <div className={style.image_box}>
-                                <a href="">
-                                    <img src={`${imageUrl}${product.productPic}`} alt={product.name} />
-                                </a>
+                                <img onClick={() => props.onProductClick(product)} src={`${imageUrl}${product.productPic}`} alt={product.name} />
                                 </div>
                                 <div className={`${style.text_container}`}>
                                     <span>{product.name}</span>

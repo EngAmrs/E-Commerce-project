@@ -10,22 +10,44 @@ import { useParams } from 'react-router';
 
 import CategorizedProducts from '../CategorizedProducts/CategorizedProducts'
 import AllProducts from '../AllProducts/AllProducts'
+import { useState } from 'react';
+import ProductDetails from '../ProductDetails/ProductDetails';
 
 const ProductItems = () => {
     // productImage url
     const { id } = useParams();
+    const [showModal, setShowModal] = useState(false);
+    const [selectedProduct, setSelectedProduct] = useState(null);
+
+    const handleProductClick = (product) => {
+      setSelectedProduct(product);
+      setShowModal(true);
+    };
+
+    const handleCloseModal = () => {
+        setSelectedProduct(null);
+        setShowModal(false);
+      };
     
     const test = ()=>{
         if(!id)
-            return <AllProducts />
+            return <AllProducts onProductClick={handleProductClick} />
         else{
-           return <CategorizedProducts categoryId={id} />
+           return <CategorizedProducts onProductClick={handleProductClick} categoryId={id} />
         }
     }
     return(
         // <CategorizedProducts/>
         <>
         {test()}
+        {selectedProduct && (
+            <ProductDetails 
+                product={selectedProduct}
+                onCloseModal={handleCloseModal}
+                show ={showModal}
+             />
+        )}
+  
         </>
     );
 }

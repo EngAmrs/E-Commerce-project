@@ -87,6 +87,8 @@
     padding-left: 10px;
     
   }
+
+  
   #cards_landscape_wrap_2 .card_flyer .text_box span:nth-child(2){
     flex-basis: 20% !important;
     text-align: center;
