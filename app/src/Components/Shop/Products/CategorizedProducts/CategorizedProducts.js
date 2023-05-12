@@ -14,7 +14,8 @@ const CategorizedProducts = (props) => {
     const products = useSelector((state) => state.products.products);
     const categoriesCount = useSelector((state) => state.products.count);
     const status = useSelector((state) => state.products.status);
-    const error = useSelector((state) => state.products.error);
+    // const error = useSelector((state) => state.products.error);
+    // eslint-disable-next-line no-unused-vars
     const [limit, setLimit] = useState(2);
     const [activePage, setActivePage] = useState(1);
 

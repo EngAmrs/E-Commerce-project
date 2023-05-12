@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import {LinkContainer} from 'react-router-bootstrap'
 import { fetchCategories } from '../../../Redux/Slices/ShopSlices/CategoriesSlice'
-import React, { useEffect, Fragment, useState } from "react"
+import React, { useEffect, useState } from "react"
 import { useSelector, useDispatch } from "react-redux";
 import './Categories.css'
 

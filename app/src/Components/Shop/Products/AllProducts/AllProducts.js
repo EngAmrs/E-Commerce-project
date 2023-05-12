@@ -1,12 +1,11 @@
 import style from '../ProductItems/ProductItemts.module.css'
 import '../ProductItems/Style.css'
-import {Button} from 'react-bootstrap';
+// import {Button} from 'react-bootstrap';
 import { BsHeart } from 'react-icons/bs';
 import Pagination from 'react-bootstrap/Pagination';
 import { fetchAllProducts } from '../../../../Redux/Slices/ShopSlices/allProductsSlice'
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import ProductDetails from '../ProductDetails/ProductDetails';
 
 const AllProducts = ({onProductClick}) => {
     // productImage url
@@ -15,7 +14,8 @@ const AllProducts = ({onProductClick}) => {
     const products = useSelector((state) => state.allProducts.products);
     const categoriesCount = useSelector((state) => state.allProducts.count);
     const status = useSelector((state) => state.allProducts.status);
-    const error = useSelector((state) => state.allProducts.error);
+    // const error = useSelector((state) => state.allProducts.error);
+    // eslint-disable-next-line no-unused-vars
     const [limit, setLimit] = useState(2);
     const [activePage, setActivePage] = useState(1);
     

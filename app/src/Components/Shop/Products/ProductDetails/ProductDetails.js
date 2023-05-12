@@ -1,7 +1,6 @@
-import React, { useState } from 'react';
 import { Button, Modal } from 'react-bootstrap';
 import style from './ProductDetails.module.css';
-import {BsHeart, BsHeartFill} from 'react-icons/bs'
+import {BsHeart} from 'react-icons/bs'
 function ProductDetails({ show, onCloseModal ,product }) {
 
     const imageUrl = 'http://localhost:8000/'
