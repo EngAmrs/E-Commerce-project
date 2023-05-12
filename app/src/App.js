@@ -4,8 +4,6 @@ import Home from './Components/Home/Main/Home'
 import NavbarCom from './Components/Navbar/Navbar'
 import Footer from './Components/Footer/Footer'
 import Shop from './Components/Shop/Shop';
-import ProductDetails from './Components/Shop/Products/ProductDetails/ProductDetails';
-
 function App() {
   return (
     <>    
