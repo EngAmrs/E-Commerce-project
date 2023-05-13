@@ -1,13 +1,22 @@
 import { Button, Modal } from 'react-bootstrap';
 import style from './ProductDetails.module.css';
 import React, { useEffect, useState } from "react"
-
+import { useDispatch } from "react-redux";
+import { setProducts } from "../../../../Redux/Slices/Cart/CartProductsSlice";
 import {BsHeart} from 'react-icons/bs'
 
 function ProductDetails({ show, onCloseModal ,product }) {
+  const dispatch = useDispatch();
   const imageUrl = 'http://localhost:8000/'
   const [selectedValue, setSelectedValue] = useState('');
+  const  [cartData, setCartData] = useState(JSON.parse(localStorage.getItem('AROACart')))
+      useEffect(()=>{
+        setCartData(JSON.parse(localStorage.getItem('AROACart')));
+        dispatch(setProducts(cartData));
+  
+      }, [dispatch, cartData])
 
+      
     const handleSelectChange = (event) => {
       setSelectedValue(event.target.value);
     };
@@ -16,17 +25,18 @@ function ProductDetails({ show, onCloseModal ,product }) {
       if(selectedValue === '') return
       const cartData = JSON.parse(localStorage.getItem('AROACart'));
       if (!cartData) {
-        localStorage.setItem('AROACart', JSON.stringify([{ data, qty: parseInt(selectedValue) }]));
+        localStorage.setItem('AROACart', JSON.stringify([{ data, qty: parseInt(selectedValue), totalPrice:  parseInt(selectedValue) * data.price}]));
         return
       }
 
       const CurrentItem = cartData.findIndex(e => e.data.id === data.id)
       if(cartData[CurrentItem] && cartData[CurrentItem].qty + parseInt(selectedValue) <= 10){  
           cartData[CurrentItem].qty += parseInt(selectedValue) 
-            localStorage.setItem('AROACart', JSON.stringify(cartData));
+          cartData[CurrentItem].totalPrice = cartData[CurrentItem].qty * data.price
+          localStorage.setItem('AROACart', JSON.stringify(cartData));
 
       }else if (!cartData[CurrentItem]){
-        cartData.push({ data, qty: parseInt(selectedValue) });
+        cartData.push({ data, qty: parseInt(selectedValue), totalPrice:  parseInt(selectedValue) * data.price });
         localStorage.setItem('AROACart', JSON.stringify(cartData));
       }      
     };

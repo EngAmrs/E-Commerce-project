@@ -5,9 +5,21 @@ import {LinkContainer} from 'react-router-bootstrap'
 import {Container, Nav, Navbar,} from 'react-bootstrap';
 import './Navbar.css'
 import Cart from "../Cart/Cart";
+import { setProducts } from "../../Redux/Slices/Cart/CartProductsSlice";
+import { useDispatch, useSelector } from "react-redux";
 
 const NavbarCom = () => {
+    const dispatch = useDispatch();
     const [scrolled, setScrolled] = useState(false);
+    const { products } = useSelector((state) => state.cartProducts);
+
+
+    // Handle Cart
+    useEffect(()=>{
+      const cartData = JSON.parse(localStorage.getItem('AROACart'));
+      dispatch(setProducts(cartData));
+
+    }, [dispatch])
 
     useEffect(() => {
       const handleScroll = () => {
@@ -75,9 +87,9 @@ const NavbarCom = () => {
                     
                     </Nav>
                     <Nav className="nav_icons">
-                        <Nav.Link href="#deets"><FaSearch/></Nav.Link>
-                        <Nav.Link onClick={handleProductClick} href="#deets"><FaShoppingCart/></Nav.Link>
-                        <Nav.Link href="#deets"><FaRegHeart/></Nav.Link>
+                        <Nav.Link href="#deets"><FaSearch fill={'#555'}/></Nav.Link>
+                        <Nav.Link  data-notify={products.length} onClick={handleProductClick} href="#deets"><FaShoppingCart fill={'#555'}/></Nav.Link>
+                        <Nav.Link href="#deets"><FaRegHeart fill={'#555'}/></Nav.Link>
                     </Nav>
                     </Navbar.Collapse>
                 </Container>
