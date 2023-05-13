@@ -14,7 +14,6 @@ const Cart = (props) => {
     useEffect(()=>{
       const cartData = JSON.parse(localStorage.getItem('AROACart'));
       dispatch(setProducts(cartData));
-
     }, [dispatch])
 
 
@@ -31,6 +30,48 @@ const Cart = (props) => {
           return <p className={style.emptyCart}>The cart is empty</p>
       }
     
+
+
+      const qtyOptions = (quantity, qty)=>{
+        const selections = []
+        if(quantity >= 10){
+            for(let i = 1; i <= 10; i++){
+              
+              if(qty === i){
+                selections.push(<option selected   value={i}>{i}</option>)
+              }
+              else
+                selections.push(<option value={i}>{i}</option>)
+              
+              }
+        }
+        else{
+            for(let i = 1; i <= quantity; i++){
+              if(qty === i)
+                selections.push(<option selected value={i}>{i}</option>)
+              else
+                selections.push(<option value={i}>{i}</option>)
+            
+              }
+        }
+        return selections;
+    }
+
+
+    const handleSelectChange = (event, data) => {
+      const selectedValue = parseInt(event.target.value);
+      const cartData = JSON.parse(localStorage.getItem('AROACart'));
+      const currentItem = cartData.findIndex(e => e.data.id === data.data.id);
+      if (cartData[currentItem] && selectedValue <= 10) {
+        cartData[currentItem].qty = selectedValue;
+        cartData[currentItem].totalPrice = cartData[currentItem].qty * data.data.price;
+        localStorage.setItem('AROACart', JSON.stringify(cartData));
+        // Force the component to re-render to update the displayed total price
+        dispatch(setProducts(cartData));
+        setProducts(cartData)
+      } 
+    };
+
     return ( 
 <>
   <Modal
@@ -59,10 +100,10 @@ const Cart = (props) => {
               </div>
 
               <div className={`${style.quantity} col-md-2`}>
-                  <select  className="form-control" name="select">
-                      <option value="" disabled selected>QTY</option>
-                      
-                    </select>
+              <select onChange={(event) => handleSelectChange(event,product)} className="form-control" name="select">
+                    <option value="" disabled selected>QTY</option>
+                    {qtyOptions(product.data.quantity, product.qty)}
+                  </select>
               </div>
               <div className={`${style.total_price} col-md-2`}>$ {product.totalPrice}</div>     
         </div>

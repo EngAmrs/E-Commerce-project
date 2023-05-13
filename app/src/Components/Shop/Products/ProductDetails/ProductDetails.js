@@ -92,7 +92,7 @@ function ProductDetails({ show, onCloseModal ,product }) {
                   </select>
                 </div>
                 <div className='row'>
-                <Button onClick={() => addProductToCart({id:product.id, name:product.name, price:product.price, productPic:product.productPic})} className={`${style.add_to_cart} col-sm-10 `}>Add to Cart</Button>  
+                <Button onClick={() => addProductToCart({id:product.id, name:product.name, price:product.price, productPic:product.productPic, quantity: product.quantity})} className={`${style.add_to_cart} col-sm-10 `}>Add to Cart</Button>  
                 <Button className={`${style.add_to_fav} col-sm-1 `}><BsHeart size="18" /></Button>
                 </div>                                
               </div>
