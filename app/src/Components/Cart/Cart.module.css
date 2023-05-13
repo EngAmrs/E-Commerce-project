@@ -4,17 +4,81 @@
     margin-top: 3em;
 }
 
-    /* float: right; */
-    .cartModal1  .modalContent {
-    margin-left: auto;
-    animation: slideFromRight 0.3s ease-in-out;
-    }
+.cartModal1  .modalContent {
+margin-left: auto;
+animation: slideFromRight 0.3s ease-in-out;
+}
 
-    
-    .modal_closed{
-    animation: slide-out-right 0.5s forwards ;
+
+.modal_closed{
+animation: slide-out-right 0.5s forwards ;
 
 }
+
+
+/* Cart Items */
+.item{
+    padding: 1.25em 0;
+    border-bottom: 1px solid #ccc;
+    margin-bottom: 1em;
+    /* display: flex; */
+  }
+  .item:nth-child(3) {
+    border-top: 1px solid #E1E8EE;
+    border-bottom: 1px solid #E1E8EE;
+  }
+  
+  .buttons{
+    padding-top: 1.75em;
+    margin-right: .5em;
+  }
+  .buttons span{
+    cursor: pointer;
+  }
+  
+  .is_active{
+    animation-name: animate;
+    animation-duration: .8s;
+    animation-iteration-count: 1;
+    animation-timing-function: steps(28);
+    animation-fill-mode: forwards;
+  }
+  
+  .description{
+    padding-top: 10px;
+  }
+  .description span{
+    font-size: 1em;
+    color: #43484D;
+    font-weight: 400;
+  }
+  .description span:first-child{
+    margin-bottom: 5px;
+  }
+  .description span:last-child{
+    font-weight: 300;
+    margin-top: 8px;
+    color: #86939E;
+  }
+  
+  .quantity{
+    padding-top: 20px;
+  }
+  
+  button:focus,
+  input:focus{
+    outline: 0;
+  }
+  
+  .total_price{
+    padding-top: 27px;
+    text-align: center;
+    font-size: 1em;
+    color: #43484D;
+    font-weight: 300;
+  }
+
+
     
 @keyframes slideFromRight {
     from {
@@ -31,5 +95,36 @@
     }
     100% {
         transform: translateX(100%);
+    }
+}
+
+@keyframes animate{
+    0% {background-position: left;}
+    50% {background-position: right;}
+    100% {background-position: right;}
+  }
+
+
+/* media queries */
+@media (max-width: 800px) {
+.image img{
+    width: 50%;
+}
+.image,
+.quantity,
+.description,
+.buttons
+{
+    text-align: center;
+    margin: 6px 0;
+}
+}
+
+
+@media (max-width: 576px) {
+    .cartModal1 .modalDialog{
+        margin-right: auto !important;
+        width: 100% !important;
+        margin-top: 3em;
     }
 }

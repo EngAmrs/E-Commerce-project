@@ -1,9 +1,9 @@
-import { Button, Modal } from 'react-bootstrap';
+import {Modal } from 'react-bootstrap';
 import { useSelector, useDispatch} from "react-redux";
 import style from './Cart.module.css'
-import { useEffect, useState } from 'react';
+import { useEffect} from 'react';
 import { setProducts } from "../../Redux/Slices/Cart/CartProductsSlice";
-
+import { RiDeleteBin5Fill } from 'react-icons/ri';
 const Cart = (props) => {
   const dispatch = useDispatch();
   const { products } = useSelector(
@@ -14,6 +14,7 @@ const Cart = (props) => {
       dispatch(setProducts(cartData));
 
     }, [])
+    
     return ( 
 <>
   <Modal
@@ -27,15 +28,26 @@ const Cart = (props) => {
       <Modal.Title>Cart</Modal.Title>
     </Modal.Header>
     <Modal.Body>
-      { products &&
-        products.map((product)=>(
-          <div>
-            <p>{product.data.id}</p>
-            <p>{product.qty}</p>
-          </div>
-        ))
+    <div className={`${style.item} row`}>
+        <div className={`${style.buttons} col-md-1 row`}>
+          <span  className={style.delete_btn}><RiDeleteBin5Fill fill={'red'} size={'20'}/></span>
+        </div>
+        <div className={`${style.image} col-md-3`}>
+          <img src="https://designmodo.com/demo/shopping-cart/item-1.png" alt="" />
+        </div>
 
-      }
+        <div className={`${style.description} col-md-3`}>
+          <span>Common Projects</span>
+        </div>
+
+        <div className={`${style.quantity} col-md-2`}>
+            <select  className="form-control" name="select">
+                <option value="" disabled selected>QTY</option>
+                
+              </select>
+        </div>
+        <div className={`${style.total_price} col-md-2`}>$549</div>
+      </div>
     </Modal.Body>
   </Modal>
 </>
