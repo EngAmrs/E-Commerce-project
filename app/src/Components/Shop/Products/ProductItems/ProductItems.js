@@ -40,7 +40,7 @@ const ProductItems = () => {
         // <CategorizedProducts/>
         <>
         {test()}
-        {selectedProduct && (
+        {showModal && selectedProduct && (
             <ProductDetails 
                 product={selectedProduct}
                 onCloseModal={handleCloseModal}

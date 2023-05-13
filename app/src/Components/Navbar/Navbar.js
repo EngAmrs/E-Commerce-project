@@ -2,16 +2,11 @@ import React, { useState, useEffect } from "react";
 // import { Link } from "react-router-dom";
 import { FaShoppingCart, FaSearch, FaRegHeart } from "react-icons/fa";
 import {LinkContainer} from 'react-router-bootstrap'
-// Bootstrap
-import {
-        Container,
-        Nav, Navbar,
-    } from 'react-bootstrap';
-
+import {Container, Nav, Navbar,} from 'react-bootstrap';
 import './Navbar.css'
+import Cart from "../Cart/Cart";
 
 const NavbarCom = () => {
-
     const [scrolled, setScrolled] = useState(false);
 
     useEffect(() => {
@@ -28,8 +23,28 @@ const NavbarCom = () => {
         document.removeEventListener("scroll", handleScroll);
       };
     }, [scrolled]);
+
+    // Cart 
+    const [showModal, setShowModal] = useState(false);
+    const handleProductClick = () => {
+        setShowModal(true);
+    };
+
+    const handleCloseModal = () => {
+        setShowModal(false);
+    };
+
+    const cartRender = ()=>{
+        if (showModal){
+            return <Cart
+                onCloseCart={handleCloseModal}
+                showCart ={showModal}
+                />
+        }
+    }
     return (   
         <>  
+            {cartRender()}
             <div id="header" className={`navbar-fixed-top ${scrolled ? "scrolledHeader" : ""} `}>
                 <Container>
                     <p>Free shipping for standard order over $100</p>
@@ -43,10 +58,7 @@ const NavbarCom = () => {
             </div>
             <Navbar className={`navbar-fixed-top ${scrolled ? "scrolled" : ""} navbar`} collapseOnSelect expand="lg" bg="light" variant="light">
                 <Container>
-                    <LinkContainer to="/">
-                        <Navbar.Brand className={(navData) => (navData.isActive ? "active" : 'none')}><span>A</span>ROA</Navbar.Brand>
-                    </LinkContainer>
-
+                    <Navbar.Brand href="/"><span>A</span>ROA</Navbar.Brand>
                     <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                     <Navbar.Collapse id="responsive-navbar-nav">
                     <Nav className="me-auto links">
@@ -60,23 +72,11 @@ const NavbarCom = () => {
                         <Nav.Link to={"s"}>Blog</Nav.Link>
                         <Nav.Link to="home">About</Nav.Link>
                         <Nav.Link to="home">Contact</Nav.Link>
-
-                        {/* <NavDropdown title="Dropdown" id="collasible-nav-dropdown">
-                        <NavDropdown.Item href="#action/3.1">Features</NavDropdown.Item>
-                        <NavDropdown.Item href="#action/3.2">
-                            Another action
-                        </NavDropdown.Item>
-                        <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
-                        <NavDropdown.Divider />
-                        <NavDropdown.Item href="#action/3.4">
-                            Separated link
-                        </NavDropdown.Item>
-                        </NavDropdown> */}
                     
                     </Nav>
                     <Nav className="nav_icons">
                         <Nav.Link href="#deets"><FaSearch/></Nav.Link>
-                        <Nav.Link href="#deets"><FaShoppingCart/></Nav.Link>
+                        <Nav.Link onClick={handleProductClick} href="#deets"><FaShoppingCart/></Nav.Link>
                         <Nav.Link href="#deets"><FaRegHeart/></Nav.Link>
                     </Nav>
                     </Navbar.Collapse>

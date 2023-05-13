@@ -1,0 +1,35 @@
+.cartModal1 .modalDialog{
+    margin-right: 0 !important;
+    width: 50% !important;
+    margin-top: 3em;
+}
+
+    /* float: right; */
+    .cartModal1  .modalContent {
+    margin-left: auto;
+    animation: slideFromRight 0.3s ease-in-out;
+    }
+
+    
+    .modal_closed{
+    animation: slide-out-right 0.5s forwards ;
+
+}
+    
+@keyframes slideFromRight {
+    from {
+        transform: translateX(100%);
+    }
+    to {
+        transform: translateX(0%);
+    }
+}
+
+@keyframes slide-out-right {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(100%);
+    }
+}
