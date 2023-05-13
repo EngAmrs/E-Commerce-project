@@ -58,22 +58,24 @@ function ProductDetails({ show, onCloseModal ,product }) {
 
   return (
     <>
-      <Modal size="xl" show={show} onHide={onCloseModal}>
+      <Modal
+      size='xl'
+        show={show}
+        onHide={onCloseModal}
+        dialogClassName={style.productModalDialog}
+        contentClassName={style.productModalContent}>
         <Modal.Header closeButton>
           <Modal.Title>{product.name} </Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <div className={` ${style.modal_body} row`}>
-            <div className="col-lg-6 col-sm-12 product_img">
               <img
                 src={`${imageUrl}${product.productPic}`} 
-                className="img-responsive"
+                className="img-responsive col-md-6"
                 alt="product"
-                width={500}
                 height={500}
               />
-            </div>
-            <div className={` ${style.product_content} col-lg-6 col-sm-12`}>
+            <div className={` ${style.product_content} col-md-6`}>
               <h5>
                 Product ID: <span>{product.id}</span>
               </h5>
@@ -93,7 +95,7 @@ function ProductDetails({ show, onCloseModal ,product }) {
                 </div>
                 <div className='row'>
                 <Button onClick={() => addProductToCart({id:product.id, name:product.name, price:product.price, productPic:product.productPic, quantity: product.quantity})} className={`${style.add_to_cart} col-sm-10 `}>Add to Cart</Button>  
-                <Button className={`${style.add_to_fav} col-sm-1 `}><BsHeart size="18" /></Button>
+                <Button className={`${style.add_to_fav} col-sm-1 `}><BsHeart /></Button>
                 </div>                                
               </div>
             </div>

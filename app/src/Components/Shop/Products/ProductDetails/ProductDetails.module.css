@@ -39,6 +39,7 @@ h5 span{
     color: #6e7bd1;
 }
 .action .add_to_cart, .add_to_fav{
+    text-align: center;
     margin: 1em 0;
     display: table;
     margin-left: auto;
@@ -47,6 +48,9 @@ h5 span{
     background-color: #fff;
     color: #000;
     transition: .5s;
+  }
+  .add_to_fav{
+    padding: 0;
   }
   .action .add_to_cart:hover{
     background-color: #6e7bd1;
