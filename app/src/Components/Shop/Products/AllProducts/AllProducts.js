@@ -3,7 +3,7 @@ import '../ProductItems/Style.css'
 // import {Button} from 'react-bootstrap';
 import { BsHeart } from 'react-icons/bs';
 import Pagination from 'react-bootstrap/Pagination';
-import { fetchAllProducts } from '../../../../Redux/Slices/ShopSlices/allProductsSlice'
+import { fetchAllProducts } from '../../../../Redux/Slices/Shop/allProductsSlice'
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 

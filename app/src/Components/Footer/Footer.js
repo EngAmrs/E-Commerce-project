@@ -1,7 +1,6 @@
 import './Footer.css'
 const Footer = () => {
     return ( 
-
         <>
 		<footer id="footer">
 			<div className="container">

@@ -12,15 +12,16 @@ const NavbarCom = () => {
     const dispatch = useDispatch();
     const [scrolled, setScrolled] = useState(false);
     const { products } = useSelector((state) => state.cartProducts);
-
+    const [showModal, setShowModal] = useState(false);
 
     // Handle Cart
     useEffect(()=>{
       const cartData = JSON.parse(localStorage.getItem('AROACart'));
       dispatch(setProducts(cartData));
-
+        
     }, [dispatch])
 
+    // Handle Scroll
     useEffect(() => {
       const handleScroll = () => {
         const isScrolled = window.scrollY > 25;
@@ -36,16 +37,21 @@ const NavbarCom = () => {
       };
     }, [scrolled]);
 
-    // Cart 
-    const [showModal, setShowModal] = useState(false);
+
+
+    /***  Cart ***/
+
+    // Cart On click
     const handleProductClick = () => {
         setShowModal(true);
     };
 
+    // Cart On close
     const handleCloseModal = () => {
         setShowModal(false);
     };
 
+    // Render Cart under Navbar
     const cartRender = ()=>{
         if (showModal){
             return <Cart
@@ -54,9 +60,14 @@ const NavbarCom = () => {
                 />
         }
     }
+
+
     return (   
         <>  
+            {/* Cart */}
             {cartRender()}
+
+            {/* Header */}
             <div id="header" className={`navbar-fixed-top ${scrolled ? "scrolledHeader" : ""} `}>
                 <Container>
                     <p>Free shipping for standard order over $100</p>
@@ -68,6 +79,8 @@ const NavbarCom = () => {
                     </ul>
                 </Container>
             </div>
+
+            {/* Navbar */}
             <Navbar className={`navbar-fixed-top ${scrolled ? "scrolled" : ""} navbar`} collapseOnSelect expand="lg" bg="light" variant="light">
                 <Container>
                     <Navbar.Brand href="/"><span>A</span>ROA</Navbar.Brand>
@@ -88,6 +101,7 @@ const NavbarCom = () => {
                     </Nav>
                     <Nav className="nav_icons">
                         <Nav.Link href="#deets"><FaSearch fill={'#555'}/></Nav.Link>
+                        
                         <Nav.Link  data-notify={products.length} onClick={handleProductClick} href="#deets"><FaShoppingCart fill={'#555'}/></Nav.Link>
                         <Nav.Link href="#deets"><FaRegHeart fill={'#555'}/></Nav.Link>
                     </Nav>
