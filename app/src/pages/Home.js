@@ -1,4 +1,4 @@
-import PageContent from '../components/PageContent';
+import PageContent from '../Components/UI/PageContent'
 
 function HomePage() {
   return (

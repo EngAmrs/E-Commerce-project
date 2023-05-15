@@ -6,6 +6,7 @@ import { faEye } from '@fortawesome/free-solid-svg-icons';
 import { faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import {useFormik} from 'formik';
 import { registerSchema } from '../../schemas/index';
+import { Link } from "react-router-dom";
 
 const onSubmit = (values, actions) => {
     actions.resetForm();
@@ -92,7 +93,7 @@ const Register = (props) => {
             </form>
 
             <footer className={classes['login-form-footer']}>
-                <p>Already have an account? <a href="#" onClick={props.onViewHandler}>Sign In</a></p>
+                <p>Already have an account? <Link onClick={props.onViewHandler}>Sign In</Link></p>
             </footer>
 
         </div>

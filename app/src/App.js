@@ -1,35 +1,24 @@
-import React , {useState} from 'react';
+import React  from 'react';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
-import Form from './Components/forms/Form';
 import RootLayout from './pages/RootLayout';
+import HomePage from './pages/Home';
+import ProductsPage from './pages/Products'
+
+
 
 const router = createBrowserRouter([
   {
     path: '/',
     element: <RootLayout/>,
     children: [
-      {index: true,}
+      {index: true, element: <HomePage/>},
+      {path: 'products', element: <ProductsPage/>}
     ]
   }
 ])
 
 function App() {
-  const [formIsShown, setformIsShown] = useState(false);
-
-  const showFormHandler = ()=> {
-    setformIsShown(true); 
-  }
-
-  const hideFormHandler = ()=> {
-    setformIsShown(false);
-  }
-
-  return (
-   <>
-    {formIsShown && <Form onHideLogin={hideFormHandler}/>}
-    <button onClick={showFormHandler}>Sign In</button>
-   </>
-  );
+  return <RouterProvider router={router} />;
 }
 
 export default App;

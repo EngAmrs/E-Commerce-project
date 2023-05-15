@@ -2,21 +2,27 @@ import React, { useState } from "react";
 import Modal from "../UI/Modal";
 import Login from "./LogIn";
 import Register from "./Register";
+import { useSearchParams } from "react-router-dom";
 
 const Form = (props) => {
-    const [view, setView] = useState("login");
+    // const [view, setView] = useState("login");
+
+    
+    const [searchParams, setSearchParams] = useSearchParams();
+    const isLogin = searchParams.get('mode');
 
     const viewLoginHandler = () => {
-        setView("login");
+        setSearchParams({mode: 'login'});
     };
-
+    
     const viewRegisterHandler = () => {
-        setView("register");
+        console.log("sh8al");
+        setSearchParams({mode: 'signup'});
     };
 
 
     return <Modal onClick={props.onHideLogin}>
-        {view === "login" ? <Login onClick={props.onHideLogin} onViewHandler={viewRegisterHandler}/> : <Register onClick={props.onHideLogin} onViewHandler={viewLoginHandler}/>}
+        {isLogin === 'login' ? <Login onClick={props.onHideLogin} onViewHandler={viewRegisterHandler}/> : <Register onClick={props.onHideLogin} onViewHandler={viewLoginHandler}/>}
     </Modal>
 };
 

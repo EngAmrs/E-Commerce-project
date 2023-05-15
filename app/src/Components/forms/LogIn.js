@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import { faEye } from '@fortawesome/free-solid-svg-icons';
 import { faEyeSlash } from '@fortawesome/free-solid-svg-icons';
-
+import { Link } from "react-router-dom";
 
 const Login = (props) => {
     const {value: enteredEmail, isValid: enteredEmailIsValid, hasError: emailInputHasError, valueChangeHandler: emailInputChangeHandler, inputBlurHandler: emailInputBlureHandler, reset: resetEmailInput} = useInput(value => value.trim() !== '' || value.includes('@'));
@@ -82,7 +82,7 @@ const Login = (props) => {
             </form>
 
             <footer className={classes['login-form-footer']}>
-                <p>Don't have an account yet? <a href="#" onClick={props.onViewHandler}>Sign up</a></p>
+                <p>Don't have an account yet? <Link onClick={props.onViewHandler}>Sign up</Link></p>
             </footer>
 
         </>
