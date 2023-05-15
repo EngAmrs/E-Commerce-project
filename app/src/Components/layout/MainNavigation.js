@@ -1,10 +1,11 @@
 import React , {useState} from 'react';
-import { NavLink } from 'react-router-dom';
-import Form from '../forms/Form';
+import { NavLink, useNavigate } from 'react-router-dom';
 import classes from './MainNavigation.module.css';
+import AuthForm from '../../pages/Form';
 
 function MainNavigation() {
     const [formIsShown, setformIsShown] = useState(false);
+    const navigate = useNavigate();
 
     const showFormHandler = ()=> {
       setformIsShown(true); 
@@ -12,6 +13,7 @@ function MainNavigation() {
   
     const hideFormHandler = ()=> {
       setformIsShown(false);
+      navigate('/');
     }
   return (
     <header className={classes.header}>
@@ -40,14 +42,12 @@ function MainNavigation() {
           </li>
           <li>
             <NavLink
-                to="?mode=login"
+                to="/auth?mode=login"
                 className={({ isActive }) =>
                   isActive ? classes.active : undefined
                 }
               >
-        
-              {formIsShown && <Form onHideLogin={hideFormHandler}/>}
-              <button onClick={showFormHandler}>Sign In</button>
+                Sign in
             </NavLink>
           </li>
         </ul>
