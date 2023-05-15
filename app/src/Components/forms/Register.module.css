@@ -1,3 +1,7 @@
+.register-form {
+  max-height: 30rem;
+  overflow: auto;
+}
 
 .welcome {
     font-size: 1.785rem;
