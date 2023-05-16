@@ -88,7 +88,13 @@ export async function action({request}) {
         return response;
     }
 
-    //soon: manage token
+    if(mode === 'login'){
+        const resData = await response.json();
+        const token = resData.token;
+        localStorage.setItem('token', token)
+        return redirect('/');
+    }else if(mode === 'register'){
+        return redirect('/auth?mode=login');
+    }
 
-    return redirect('/');
 }
