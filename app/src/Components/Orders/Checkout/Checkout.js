@@ -1,11 +1,12 @@
-import { Fragment, useEffect, useState } from 'react';
+import { Fragment, useEffect, useRef, useState } from 'react';
 import styles from './Checkout.module.css'
-import {useFormik} from 'formik';
+import {Field, useFormik} from 'formik';
 import * as yup from "yup";
 import { useDispatch, useSelector } from 'react-redux';
 import { Button } from 'react-bootstrap';
 import { fetchUserAddresses } from '../../../Redux/Slices/Order/getAddressSlice'
 import { addNewAddress } from '../../../Redux/Slices/Order/setNewAddressSlice';
+
 
 const Checkout = () => {
     const [showDifferentAddress, setShowDifferentAddress] = useState(false);
@@ -14,22 +15,26 @@ const Checkout = () => {
     const { products } = useSelector((state) => state.cartProducts);
     const dispatch = useDispatch();
     const addresses = useSelector((state) => state.orderUserAddress);
-    const { status, error } = useSelector((state) => state.setNewAddress);
+    const {newAddress, status, error } = useSelector((state) => state.setNewAddress);
     // Order requeirements
-    const [addressId, setAddressId] = useState('');
+    const selectionRef = useRef();
+    const [paymentMethod, setPaymentMethod] = useState('banktransfer');
 
-
-
-
+    
 
     // Check out schema
     const onSubmitOrder = (values, actions) => {
+        console.log(values.phone);
+        console.log(values.description);
+        console.log(selectionRef.current.value);
+        console.log(paymentMethod);
         actions.resetForm();
     };
     const checkOutSchema = yup.object().shape({
         email: yup.string().email("Please Enter a valid email!").required("Required!"),
         phone: yup.string().matches(/^(?=.*[0-9])/, "Invalid number").min(11,"Invalid phone number").required("Required!"),
         description: yup.string().min(5,"Must be more than 3").max(500,"Must be less than 500"),
+        payment: yup.string().min(3,"Must be more than 3").max(100,"Must be less than 100"),
     })
 
     const checkOutFormik = useFormik({
@@ -37,6 +42,7 @@ const Checkout = () => {
             email: "",
             phone: "",
             description: "",
+            payment: ""
         },
         validationSchema: checkOutSchema,
         onSubmit: onSubmitOrder
@@ -89,8 +95,7 @@ const Checkout = () => {
     // get Addresses
     useEffect(()=>{
         dispatch(fetchUserAddresses())
-        
-    }, [dispatch, addresses])
+    }, [dispatch, newAddress])
     
 
     useEffect(()=>{
@@ -102,32 +107,29 @@ const Checkout = () => {
 
     }, [products])
 
-
-    const handleSelectChange = (event) => {
-        if(!showDifferentAddress)
-            setAddressId(event.target.value);           
-        
-      };
-
      // Push JSX options
      const qtyOptions = ()=>{
         const selections = []
-        if(addresses){
+        if(addresses){                        
             for(let i = 0; i < addresses.addresses.length; i++){
-                if(i === addresses.addresses.length - 1)
-                    selections.push(<option selected value={addresses.addresses[i].id}>{`${addresses.addresses[i].id} - ${addresses.addresses[i].government}`}</option>)
+                if(i === addresses.addresses.length - 1){
+                    selections.push(<option key={addresses.addresses[i].id} selected value={addresses.addresses[i].id}>{`${addresses.addresses[i].id} - ${addresses.addresses[i].government}`}</option>)
+                }
                 else
-                    selections.push(<option value={addresses.addresses[i].id}>{`${addresses.addresses[i].id} - ${addresses.addresses[i].government}`}</option>)
+                    selections.push(<option key={addresses.addresses[i].id} value={addresses.addresses[i].id}>{`${addresses.addresses[i].id} - ${addresses.addresses[i].government}`}</option>)
                 }
         }
-              return selections;
+        return selections;
        
       }
 
     const handleCheckboxChange = () => {
         setShowDifferentAddress(!showDifferentAddress);
       };
-;
+
+      const handlePaymentChange = (e) => {
+        setPaymentMethod(e.target.value);
+      };
 
     return ( 
         <Fragment >
@@ -168,7 +170,7 @@ const Checkout = () => {
                                         </h3>
                                         <div>  
                                             <label htmlFor="my_address">Choose one of your addresses</label>
-                                            <select onChange={(event) => handleSelectChange(event)} className="form-control" name="select">
+                                            <select ref={selectionRef} className="form-control" name="select">
                                                 <option value="" disabled selected>Choose Address</option>
                                                     {qtyOptions()}
                                                 </select>
@@ -277,16 +279,30 @@ const Checkout = () => {
                                         </div>
 
                                         <div>
-                                        <h3 className={styles.topborder}><span>Payment Method</span></h3>
-                                            <input id="banktransfer" type="radio" value="banktransfer" name="payment" form="Form1" checked />
+                                            <input
+                                                type="radio"
+                                                id="banktransfer"
+                                                value="banktransfer"
+                                                name="payment"
+                                                checked={paymentMethod === 'banktransfer'}
+                                                onChange={handlePaymentChange}
+                                            />
                                             <label htmlFor="banktransfer" className={`${styles.banktransfer} p-2`}>
                                                 Pay using your bank card
                                             </label>
-                                        </div>
-                                        
-                                        <div>
-                                            <input id="cash" type="radio" value="cheque" name="payment" form="Form1" />
-                                            <label htmlFor="cash" className={`${styles.cash} p-2`}> Cash</label>
+                                            </div>
+                                                <div>
+                                                <input
+                                                    type="radio"
+                                                    id="cash"
+                                                    value="cash"
+                                                    name="payment"
+                                                    checked={paymentMethod === 'cash'}
+                                                    onChange={handlePaymentChange}
+                                                />
+                                                <label htmlFor="cash" className={`${styles.cash} p-2`}>
+                                                    Cash
+                                                </label>
                                         </div>
                                         <Button className='mt-4' type="submit" form="Form1">Proceed</Button>
                                     </div>

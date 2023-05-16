@@ -22,7 +22,7 @@ export const addNewAddress = createAsyncThunk(
 export const setNewAddressSlice = createSlice({
   name: 'userAddresses',
   initialState: {
-    addresses: [],
+    newAddress: {},
     status: 'idle',
     error: null,
   },
@@ -34,7 +34,7 @@ export const setNewAddressSlice = createSlice({
       })
       .addCase(addNewAddress.fulfilled, (state, action) => {
         state.status = 'succeeded';
-        state.addresses.push(action.payload); // Assuming the response contains the newly added address
+        state.newAddress = action.payload; // Assuming the response contains the newly added address
       })
       .addCase(addNewAddress.rejected, (state, action) => {
         state.status = 'failed';
