@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 const NavbarCom = () => {
     const dispatch = useDispatch();
+    // eslint-disable-next-line no-unused-vars
     const [scrolled, setScrolled] = useState(false);
     const { products } = useSelector((state) => state.cartProducts);
     const [showModal, setShowModal] = useState(false);
