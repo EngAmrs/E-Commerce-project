@@ -121,10 +121,10 @@ const Cart = (props) => {
 
           { products && products.length > 0 &&
             <div className={`${style.checkout_btns}`}>
-              <Link className={style.check}>
+              <Link to='/checkout' onClick={props.onCloseCart} className={style.check}>
                 <Button className={`${style.check_out}`}>Check Out</Button>
               </Link>
-              <Link to="/shop" className={style.shopping}>
+              <Link to="/shop" onClick={props.onCloseCart} className={style.shopping}>
                 <Button className={`${style.continue_shopping} `}>Continue Shopping</Button>
               </Link>
             </div>
