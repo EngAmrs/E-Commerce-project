@@ -98,7 +98,7 @@ const Register = (props) => {
             </Form>
 
             <footer className={classes['login-form-footer']}>
-                <p>Already have an account? <Link onClick={props.onViewHandler}>Sign In</Link></p>
+                <p>Already have an account? <Link to="/auth?mode=login">Sign In</Link></p>
             </footer>
 
         </div>

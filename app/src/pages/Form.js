@@ -7,31 +7,17 @@ import { useSearchParams, useNavigate, json, redirect } from "react-router-dom";
 
 const AuthForm = (props) => {
     const [formIsShown, setformIsShown] = useState(true);
-    const [searchParams, setSearchParams] = useSearchParams();
+    const [searchParams] = useSearchParams();
     const isLogin = searchParams.get('mode');
     const navigate = useNavigate();
-
-    // const showFormHandler = ()=> {
-    //   setformIsShown(true); 
-    // }
   
     const hideFormHandler = ()=> {
       setformIsShown(false);
       navigate('/');
     }
 
-
-    const viewLoginHandler = () => {
-        setSearchParams({mode: 'login'});
-    };
-    
-    const viewRegisterHandler = () => {
-        setSearchParams({mode: 'register'});
-    };
-
-
     return <Modal onClick={props.onHideLogin}>
-            {formIsShown && isLogin === 'login' ? <Login onClick={hideFormHandler} onViewHandler={viewRegisterHandler}/> : <Register onClick={hideFormHandler} onViewHandler={viewLoginHandler}/>}
+            {formIsShown && isLogin === 'login' ? <Login onClick={hideFormHandler}/> : <Register onClick={hideFormHandler}/>}
     </Modal>
 };
 

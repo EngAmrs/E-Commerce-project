@@ -2,10 +2,10 @@ import React  from 'react';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import RootLayout from './pages/RootLayout';
 import HomePage from './pages/Home';
-import ProductsPage from './pages/Products'
+import UserProfilePage from './pages/UserProfile'
 import AuthForm, {action as authAction} from './pages/Form';
 import {action as logoutAction} from './pages/Logout';
-import {tokenLoader} from './util/auth';
+import {checkAuthLoader, tokenLoader} from './util/auth';
 
 const router = createBrowserRouter([
   {
@@ -16,7 +16,7 @@ const router = createBrowserRouter([
     children: [
       {index: true, element: <HomePage/>},
       {path: 'auth', element: <AuthForm/>, action: authAction },
-      {path: 'products', element: <ProductsPage/>},
+      {path: 'userProfile', element: <UserProfilePage/>, loader: checkAuthLoader},
       {path: 'logout', action:logoutAction}
 
     ]
@@ -24,7 +24,7 @@ const router = createBrowserRouter([
 ])
 
 function App() {
-  return <RouterProvider router={router} />;
+  return <RouterProvider router={router}/>;
 }
 
 export default App;

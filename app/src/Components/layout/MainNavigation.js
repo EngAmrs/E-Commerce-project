@@ -1,21 +1,9 @@
-import React , {useState} from 'react';
-import { Form, NavLink, useNavigate, useRouteLoaderData } from 'react-router-dom';
+import React from 'react';
+import { Form, NavLink, useRouteLoaderData } from 'react-router-dom';
 import classes from './MainNavigation.module.css';
 
 function MainNavigation() {
-    const token = useRouteLoaderData('root');
-
-    const [formIsShown, setformIsShown] = useState(false);
-    const navigate = useNavigate();
-
-    const showFormHandler = ()=> {
-      setformIsShown(true); 
-    }
-  
-    const hideFormHandler = ()=> {
-      setformIsShown(false);
-      navigate('/');
-    }
+  const token = useRouteLoaderData('root');
   return (
     <header className={classes.header}>
       <nav>
@@ -31,16 +19,19 @@ function MainNavigation() {
               Home
             </NavLink>
           </li>
-          <li>
-            <NavLink
-              to="/products"
-              className={({ isActive }) =>
-                isActive ? classes.active : undefined
-              }
-            >
-              Products
-            </NavLink>
-          </li>
+          {token && 
+            <li>
+              <NavLink
+                to="/userProfile"
+                className={({ isActive }) =>
+                  isActive ? classes.active : undefined
+                }
+              >
+                User Profiel
+              </NavLink>
+            </li>
+          }
+
           {!token && 
            (<li>
               <NavLink
@@ -53,7 +44,7 @@ function MainNavigation() {
               </NavLink>
             </li>
           )}
-          
+
           {token && 
             <li>
               <Form action="/logout" method='post'>
@@ -61,6 +52,7 @@ function MainNavigation() {
               </Form>
             </li>
           }
+
         </ul>
       </nav>
     </header>

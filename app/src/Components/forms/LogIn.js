@@ -85,7 +85,7 @@ const Login = (props) => {
             </Form>
 
             <footer className={classes['login-form-footer']}>
-                <p>Don't have an account yet? <Link onClick={props.onViewHandler}>Sign up</Link></p>
+                <p>Don't have an account yet? <Link to="/auth?mode=register">Sign up</Link></p>
             </footer>
 
         </>
