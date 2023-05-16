@@ -1,9 +1,10 @@
 import React , {useState} from 'react';
-import { Form, NavLink, useNavigate } from 'react-router-dom';
+import { Form, NavLink, useNavigate, useRouteLoaderData } from 'react-router-dom';
 import classes from './MainNavigation.module.css';
-import AuthForm from '../../pages/Form';
 
 function MainNavigation() {
+    const token = useRouteLoaderData('root');
+
     const [formIsShown, setformIsShown] = useState(false);
     const navigate = useNavigate();
 
@@ -40,21 +41,26 @@ function MainNavigation() {
               Products
             </NavLink>
           </li>
-          <li>
-            <NavLink
-                to="/auth?mode=login"
-                className={({ isActive }) =>
-                  isActive ? classes.active : undefined
-                }
-              >
-                Sign in
-            </NavLink>
-          </li>
-          <li>
-            <Form action="/logout" method='post'>
-              <button>Logout</button>
-            </Form>
-          </li>
+          {!token && 
+           (<li>
+              <NavLink
+                  to="/auth?mode=login"
+                  className={({ isActive }) =>
+                    isActive ? classes.active : undefined
+                  }
+                >
+                  Sign in
+              </NavLink>
+            </li>
+          )}
+          
+          {token && 
+            <li>
+              <Form action="/logout" method='post'>
+                <button>Logout</button>
+              </Form>
+            </li>
+          }
         </ul>
       </nav>
     </header>

@@ -5,12 +5,14 @@ import HomePage from './pages/Home';
 import ProductsPage from './pages/Products'
 import AuthForm, {action as authAction} from './pages/Form';
 import {action as logoutAction} from './pages/Logout';
-
+import {tokenLoader} from './util/auth';
 
 const router = createBrowserRouter([
   {
     path: '/',
     element: <RootLayout/>,
+    id: 'root',
+    loader: tokenLoader,
     children: [
       {index: true, element: <HomePage/>},
       {path: 'auth', element: <AuthForm/>, action: authAction },
