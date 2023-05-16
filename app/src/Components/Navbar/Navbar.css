@@ -52,11 +52,11 @@
 
 .navbar{
     z-index: 999;
-    position:fixed;
+    position:sticky;
+    top: 0%;
     width: 100%;
     font-family: 'Poppins';
     padding: 1.3em 0 1em 0;
-    background-color: rgba(235, 221, 221, 0) !important;
     
 }
 .navbar-brand {
@@ -187,9 +187,9 @@
     background-color: #fff !important;
     
  }
- .scrolledHeader{
+ /* .scrolledHeader{ */
     /* width: 0 !important;
     height: 0 !important; */
-    display: none;
- }
+    /* display: none; */
+ /* } */
 /****** End NavBar ******/

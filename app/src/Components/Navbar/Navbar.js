@@ -22,20 +22,20 @@ const NavbarCom = () => {
     }, [dispatch])
 
     // Handle Scroll
-    useEffect(() => {
-      const handleScroll = () => {
-        const isScrolled = window.scrollY > 25;
-        if (isScrolled !== scrolled) {
-            setTimeout(()=>{
-            setScrolled(isScrolled);
-        }, 150)
-        }
-      };
-      document.addEventListener("scroll", handleScroll);
-      return () => {
-        document.removeEventListener("scroll", handleScroll);
-      };
-    }, [scrolled]);
+    // useEffect(() => {
+    //   const handleScroll = () => {
+    //     const isScrolled = window.scrollY > 25;
+    //     if (isScrolled !== scrolled) {
+    //         setTimeout(()=>{
+    //         setScrolled(isScrolled);
+    //     }, 150)
+    //     }
+    //   };
+    //   document.addEventListener("scroll", handleScroll);
+    //   return () => {
+    //     document.removeEventListener("scroll", handleScroll);
+    //   };
+    // }, [scrolled]);
 
 
 
