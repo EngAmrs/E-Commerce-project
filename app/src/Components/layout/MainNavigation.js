@@ -1,5 +1,5 @@
 import React , {useState} from 'react';
-import { NavLink, useNavigate } from 'react-router-dom';
+import { Form, NavLink, useNavigate } from 'react-router-dom';
 import classes from './MainNavigation.module.css';
 import AuthForm from '../../pages/Form';
 
@@ -49,6 +49,11 @@ function MainNavigation() {
               >
                 Sign in
             </NavLink>
+          </li>
+          <li>
+            <Form action="/logout" method='post'>
+              <button>Logout</button>
+            </Form>
           </li>
         </ul>
       </nav>

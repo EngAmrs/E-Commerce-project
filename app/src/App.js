@@ -4,7 +4,7 @@ import RootLayout from './pages/RootLayout';
 import HomePage from './pages/Home';
 import ProductsPage from './pages/Products'
 import AuthForm, {action as authAction} from './pages/Form';
-
+import {action as logoutAction} from './pages/Logout';
 
 
 const router = createBrowserRouter([
@@ -14,7 +14,9 @@ const router = createBrowserRouter([
     children: [
       {index: true, element: <HomePage/>},
       {path: 'auth', element: <AuthForm/>, action: authAction },
-      {path: 'products', element: <ProductsPage/>}
+      {path: 'products', element: <ProductsPage/>},
+      {path: 'logout', action:logoutAction}
+
     ]
   }
 ])
