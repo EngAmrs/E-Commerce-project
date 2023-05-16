@@ -5,6 +5,7 @@ import allProductsReducer from "./Slices/Shop/allProductsSlice";
 import CartproductsReducer from "./Slices/Cart/CartProductsSlice"
 import getAddressReducer from "./Slices/Order/getAddressSlice";
 import setNewAddressReducer from "./Slices/Order/setNewAddressSlice";
+import CreateOrderReducer from "./Slices/Order/createOrderSlice";
 const store = configureStore({
   reducer: {
     categories: categoriesReducer,
@@ -14,7 +15,8 @@ const store = configureStore({
 
     // Order Reducers
     orderUserAddress: getAddressReducer,
-    setNewAddress: setNewAddressReducer
+    setNewAddress: setNewAddressReducer,
+    createNewOrder: CreateOrderReducer,
 
   },
 });

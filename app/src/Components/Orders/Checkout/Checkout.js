@@ -1,12 +1,12 @@
 import { Fragment, useEffect, useRef, useState } from 'react';
 import styles from './Checkout.module.css'
-import {Field, useFormik} from 'formik';
+import {useFormik} from 'formik';
 import * as yup from "yup";
 import { useDispatch, useSelector } from 'react-redux';
 import { Button } from 'react-bootstrap';
 import { fetchUserAddresses } from '../../../Redux/Slices/Order/getAddressSlice'
 import { addNewAddress } from '../../../Redux/Slices/Order/setNewAddressSlice';
-
+import { createOrder } from '../../../Redux/Slices/Order/createOrderSlice';
 
 const Checkout = () => {
     const [showDifferentAddress, setShowDifferentAddress] = useState(false);
@@ -15,7 +15,7 @@ const Checkout = () => {
     const { products } = useSelector((state) => state.cartProducts);
     const dispatch = useDispatch();
     const addresses = useSelector((state) => state.orderUserAddress);
-    const {newAddress, status, error } = useSelector((state) => state.setNewAddress);
+    const {newAddress, status } = useSelector((state) => state.setNewAddress);
     // Order requeirements
     const selectionRef = useRef();
     const [paymentMethod, setPaymentMethod] = useState('banktransfer');
@@ -24,10 +24,13 @@ const Checkout = () => {
 
     // Check out schema
     const onSubmitOrder = (values, actions) => {
-        console.log(values.phone);
-        console.log(values.description);
-        console.log(selectionRef.current.value);
-        console.log(paymentMethod);
+        dispatch(createOrder({
+            'phone':values.phone,
+            'note':values.description,
+            'address_id':selectionRef.current.value,
+            'payment_method':paymentMethod,
+        }));
+
         actions.resetForm();
     };
     const checkOutSchema = yup.object().shape({
