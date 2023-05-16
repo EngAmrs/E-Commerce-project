@@ -24,7 +24,6 @@ const AuthForm = (props) => {
 export default AuthForm;
 
 export async function action({request}) {
-    console.log('ana weslt');
     const searchParams = new URL(request.url).searchParams;
     const mode = searchParams.get('mode');
 

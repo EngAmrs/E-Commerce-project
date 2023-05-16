@@ -7,11 +7,12 @@ import { Button } from 'react-bootstrap';
 import { fetchUserAddresses } from '../../../Redux/Slices/Order/getAddressSlice'
 import { addNewAddress } from '../../../Redux/Slices/Order/setNewAddressSlice';
 import { createOrder } from '../../../Redux/Slices/Order/createOrderSlice';
-import { redirect } from 'react-router';
+import { useNavigate } from 'react-router';
 
 const Checkout = () => {
     const [showDifferentAddress, setShowDifferentAddress] = useState(false);
     const  [subTotal, setSubTotal] = useState(0)
+    const navigate = useNavigate();
     const shipping = 1;
     const { products } = useSelector((state) => state.cartProducts);
     const dispatch = useDispatch();
@@ -104,7 +105,7 @@ const Checkout = () => {
 
     useEffect(()=>{
         if(products.length === 0)
-            return redirect('/shop');
+             navigate('/shop')
 
         const cartSubTotal = products.reduce((acc, product) => {
 

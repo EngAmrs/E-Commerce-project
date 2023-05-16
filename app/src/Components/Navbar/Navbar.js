@@ -7,8 +7,13 @@ import './Navbar.css'
 import Cart from "../Cart/Cart";
 import { setProducts } from "../../Redux/Slices/Cart/CartProductsSlice";
 import { useDispatch, useSelector } from "react-redux";
+import { Form, NavLink, useRouteLoaderData } from 'react-router-dom';
 
 const NavbarCom = () => {
+
+    // Auth
+    const token = useRouteLoaderData('root');
+    console.log(token);
     const dispatch = useDispatch();
     // eslint-disable-next-line no-unused-vars
     const [scrolled, setScrolled] = useState(false);
@@ -73,10 +78,31 @@ const NavbarCom = () => {
                 <Container>
                     <p>Free shipping for standard order over $100</p>
                     <ul className="account-options">
-                        <li>My Account</li>
-                        <li className="signIn-btn">Sign In</li>
+                    {token && 
+                            (<li>
+                                <NavLink
+                                    to="/auth?mode=login"
+                                    >My Account</NavLink>
+                            </li>
+                        )}
+
+                        {!token && 
+                            (<li>
+                                <NavLink
+                                    className="signIn-btn"
+                                    to="/auth?mode=login"
+                                    >Sign in</NavLink>
+                            </li>
+                        )}
                         <li>EN</li>
                         <li>USD</li>
+                        {token && 
+                            <li>
+                            <Form action="/logout" method='post'>
+                                <button>Logout</button>
+                            </Form>
+                            </li>
+                        }
                     </ul>
                 </Container>
             </div>
