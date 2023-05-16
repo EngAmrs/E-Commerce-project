@@ -5,12 +5,16 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import { faEye } from '@fortawesome/free-solid-svg-icons';
 import { faEyeSlash } from '@fortawesome/free-solid-svg-icons';
-import { Link } from "react-router-dom";
+import { Form, Link, useActionData, useNavigation } from "react-router-dom";
 
 const Login = (props) => {
-    const {value: enteredEmail, isValid: enteredEmailIsValid, hasError: emailInputHasError, valueChangeHandler: emailInputChangeHandler, inputBlurHandler: emailInputBlureHandler, reset: resetEmailInput} = useInput(value => value.trim() !== '' || value.includes('@'));
+    const data = useActionData();
+    const navigation = useNavigation();
+
+    const {value: enteredEmail, isValid: enteredEmailIsValid, hasError: emailInputHasError, valueChangeHandler: emailInputChangeHandler, inputBlurHandler: emailInputBlureHandler, reset: resetEmailInput} = useInput(value => value.trim() !== '');
     const {value: enteredPassword, isValid: enteredPasswordIsValid, hasError: passwordInputHasError, valueChangeHandler: passwordInputChangeHandler, inputBlurHandler: passwordInputBlureHandler, reset: resetPasswordInput} = useInput(value => value.trim() !== '' && value.length >= 8);
     const [passwordIsVisible, setPasswordIsVisible] = useState(false);
+    const isSubmitting = navigation.state === 'submitting';
 
     const togglePasswordVisibility = (event) => {
         event.preventDefault();
@@ -25,7 +29,7 @@ const Login = (props) => {
     }
 
     const formSubmissionHandler = event => {
-        event.preventDefault();
+        // event.preventDefault();
 
         emailInputBlureHandler();
         passwordInputBlureHandler();
@@ -34,7 +38,7 @@ const Login = (props) => {
             return;
         }
 
-        console.log(enteredEmail, enteredPassword);
+        // console.log(enteredEmail, enteredPassword);
         resetEmailInput();
         resetPasswordInput();
         
@@ -45,7 +49,6 @@ const Login = (props) => {
     // these variables just for controlling the css classes added to the elements
     const emailInputClasses = emailInputHasError ? `${classes['form-group']} ${classes.invalid}` : `${classes['form-group']}`;
     const passwordInputClasses = passwordInputHasError ? `${classes['form-group']} ${classes.invalid}` : `${classes['form-group']}`;
-
     return (
         <>
             <div className="d-flex justify-content-end">
@@ -59,18 +62,18 @@ const Login = (props) => {
                 <h2 className={classes.sign}>Sign in to your account</h2>
             </div>
 
-            <form className={classes['login-form']} onSubmit={formSubmissionHandler}>
-
+            <Form method="post" className={classes['login-form']} onSubmit={formSubmissionHandler}>
+                {data && <p className="text-danger">Could not authenticate user!</p>}
                 <div className={emailInputClasses}>
-                    <label htmlFor="email">Email address</label>
-                    <input value={enteredEmail} type="email" className={classes['form-control']} id="email" placeholder="Enter email" onChange={emailInputChangeHandler} onBlur={emailInputBlureHandler}/>
-                    {emailInputHasError && <p className={classes['error-text']}>Invalid email!</p>}
+                    <label htmlFor="username">Username</label>
+                    <input value={enteredEmail} type="text" className={classes['form-control']} id="username" name="username" placeholder="Enter username" onChange={emailInputChangeHandler} onBlur={emailInputBlureHandler}/>
+                    {emailInputHasError && <p className={classes['error-text']}>Invalid username!</p>}
                 </div>
 
                 <div className={passwordInputClasses}>
                     <label htmlFor="password">Password</label>
                     <div className={classes.password}>
-                        <input value={enteredPassword} type={passwordIsVisible ? 'text' : 'password'} className={classes['form-control']} id="password" placeholder="Password" onChange={passwordInputChangeHandler} onBlur={passwordInputBlureHandler}/>
+                        <input value={enteredPassword} type={passwordIsVisible ? 'text' : 'password'} className={classes['form-control']} id="password" name="password" placeholder="Password" onChange={passwordInputChangeHandler} onBlur={passwordInputBlureHandler}/>
                         <button className={classes.showIcon} onClick={togglePasswordVisibility}>
                             {passwordIsVisible ? <FontAwesomeIcon icon={faEye} /> : <FontAwesomeIcon icon={faEyeSlash} />}
                         </button>
@@ -78,8 +81,8 @@ const Login = (props) => {
                     {passwordInputHasError && <p className={classes['error-text']}>Invalid password!</p>}
                 </div>
 
-                <button type="submit" className={btnClass}>SIGN IN</button>
-            </form>
+                <button disabled={isSubmitting} type="submit" className={btnClass}>{isSubmitting? 'Loading...' : 'SIGN IN'}</button>
+            </Form>
 
             <footer className={classes['login-form-footer']}>
                 <p>Don't have an account yet? <Link onClick={props.onViewHandler}>Sign up</Link></p>

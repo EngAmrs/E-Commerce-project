@@ -3,7 +3,7 @@ import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import RootLayout from './pages/RootLayout';
 import HomePage from './pages/Home';
 import ProductsPage from './pages/Products'
-import AuthForm from './pages/Form';
+import AuthForm, {action as authAction} from './pages/Form';
 
 
 
@@ -13,7 +13,7 @@ const router = createBrowserRouter([
     element: <RootLayout/>,
     children: [
       {index: true, element: <HomePage/>},
-      {path: 'auth', element: <AuthForm/> },
+      {path: 'auth', element: <AuthForm/>, action: authAction },
       {path: 'products', element: <ProductsPage/>}
     ]
   }

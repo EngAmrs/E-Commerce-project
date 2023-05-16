@@ -6,13 +6,14 @@ import { faEye } from '@fortawesome/free-solid-svg-icons';
 import { faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import {useFormik} from 'formik';
 import { registerSchema } from '../../schemas/index';
-import { Link } from "react-router-dom";
+import { Form, Link, useActionData } from "react-router-dom";
 
 const onSubmit = (values, actions) => {
     actions.resetForm();
 };
 
 const Register = (props) => {
+    const data = useActionData();
 
     const [passwordIsVisible, setPasswordIsVisible] = useState(false);
 
@@ -26,7 +27,7 @@ const Register = (props) => {
         initialValues: {
             first_name: "",
             last_name: "",
-            user_name: "",
+            username: "",
             email: "",
             password: "",
         },
@@ -35,6 +36,9 @@ const Register = (props) => {
     });
 
     const btnClass = `${classes.btn} ${classes['btn-primary']}`;
+    if(data) {
+        console.log("ana hena", data)
+    }
  
     // these variables just for controlling the css classes added to the elements
     // const emailInputClasses = emailInputHasError ? `${classes['form-group']} ${classes.invalid}` : `${classes['form-group']}`;
@@ -52,36 +56,37 @@ const Register = (props) => {
                 <h2 className={classes.sign}>Create an account</h2>
             </div>
 
-            <form onSubmit={formik.handleSubmit} className={classes['login-form']}>
-
+            <Form method="post" className={classes['login-form']}>
+                {data && <p>Error!</p>}
+                {/* {data && data.message && <p>{data.message}</p>} */}
                 <div className="mb-4">
                     <label htmlFor="first_name">First name</label>
-                    <input value={formik.values.first_name} type="text" className={classes['form-control']} id="first_name" placeholder="First Name" onChange={formik.handleChange} onBlur={formik.handleBlur}/>
+                    <input value={formik.values.first_name} type="text" className={classes['form-control']} id="first_name" name="first_name" placeholder="First Name" onChange={formik.handleChange} onBlur={formik.handleBlur}/>
                     {(formik.errors.first_name && formik.touched.first_name) && <p className={classes['error-text']}>{formik.errors.first_name}</p>}
                 </div>
 
                 <div className="mb-4">
                     <label htmlFor="last_name">Last name</label>
-                    <input value={formik.values.last_name} type="text" className={classes['form-control']} id="last_name" placeholder="Last Name" onChange={formik.handleChange} onBlur={formik.handleBlur}/>
+                    <input value={formik.values.last_name} type="text" className={classes['form-control']} id="last_name" name="last_name" placeholder="Last Name" onChange={formik.handleChange} onBlur={formik.handleBlur}/>
                     {(formik.errors.last_name && formik.touched.last_name)   && <p className={classes['error-text']}>{formik.errors.last_name}</p>}
                 </div>
 
                 <div className="mb-4">
                     <label htmlFor="user_name">User name</label>
-                    <input value={formik.values.user_name} type="text" className={classes['form-control']} id="user_name" placeholder="User Name" onChange={formik.handleChange} onBlur={formik.handleBlur}/>
-                    {(formik.errors.user_name && formik.touched.user_name)   && <p className={classes['error-text']}>{formik.errors.user_name}</p>}
+                    <input value={formik.values.username} type="text" className={classes['form-control']} id="user_name" name="username" placeholder="User Name" onChange={formik.handleChange} onBlur={formik.handleBlur}/>
+                    {(formik.errors.username && formik.touched.username)   && <p className={classes['error-text']}>{formik.errors.user_name}</p>}
                 </div>
 
                 <div className="mb-4">
                     <label htmlFor="email">Email address</label>
-                    <input value={formik.values.email} type="email" className={classes['form-control']} id="email" placeholder="Enter email" onChange={formik.handleChange} onBlur={formik.handleBlur}/>
+                    <input value={formik.values.email} type="email" className={classes['form-control']} id="email" name="email" placeholder="Enter email" onChange={formik.handleChange} onBlur={formik.handleBlur}/>
                     {(formik.errors.email && formik.touched.email)   && <p className={classes['error-text']}>{formik.errors.email}</p>}
                 </div>
 
                 <div className="mb-4">
                     <label htmlFor="password">Password</label>
                     <div className={classes.password}>
-                        <input value={formik.values.password} type={passwordIsVisible ? 'text' : 'password'} className={classes['form-control']} id="password" placeholder="Password" onChange={formik.handleChange} onBlur={formik.handleBlur}/>
+                        <input value={formik.values.password} type={passwordIsVisible ? 'text' : 'password'} className={classes['form-control']} id="password" name="password" placeholder="Password" onChange={formik.handleChange} onBlur={formik.handleBlur}/>
                         <button className={classes.showIcon} onClick={togglePasswordVisibility}>
                             {passwordIsVisible ? <FontAwesomeIcon icon={faEye} /> : <FontAwesomeIcon icon={faEyeSlash} />}
                         </button>
@@ -90,7 +95,7 @@ const Register = (props) => {
                 </div>
 
                 <button type="submit" className={btnClass}>CREATE AN ACCOUNT</button>
-            </form>
+            </Form>
 
             <footer className={classes['login-form-footer']}>
                 <p>Already have an account? <Link onClick={props.onViewHandler}>Sign In</Link></p>
