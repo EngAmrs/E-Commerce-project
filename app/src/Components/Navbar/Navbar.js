@@ -83,7 +83,7 @@ const NavbarCom = () => {
                     {token && 
                             (<li>
                                 <NavLink
-                                    to="/userProfile"
+                                    to="/userProfile?mode=profile"
                                     >My Account</NavLink>
                             </li>
                         )}
