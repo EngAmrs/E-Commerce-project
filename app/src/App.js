@@ -18,10 +18,10 @@ const router = createBrowserRouter([
     loader: tokenLoader,
     children: [
       {index: true, element: <Home/>},
+      {path: 'auth', element: <AuthForm/>, action: authAction },
       {path: 'shop', element: <Shop/> },
       {path: 'shop/:id', element: <Shop/> },
       {path: 'checkout', element: <Checkout/>, loader: checkAuthLoader},
-      {path: 'auth', element: <AuthForm/>, action: authAction },
       {path: 'userProfile', element: <UserProfilePage/>, loader: checkAuthLoader},
       {path: 'logout', action:logoutAction}
     ]

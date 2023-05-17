@@ -75,6 +75,8 @@ export async function action({request}) {
 
     if(mode === 'login'){
         const resData = await response.json();
+        console.log("ana response",response);
+        console.log("ana resData",resData);
         const token = resData.token;
         localStorage.setItem('token', token)
         return redirect('/');

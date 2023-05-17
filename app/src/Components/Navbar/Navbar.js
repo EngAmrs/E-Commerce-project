@@ -9,6 +9,8 @@ import { setProducts } from "../../Redux/Slices/Cart/CartProductsSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { Form, NavLink, useRouteLoaderData } from 'react-router-dom';
 
+
+
 const NavbarCom = () => {
 
     // Auth
@@ -81,7 +83,7 @@ const NavbarCom = () => {
                     {token && 
                             (<li>
                                 <NavLink
-                                    to="/auth?mode=login"
+                                    to="/userProfile"
                                     >My Account</NavLink>
                             </li>
                         )}
@@ -129,7 +131,7 @@ const NavbarCom = () => {
                     <Nav className="nav_icons">
                         <Nav.Link href="#deets"><FaSearch fill={'#555'}/></Nav.Link>
                         
-                        <Nav.Link  data-notify={products.length} onClick={handleProductClick} href="#deets"><FaShoppingCart fill={'#555'}/></Nav.Link>
+                       {products && <Nav.Link  data-notify={products.length} onClick={handleProductClick} href="#deets"><FaShoppingCart fill={'#555'}/></Nav.Link>}
                         <Nav.Link href="#deets"><FaRegHeart fill={'#555'}/></Nav.Link>
                     </Nav>
                     </Navbar.Collapse>
