@@ -8,8 +8,8 @@ import Cart from "../Cart/Cart";
 import { setProducts } from "../../Redux/Slices/Cart/CartProductsSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { Form, NavLink, useRouteLoaderData } from 'react-router-dom';
-
-
+import VisitorCart from "../Cart/visitorCart/VisitorCar";
+import { fetchUserCart } from "../../Redux/Slices/Cart/userCartSlice";
 
 const NavbarCom = () => {
 
@@ -19,15 +19,23 @@ const NavbarCom = () => {
     const dispatch = useDispatch();
     // eslint-disable-next-line no-unused-vars
     const [scrolled, setScrolled] = useState(false);
-    const { products } = useSelector((state) => state.cartProducts);
+    const { visitorProducts } = useSelector((state) => state.cartProducts);
+    const { products} = useSelector((state) => state.userCart);
     const [showModal, setShowModal] = useState(false);
-
+    const { updatedCart } = useSelector((state) => state.updateCart);
+    const { newproduct } = useSelector((state) => state.addtoCart);
+    
     // Handle Cart
-    useEffect(()=>{
-      const cartData = JSON.parse(localStorage.getItem('AROACart'));
+    useEffect(()=>{ 
+      let cartData = JSON.parse(localStorage.getItem('AROACart'));
+      if(cartData === null){
+            localStorage.setItem('AROACart', JSON.stringify([]));
+            cartData = JSON.parse(localStorage.getItem('AROACart'));
+      }
+
       dispatch(setProducts(cartData));
-        
-    }, [dispatch])
+      dispatch(fetchUserCart());
+    }, [dispatch, updatedCart, newproduct])
 
     // Handle Scroll
     // useEffect(() => {
@@ -61,14 +69,27 @@ const NavbarCom = () => {
 
     // Render Cart under Navbar
     const cartRender = ()=>{
+
+        if(token){
+            if (showModal){
+                return <Cart
+                    onCloseCart={handleCloseModal}
+                    showCart ={showModal}
+                    />
+            }      
+       }else{
         if (showModal){
-            return <Cart
+            return <VisitorCart
                 onCloseCart={handleCloseModal}
                 showCart ={showModal}
                 />
-        }
+        } 
+       }
+      
     }
 
+
+console.log(products.length);
 
     return (   
         <>  
@@ -129,10 +150,13 @@ const NavbarCom = () => {
                     
                     </Nav>
                     <Nav className="nav_icons">
-                        <Nav.Link href="#deets"><FaSearch fill={'#555'}/></Nav.Link>
-                        
-                       {products && <Nav.Link  data-notify={products.length} onClick={handleProductClick} href="#deets"><FaShoppingCart fill={'#555'}/></Nav.Link>}
-                        <Nav.Link href="#deets"><FaRegHeart fill={'#555'}/></Nav.Link>
+                        {!token && visitorProducts &&
+                             <Nav.Link  data-notify={visitorProducts.length} onClick={handleProductClick}><FaShoppingCart fill={'#555'}/></Nav.Link>
+                        }
+                        {token && products &&
+                             <Nav.Link  data-notify={products.length} onClick={handleProductClick}><FaShoppingCart fill={'#555'}/></Nav.Link>
+                        }                  
+                        <Nav.Link ><FaRegHeart fill={'#555'}/></Nav.Link>
                     </Nav>
                     </Navbar.Collapse>
                 </Container>

@@ -118,7 +118,7 @@
 }
 
 
-.nav_icons a:nth-child(2)::after, .nav_icons a:nth-child(3)::after{
+.nav_icons a:nth-child(1)::after, .nav_icons a:nth-child(2)::after{
     font-family: Poppins-Regular;
     font-size: 12px;
     color: #fff;
@@ -134,11 +134,11 @@
     background-color: #717fe0;
 }
 
-.nav_icons a:nth-child(2)::after{
+.nav_icons a:nth-child(1)::after{
     content: attr(data-notify);
 
 }
-.nav_icons a:nth-child(3)::after{
+.nav_icons a:nth-child(2)::after{
     content: attr(data-notify);
 
 }

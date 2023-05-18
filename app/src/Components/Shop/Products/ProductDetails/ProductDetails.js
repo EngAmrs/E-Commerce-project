@@ -1,44 +1,77 @@
 import { Button, Modal } from 'react-bootstrap';
 import style from './ProductDetails.module.css';
 import React, { useEffect, useState } from "react"
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setProducts } from "../../../../Redux/Slices/Cart/CartProductsSlice";
 import {BsHeart} from 'react-icons/bs'
+import {fetchUserCart} from '../../../../Redux/Slices/Cart/userCartSlice'
+import { useRouteLoaderData } from 'react-router';
+import { addProductToCart } from '../../../../Redux/Slices/Cart/AddToCartSlice';
+import { updateUserCart } from '../../../../Redux/Slices/Cart/UpdateCartSlice';
 
 function ProductDetails({ show, onCloseModal ,product }) {
+  const token = useRouteLoaderData('root');
   const dispatch = useDispatch();
+  const { products, status } = useSelector((state) => state.userCart);
+  const { updatedCart } = useSelector((state) => state.updateCart);
   const imageUrl = 'http://localhost:8000/'
   const [selectedValue, setSelectedValue] = useState('');
   const  [cartData, setCartData] = useState(JSON.parse(localStorage.getItem('AROACart')))
+  
       useEffect(()=>{
         setCartData(JSON.parse(localStorage.getItem('AROACart')));
         dispatch(setProducts(cartData));
+        dispatch(fetchUserCart())
   
-      }, [dispatch, cartData])
+      }, [dispatch, updatedCart])
 
       
     const handleSelectChange = (event) => {
       setSelectedValue(event.target.value);
     };
 
-    const addProductToCart = (data) => {
+    const submitProductToCart = (data) => {
       if(selectedValue === '') return
-      const cartData = JSON.parse(localStorage.getItem('AROACart'));
-      if (!cartData) {
-        localStorage.setItem('AROACart', JSON.stringify([{ data, qty: parseInt(selectedValue), totalPrice:  parseInt(selectedValue) * data.price}]));
-        return
+      if(token){
+   
+         dispatch(fetchUserCart())
+          if(products.length === 0){
+            dispatch(addProductToCart({ product: data.id, quantity: parseInt(selectedValue) }));
+            
+          }else{
+           
+            let productIndex = products.findIndex((e) => e.data.id === data.id)
+
+            if(products[productIndex] && products[productIndex].qty + parseInt(selectedValue) <= 10){ 
+                dispatch(updateUserCart({product: products[productIndex].data.id, quantity: products[productIndex].qty + parseInt(selectedValue), id: products[productIndex].itemId}))
+  
+            }else if (!products[productIndex]){
+              dispatch(addProductToCart({ product: data.id, quantity: parseInt(selectedValue) }));
+
+              
+
+            }
+          }
       }
 
-      const CurrentItem = cartData.findIndex(e => e.data.id === data.id)
-      if(cartData[CurrentItem] && cartData[CurrentItem].qty + parseInt(selectedValue) <= 10){  
-          cartData[CurrentItem].qty += parseInt(selectedValue) 
-          cartData[CurrentItem].totalPrice = cartData[CurrentItem].qty * data.price
-          localStorage.setItem('AROACart', JSON.stringify(cartData));
+      else{
+          const cartData = JSON.parse(localStorage.getItem('AROACart'));
+          if (!cartData) {
+            localStorage.setItem('AROACart', JSON.stringify([{ data, qty: parseInt(selectedValue), totalPrice:  parseInt(selectedValue) * data.price}]));
+            return
+          }
 
-      }else if (!cartData[CurrentItem]){
-        cartData.push({ data, qty: parseInt(selectedValue), totalPrice:  parseInt(selectedValue) * data.price });
-        localStorage.setItem('AROACart', JSON.stringify(cartData));
-      }      
+          const CurrentItem = cartData.findIndex(e => e.data.id === data.id)
+          if(cartData[CurrentItem] && cartData[CurrentItem].qty + parseInt(selectedValue) <= 10){  
+              cartData[CurrentItem].qty += parseInt(selectedValue) 
+              cartData[CurrentItem].totalPrice = cartData[CurrentItem].qty * data.price
+              localStorage.setItem('AROACart', JSON.stringify(cartData));
+
+          }else if (!cartData[CurrentItem]){
+            cartData.push({ data, qty: parseInt(selectedValue), totalPrice:  parseInt(selectedValue) * data.price });
+            localStorage.setItem('AROACart', JSON.stringify(cartData));
+          }     
+      } 
     };
 
     const qtyOptions = ()=>{
@@ -55,7 +88,7 @@ function ProductDetails({ show, onCloseModal ,product }) {
         }
         return selections;
     }
-
+    console.log('prods',products);
   return (
     <>
       <Modal
@@ -94,7 +127,7 @@ function ProductDetails({ show, onCloseModal ,product }) {
                   </select>
                 </div>
                 <div className='row'>
-                <Button onClick={() => addProductToCart({id:product.id, name:product.name, price:product.price, productPic:product.productPic, quantity: product.quantity})} className={`${style.add_to_cart} col-sm-10 `}>Add to Cart</Button>  
+                <Button onClick={() => submitProductToCart({id:product.id, name:product.name, price:product.price, productPic:product.productPic, quantity: product.quantity})} className={`${style.add_to_cart} col-sm-10 `}>Add to Cart</Button>  
                 <Button className={`${style.add_to_fav} col-sm-1 `}><BsHeart /></Button>
                 </div>                                
               </div>

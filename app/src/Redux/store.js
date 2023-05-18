@@ -6,13 +6,24 @@ import CartproductsReducer from "./Slices/Cart/CartProductsSlice"
 import getAddressReducer from "./Slices/Order/getAddressSlice";
 import setNewAddressReducer from "./Slices/Order/setNewAddressSlice";
 import CreateOrderReducer from "./Slices/Order/createOrderSlice";
+import AddToCartReducer from "./Slices/Cart/AddToCartSlice"
+import userCartrReducer from "./Slices/Cart/userCartSlice"
+import deleteFromCartReducer from "./Slices/Cart/deleteFromCartSlice"
+import UpdateCartReducer from "./Slices/Cart/UpdateCartSlice"
+
+
 const store = configureStore({
   reducer: {
     categories: categoriesReducer,
     products: productsReducer,
     allProducts: allProductsReducer,
-    cartProducts: CartproductsReducer,
 
+    // Cart
+    cartProducts: CartproductsReducer,
+    userCart: userCartrReducer,
+    addtoCart: AddToCartReducer,
+    deleteFromCart: deleteFromCartReducer,
+    updateCart: UpdateCartReducer,
     // Order Reducers
     orderUserAddress: getAddressReducer,
     setNewAddress: setNewAddressReducer,
