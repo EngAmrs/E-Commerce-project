@@ -54,7 +54,6 @@ const Cart = (props) => {
           if(status === 'succeeded'){
             for (let i = 0; i < cartData.length; i++) {
               let test = products.findIndex((e) => e.data.id === cartData[i].data.id)
-              console.log('best', test);
               if (test >= 0) continue;
         
               dispatch(addProductToCart({ product: cartData[i].data.id, quantity: cartData[i].qty }));

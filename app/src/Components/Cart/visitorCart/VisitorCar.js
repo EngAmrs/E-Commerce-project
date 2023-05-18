@@ -2,7 +2,6 @@ import {Button, Modal } from 'react-bootstrap';
 import { useSelector, useDispatch} from "react-redux";
 import style from '../Cart.module.css'
 import { useEffect, useState} from 'react';
-import { fetchUserCart} from "../../../Redux/Slices/Cart/userCartSlice";
 import { setProducts } from "../../../Redux/Slices/Cart/CartProductsSlice";
 import { RiDeleteBin5Fill } from 'react-icons/ri';
 import { Link, useRouteLoaderData } from 'react-router-dom';
@@ -12,7 +11,7 @@ import { Link, useRouteLoaderData } from 'react-router-dom';
 const VisitorCart = (props) => {
     const imageUrl = 'http://localhost:8000/'
     const dispatch = useDispatch();
-    const { products, status } = useSelector((state) => state.cartProducts);
+    const { visitorProducts, status } = useSelector((state) => state.cartProducts);
 
     const token = useRouteLoaderData('root');
     
@@ -94,10 +93,10 @@ const VisitorCart = (props) => {
 
 
     const emptyCart = ()=>{
-      if(!products || products.length === 0)
+      if(!visitorProducts || visitorProducts.length === 0)
         return <p className={style.emptyCart}>The cart is empty</p>
     }
-    console.log("test", products);
+    console.log("test", visitorProducts);
     return ( 
       <>
         <Modal
@@ -112,8 +111,8 @@ const VisitorCart = (props) => {
           </Modal.Header>
           <Modal.Body>
 
-            { products &&
-              products.map((product) => (
+            { visitorProducts &&
+              visitorProducts.map((product) => (
                 <div className={`${style.item} row`} key={product.data.id}>
                     <div className={`${style.buttons} col-md-1 row`}>
                       <span onClick={()=> { handleDelete(product.data.id, product.itemId)}} className={style.delete_btn}><RiDeleteBin5Fill fill={'red'} size={'20'}/></span>
@@ -139,7 +138,7 @@ const VisitorCart = (props) => {
 
           {emptyCart()}
 
-          { products && products.length > 0 &&
+          { visitorProducts && visitorProducts.length > 0 &&
             <div className={`${style.checkout_btns}`}>
               <Link to='/checkout' onClick={props.onCloseCart} className={style.check}>
                 <Button className={`${style.check_out}`}>Check Out</Button>

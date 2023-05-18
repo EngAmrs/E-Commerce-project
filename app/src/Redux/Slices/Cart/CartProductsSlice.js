@@ -5,13 +5,13 @@ import {createSlice } from '@reduxjs/toolkit';
 export const CartProductsSlice = createSlice({
   name: "allProducts",
   initialState: {
-    products: [],
+    visitorProducts: [],
     count: 0,
 
   },
   reducers: {
     setProducts: (state, action) => {
-        state.products = action.payload;
+        state.visitorProducts = action.payload;
       },
 
    },

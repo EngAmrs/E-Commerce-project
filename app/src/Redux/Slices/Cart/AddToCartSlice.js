@@ -8,8 +8,8 @@ export const addProductToCart = createAsyncThunk(
   'newProductToCart/addProductToCart',
   async (ProductData, { rejectWithValue }) => {
     const token = localStorage.getItem('token');
+    console.log(ProductData);
     setAuthToken(token);
-    console.log(token);
     try {
       const response = await axios.post('http://127.0.0.1:8000/usercart/cart/add/', ProductData);
       return response.data;
@@ -36,7 +36,6 @@ export const AddToCartSlice = createSlice({
       .addCase(addProductToCart.fulfilled, (state, action) => {
         state.status = 'succeeded';
         state.newproduct = action.payload; 
-        console.log(action.payload);
       })
       .addCase(addProductToCart.rejected, (state, action) => {
         state.status = 'failed';

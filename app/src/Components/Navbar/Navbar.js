@@ -8,9 +8,8 @@ import Cart from "../Cart/Cart";
 import { setProducts } from "../../Redux/Slices/Cart/CartProductsSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { Form, NavLink, useRouteLoaderData } from 'react-router-dom';
-import { addProductToCart } from '../../Redux/Slices/Cart/AddToCartSlice';
-import { fetchUserCart} from "../../Redux/Slices/Cart/userCartSlice";
 import VisitorCart from "../Cart/visitorCart/VisitorCar";
+import { fetchUserCart } from "../../Redux/Slices/Cart/userCartSlice";
 
 const NavbarCom = () => {
 
@@ -20,9 +19,12 @@ const NavbarCom = () => {
     const dispatch = useDispatch();
     // eslint-disable-next-line no-unused-vars
     const [scrolled, setScrolled] = useState(false);
-    const { products } = useSelector((state) => state.cartProducts);
+    const { visitorProducts } = useSelector((state) => state.cartProducts);
+    const { products} = useSelector((state) => state.userCart);
     const [showModal, setShowModal] = useState(false);
-
+    const { updatedCart } = useSelector((state) => state.updateCart);
+    const { newproduct } = useSelector((state) => state.addtoCart);
+    
     // Handle Cart
     useEffect(()=>{ 
       let cartData = JSON.parse(localStorage.getItem('AROACart'));
@@ -32,8 +34,8 @@ const NavbarCom = () => {
       }
 
       dispatch(setProducts(cartData));
-        
-    }, [dispatch])
+      dispatch(fetchUserCart());
+    }, [dispatch, updatedCart, newproduct])
 
     // Handle Scroll
     // useEffect(() => {
@@ -87,7 +89,7 @@ const NavbarCom = () => {
     }
 
 
-
+console.log(products.length);
 
     return (   
         <>  
@@ -148,9 +150,12 @@ const NavbarCom = () => {
                     
                     </Nav>
                     <Nav className="nav_icons">
-                        {products &&
+                        {!token && visitorProducts &&
+                             <Nav.Link  data-notify={visitorProducts.length} onClick={handleProductClick}><FaShoppingCart fill={'#555'}/></Nav.Link>
+                        }
+                        {token && products &&
                              <Nav.Link  data-notify={products.length} onClick={handleProductClick}><FaShoppingCart fill={'#555'}/></Nav.Link>
-                        }                     
+                        }                  
                         <Nav.Link ><FaRegHeart fill={'#555'}/></Nav.Link>
                     </Nav>
                     </Navbar.Collapse>
