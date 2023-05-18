@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Form, NavLink, useRouteLoaderData } from 'react-router-dom';
 import { addProductToCart } from '../../Redux/Slices/Cart/AddToCartSlice';
 import { fetchUserCart} from "../../Redux/Slices/Cart/userCartSlice";
+import VisitorCart from "../Cart/visitorCart/VisitorCar";
 
 const NavbarCom = () => {
 
@@ -66,12 +67,23 @@ const NavbarCom = () => {
 
     // Render Cart under Navbar
     const cartRender = ()=>{
+
+        if(token){
+            if (showModal){
+                return <Cart
+                    onCloseCart={handleCloseModal}
+                    showCart ={showModal}
+                    />
+            }      
+       }else{
         if (showModal){
-            return <Cart
+            return <VisitorCart
                 onCloseCart={handleCloseModal}
                 showCart ={showModal}
                 />
-        }
+        } 
+       }
+      
     }
 
 

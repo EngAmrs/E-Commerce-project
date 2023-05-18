@@ -1,30 +1,22 @@
 import {Button, Modal } from 'react-bootstrap';
 import { useSelector, useDispatch} from "react-redux";
-import style from './Cart.module.css'
+import style from '../Cart.module.css'
 import { useEffect, useState} from 'react';
-import { fetchUserCart} from "../../Redux/Slices/Cart/userCartSlice";
-import { setProducts } from "../../Redux/Slices/Cart/CartProductsSlice";
+import { fetchUserCart} from "../../../Redux/Slices/Cart/userCartSlice";
+import { setProducts } from "../../../Redux/Slices/Cart/CartProductsSlice";
 import { RiDeleteBin5Fill } from 'react-icons/ri';
 import { Link, useRouteLoaderData } from 'react-router-dom';
-import { addProductToCart } from '../../Redux/Slices/Cart/AddToCartSlice';
-import { deleteProduct} from "../../Redux/Slices/Cart/deleteFromCartSlice";
 
 
 
-const Cart = (props) => {
+const VisitorCart = (props) => {
     const imageUrl = 'http://localhost:8000/'
     const dispatch = useDispatch();
-    const { products, status } = useSelector((state) => state.userCart);
-    const { deletedProduct } = useSelector((state) => state.deleteFromCart);
-    const { newproduct } = useSelector((state) => state.addtoCart);
+    const { products, status } = useSelector((state) => state.cartProducts);
 
     const token = useRouteLoaderData('root');
     
 
-    useEffect(()=>{
-      dispatch(fetchUserCart());
-    },[dispatch, deletedProduct, newproduct])
-    
     useEffect(() => {
       const fetchData = async () => {
         if (!token) {
@@ -43,29 +35,7 @@ const Cart = (props) => {
       fetchData();
     }, [token]);
     
-    useEffect(() => {     
-       
-      const processCartData = async () => {
-        if (!token || !products) return;
     
-        let cartData = JSON.parse(localStorage.getItem('AROACart'));
-        if (cartData === null) return;
-          
-          if(status === 'succeeded'){
-            for (let i = 0; i < cartData.length; i++) {
-              let test = products.findIndex((e) => e.data.id === cartData[i].data.id)
-              console.log('best', test);
-              if (test >= 0) continue;
-        
-              dispatch(addProductToCart({ product: cartData[i].data.id, quantity: cartData[i].qty }));
-            }
-            localStorage.removeItem('AROACart');
-        }
-      };
-    
-      processCartData();
-      
-    }, [dispatch, products, token, status]);
 
     // Handle pptions selections
     const handleSelectChange = (event, data) => {
@@ -90,8 +60,7 @@ const Cart = (props) => {
         cartData.splice(productIndex, 1);
         localStorage.setItem('AROACart', JSON.stringify(cartData));
         dispatch(setProducts(cartData));
-      }else{
-        dispatch(deleteProduct(itemId));
+
 
       }
     }
@@ -187,4 +156,4 @@ const Cart = (props) => {
                         
       )}
  
-export default Cart;
+export default VisitorCart;
