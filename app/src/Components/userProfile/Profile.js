@@ -1,21 +1,21 @@
 import React, { useState, useEffect } from "react";
-import { Form, Button, Row, Col} from "react-bootstrap";
-import MainScreen from "../UI/MainScreen";
-import './Profile.css';
+import {Button, Row, Col} from "react-bootstrap";
+import styles from './Profile.module.css';
 import classes from '../forms/Register.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye } from '@fortawesome/free-solid-svg-icons';
 import { faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import {useFormik} from 'formik';
-import { registerSchema } from '../../schemas/index';
-import { Link, useActionData } from "react-router-dom";
+import { updateSchema } from '../../schemas/index';
+import { Link, useActionData, Form } from "react-router-dom";
 import Card from '../UI/Card';
 import { useDispatch, useSelector } from "react-redux";
 // import { updateProfile } from "../../actions/userActions";
 import Loading from "../UI/Loading";
-import ErrorMessage from "../UI/ErrorMessage";
+
 
 const onSubmit = (values, actions) => {
+    console.log(values);
     actions.resetForm();
 };
 
@@ -82,11 +82,11 @@ const Profile = ({ location, history }) => {
         initialValues: {
             first_name: "",
             last_name: "",
-            username: "",
             email: "",
             password: "",
+            password_confirm: "",
         },
-        validationSchema: registerSchema,
+        validationSchema: updateSchema,
         onSubmit,
     });
 
@@ -102,9 +102,8 @@ const Profile = ({ location, history }) => {
 //   };
 
   return (
-    <MainScreen title="EDIT PROFILE">
-      <div>
-        <Row className="profileContainer">
+      <>
+        <Row className={styles.profileContainer}>
           <Col md={6}>
             <Card>
                 <Form method="post" className={classes['login-form']}>
@@ -145,7 +144,18 @@ const Profile = ({ location, history }) => {
                         {(formik.errors.password && formik.touched.password)  && <p className={classes['error-text']}>{formik.errors.password}</p>}
                     </div>
 
-                    <button type="submit" className={btnClass}>UPDATE</button>
+                    <div className="mb-4">
+                        <label htmlFor="password_confirm">Confirm Password</label>
+                        <div className={classes.password}>
+                            <input value={formik.values.password_confirm} type={passwordIsVisible ? 'text' : 'password'} className={classes['form-control']} id="password_confirm" placeholder="Password" onChange={formik.handleChange} onBlur={formik.handleBlur}/>
+                            <button className={classes.showIcon} onClick={togglePasswordVisibility}>
+                                {passwordIsVisible ? <FontAwesomeIcon icon={faEye} /> : <FontAwesomeIcon icon={faEyeSlash} />}
+                            </button>
+                        </div>
+                        {(formik.errors.password_confirm && formik.touched.password_confirm)  && <p className={classes['error-text']}>{formik.errors.password_confirm}</p>}
+                    </div>
+
+                    <button disabled={!formik.isValid} type="submit" className={btnClass}>UPDATE</button>
                 </Form>
             </Card>
           </Col>
@@ -159,8 +169,8 @@ const Profile = ({ location, history }) => {
             {/* <img src={pic} alt={name} className="profilePic" /> */}
           </Col>
         </Row>
-      </div>
-    </MainScreen>
+      </>
+    
   );
 };
 

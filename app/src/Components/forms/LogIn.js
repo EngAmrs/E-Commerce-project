@@ -49,6 +49,9 @@ const Login = (props) => {
     // these variables just for controlling the css classes added to the elements
     const emailInputClasses = emailInputHasError ? `${classes['form-group']} ${classes.invalid}` : `${classes['form-group']}`;
     const passwordInputClasses = passwordInputHasError ? `${classes['form-group']} ${classes.invalid}` : `${classes['form-group']}`;
+    if(data) {
+        console.log("ana hena", data)
+    }
     return (
         <>
             <div className="d-flex justify-content-end">

@@ -2,16 +2,105 @@ import React from "react";
 import { useSearchParams, useNavigate, json, redirect } from "react-router-dom";
 import Profile from "../Components/userProfile/Profile";
 import Address from "../Components/userProfile/Address";
+import MainScreen from "../Components/UI/MainScreen";
+import { getAuthToken } from "../util/auth";
 const UserProfilePage = () => {
   const [searchParams] = useSearchParams();
   const profileMode = searchParams.get('mode');
 
-  return <>
-    { profileMode === 'profile' ? <Profile/> : <Address/>}
-  </>
+  return (
+    <MainScreen title="EDIT PROFILE">
+      { profileMode === 'profile' ? <Profile/> : <Address/>}
+    </MainScreen>
+  )
 };
 
 export default UserProfilePage;
+
+export async function loader() {
+  const token = getAuthToken();
+  const response = await fetch('http://127.0.0.1:8000/user/address/', {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Token ${token}` 
+    }, 
+  })
+  if(!response.ok){
+    //...
+  }else {
+    const resData = await response.json();
+    return resData;
+  }
+}
+
+export async function action({request}) {
+  const searchParams = new URL(request.url).searchParams;
+  const mode = searchParams.get('mode');
+
+  if(mode!== 'profile' && mode !== 'address') {
+    throw json({message: 'Unsupported mode.'}, {status: 422});
+  }
+
+    let response = null;
+    const token = getAuthToken();
+    const data = await request.formData();
+    if(mode === 'profile'){
+        // const authData = {
+        //     username: data.get('username'),
+        //     password: data.get('password'),
+        // }
+        // response = await fetch('http://localhost:8000/account/login/ ', {
+        //     method: 'POST',
+        //     headers: {
+        //         'Content-Type': 'application/json'
+        //     },
+        //     body: JSON.stringify(authData)
+        // });
+    }else if(mode === 'address') {
+        const authData = {
+            street_name: data.get('street_name'),
+            street_no: data.get('street_no'),
+            government: data.get('government'),
+            district: data.get('district'),
+            house_no: data.get('house_no'),
+            apartment_no: data.get('apartment_no'),
+            floor_no: data.get('floor_no'),
+            additional_info: data.get('additional_info'),
+        }
+        // console.log(authData);
+        
+        response = await fetch('http://127.0.0.1:8000/user/address/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Token ${token}` 
+            },
+            body: JSON.stringify(authData)
+        });
+    }
+
+    if(response.status === 422 || response.status === 401) {
+      return response;
+    }
+
+    if(!response.ok) {
+      // throw json({message: 'Could not authenticate user.'}, {status: 500});
+      return response;
+    }
+
+    if(mode === 'address'){
+      const resData = await response.json();
+      console.log("tmam");
+      // console.log("ana response",response);
+      // console.log("ana resData",resData);
+      return null;
+    }  
+  // }else if(mode === 'register'){
+  //     return redirect('/auth?mode=login');
+  // }
+
+} 
 
 
 

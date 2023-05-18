@@ -13,7 +13,20 @@ export const registerSchema = yup.object().shape({
 export const updateSchema = yup.object().shape({
     first_name: yup.string().min(3, "Min length is 3!"),
     last_name: yup.string().min(3,"Min length is 3!"),
-    user_name: yup.string().min(3,"Min length is 3!"),
     email: yup.string().email("Please Enter a valid email!"),
-    password: yup.string().min(8, "Min length is 8!").matches(passwordRules, {message: "Please enter a strong password!"})
+    password: yup.string().min(8, "Min length is 8!").matches(passwordRules, {message: "Please enter a strong password!"}),
+    password_confirm: yup.string().oneOf([yup.ref('password'), null], "Passwords must match!")
 })
+
+export const addressSchema = yup.object().shape({
+    street_name: yup.string().min(2,"Min length is 2!").max(100,"Max length is 100!").required("Required!"),
+    street_no: yup.string().max(10,"Max length is 10!").required("Required!"),
+    government: yup.string().min(2,"Min length is 2!").max(100,"Max length is 100!").required("Required!"),
+    district: yup.string().min(2,"Min length is 2!").max(100,"Max length is 100!").required("Required!"),
+    house_no: yup.string().max(10,"Max length is 10!").required("Required!"),
+    apartment_no: yup.string().max(10,"Max length is 10!").required("Required!"),
+    floor_no: yup.string().max(10,"Max length is 10!").required("Required!"),
+    additional_info: yup.string().max(500,"Must be less than 500"),
+    
+})
+

@@ -69,7 +69,7 @@ const Checkout = () => {
 
     };
     const addressSchema = yup.object().shape({
-        street_name: yup.string().min(2,"Min length is 3!").max(100,"Max length is 100!").required("Required!"),
+        street_name: yup.string().min(2,"Min length is 2!").max(100,"Max length is 100!").required("Required!"),
         street_no: yup.string().max(10,"Max length is 10!").required("Required!"),
         government: yup.string().min(2,"Min length is 2!").max(100,"Max length is 100!").required("Required!"),
         district: yup.string().min(2,"Min length is 2!").max(100,"Max length is 100!").required("Required!"),

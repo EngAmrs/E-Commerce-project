@@ -4,10 +4,11 @@ import RootLayout from './pages/RootLayout';
 import Home from './Components/Home/Main/Home';
 import Shop from './Components/Shop/Shop';
 import Checkout from './Components/Orders/Checkout/Checkout';
-import UserProfilePage from './pages/UserProfile'
+import UserProfilePage, {action as userProfileAction, loader as addressLoader} from './pages/UserProfile'
 import AuthForm, {action as authAction} from './pages/Form';
 import {action as logoutAction} from './pages/Logout';
 import {checkAuthLoader, tokenLoader} from './util/auth';
+
 
 
 const router = createBrowserRouter([
@@ -22,7 +23,7 @@ const router = createBrowserRouter([
       {path: 'shop', element: <Shop/> },
       {path: 'shop/:id', element: <Shop/> },
       {path: 'checkout', element: <Checkout/>, loader: checkAuthLoader},
-      {path: 'userProfile', element: <UserProfilePage/>, loader: checkAuthLoader},
+      {path: 'userProfile', element: <UserProfilePage/>, loader: addressLoader, action: userProfileAction},
       {path: 'logout', action:logoutAction}
     ]
   }

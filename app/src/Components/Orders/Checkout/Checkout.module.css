@@ -445,7 +445,7 @@ q:before, q:after {
 header
 {
 	height: 50vh;
-	background-image: url('../../../assets/Checkout/slide-05.jpg');
+	/* background-image: url('../../../assets/Checkout/slide-05.jpg'); */
 	text-align: center;
 	line-height: 210px;
 }

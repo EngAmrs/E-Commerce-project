@@ -1,0 +1,46 @@
+
+.address-card {
+    height: 400px;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin-bottom: 10px;
+    overflow: auto;
+  }
+  
+  h2 {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+  }
+  
+  .address {
+    margin-bottom: 20px;
+  }
+  
+  .map {
+    margin-bottom: 20px;
+  }
+  
+  .contact p {
+    margin-bottom: 5px;
+  }
+  
+  .edit-address {
+    display: block;
+    margin: 0 auto;
+    padding: 10px 20px;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+  }
+  
+.tit {
+    font-weight: 900;
+    font-size: 18px;
+}
+ 

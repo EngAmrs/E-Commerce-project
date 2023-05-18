@@ -1,5 +1,6 @@
 import React from "react";
 import { Container, Row } from "react-bootstrap";
+import {NavLink} from 'react-router-dom';
 import classes from './MainScreen.module.css';
 
 function MainScreen({ children, title }) {
@@ -8,12 +9,18 @@ function MainScreen({ children, title }) {
       <Container>
         <Row>
           <div className={classes.page}>
-            {title && (
-              <>
-                <h1 className={classes.heading}>{title}</h1>
-                <hr />
-              </>
-            )}
+            <div className="d-flex w-50 mx-auto justify-content-evenly fs-3">
+              <NavLink to='/userProfile?mode=profile' className={({ isActive }) =>
+                isActive ? classes.active : undefined
+              }>Profile</NavLink>
+
+              <NavLink to='/userProfile?mode=address' className={({ isActive }) =>
+                isActive ? classes.active : undefined
+              }>Address</NavLink>
+
+              {/* <NavLink to>Orders</NavLink> */}
+            </div>
+            <hr/>
             {children}
           </div>
         </Row>
