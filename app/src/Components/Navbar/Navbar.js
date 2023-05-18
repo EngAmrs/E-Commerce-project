@@ -8,6 +8,8 @@ import Cart from "../Cart/Cart";
 import { setProducts } from "../../Redux/Slices/Cart/CartProductsSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { Form, NavLink, useRouteLoaderData } from 'react-router-dom';
+import { addProductToCart } from '../../Redux/Slices/Cart/AddToCartSlice';
+import { fetchUserCart} from "../../Redux/Slices/Cart/userCartSlice";
 
 const NavbarCom = () => {
 
@@ -21,8 +23,13 @@ const NavbarCom = () => {
     const [showModal, setShowModal] = useState(false);
 
     // Handle Cart
-    useEffect(()=>{
-      const cartData = JSON.parse(localStorage.getItem('AROACart'));
+    useEffect(()=>{ 
+      let cartData = JSON.parse(localStorage.getItem('AROACart'));
+      if(cartData === null){
+            localStorage.setItem('AROACart', JSON.stringify([]));
+            cartData = JSON.parse(localStorage.getItem('AROACart'));
+      }
+
       dispatch(setProducts(cartData));
         
     }, [dispatch])
@@ -66,6 +73,8 @@ const NavbarCom = () => {
                 />
         }
     }
+
+
 
 
     return (   
@@ -127,10 +136,10 @@ const NavbarCom = () => {
                     
                     </Nav>
                     <Nav className="nav_icons">
-                        <Nav.Link href="#deets"><FaSearch fill={'#555'}/></Nav.Link>
-                        
-                        <Nav.Link  data-notify={products.length} onClick={handleProductClick} href="#deets"><FaShoppingCart fill={'#555'}/></Nav.Link>
-                        <Nav.Link href="#deets"><FaRegHeart fill={'#555'}/></Nav.Link>
+                        {products &&
+                             <Nav.Link  data-notify={products.length} onClick={handleProductClick}><FaShoppingCart fill={'#555'}/></Nav.Link>
+                        }                     
+                        <Nav.Link ><FaRegHeart fill={'#555'}/></Nav.Link>
                     </Nav>
                     </Navbar.Collapse>
                 </Container>

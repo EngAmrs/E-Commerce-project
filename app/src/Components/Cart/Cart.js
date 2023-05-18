@@ -1,23 +1,70 @@
 import {Button, Modal } from 'react-bootstrap';
 import { useSelector, useDispatch} from "react-redux";
 import style from './Cart.module.css'
-import { useEffect} from 'react';
+import { useEffect, useState} from 'react';
+import { fetchUserCart} from "../../Redux/Slices/Cart/userCartSlice";
 import { setProducts } from "../../Redux/Slices/Cart/CartProductsSlice";
 import { RiDeleteBin5Fill } from 'react-icons/ri';
-import { Link } from 'react-router-dom';
+import { Link, useRouteLoaderData } from 'react-router-dom';
+import { addProductToCart } from '../../Redux/Slices/Cart/AddToCartSlice';
+import { deleteProduct} from "../../Redux/Slices/Cart/deleteFromCartSlice";
+
 
 
 const Cart = (props) => {
     const imageUrl = 'http://localhost:8000/'
     const dispatch = useDispatch();
-    const { products } = useSelector((state) => state.cartProducts);
+    const { products, status } = useSelector((state) => state.userCart);
+    const { deletedProduct } = useSelector((state) => state.deleteFromCart);
+    const { newproduct } = useSelector((state) => state.addtoCart);
 
+    const token = useRouteLoaderData('root');
 
     useEffect(()=>{
-      const cartData = JSON.parse(localStorage.getItem('AROACart'));
-      dispatch(setProducts(cartData));
-    }, [dispatch])
-
+      dispatch(fetchUserCart());
+    },[dispatch, deletedProduct, newproduct])
+    
+    useEffect(() => {
+      const fetchData = async () => {
+        if (!token) {
+          let cartData = JSON.parse(localStorage.getItem('AROACart'));
+          dispatch(setProducts(cartData));
+        } else {
+          let cartData = JSON.parse(localStorage.getItem('AROACart'));
+          
+          if (cartData ===null || cartData.length === 0) return;
+          
+        }
+    
+        
+      };
+    
+      fetchData();
+    }, [token]);
+    
+    useEffect(() => {     
+       
+      const processCartData = async () => {
+        if (!token || !products) return;
+    
+        let cartData = JSON.parse(localStorage.getItem('AROACart'));
+        if (cartData === null) return;
+          
+          if(status === 'succeeded'){
+            for (let i = 0; i < cartData.length; i++) {
+              let test = products.findIndex((e) => e.data.id === cartData[i].data.id)
+              console.log('best', test);
+              if (test >= 0) continue;
+        
+              dispatch(addProductToCart({ product: cartData[i].data.id, quantity: cartData[i].qty }));
+            }
+            localStorage.removeItem('AROACart');
+        }
+      };
+    
+      processCartData();
+      
+    }, [dispatch, products, token, status]);
 
     // Handle pptions selections
     const handleSelectChange = (event, data) => {
@@ -35,12 +82,17 @@ const Cart = (props) => {
     };
 
     // Delete items
-    const handleDelete = (id)=>{
-      const cartData = JSON.parse(localStorage.getItem('AROACart'));
-      const productIndex = cartData.findIndex((item) => item.data.id === id);
-      cartData.splice(productIndex, 1);
-      localStorage.setItem('AROACart', JSON.stringify(cartData));
-      dispatch(setProducts(cartData));
+    const handleDelete = (id, itemId)=>{
+      if(!token){
+        const cartData = JSON.parse(localStorage.getItem('AROACart'));
+        const productIndex = cartData.findIndex((item) => item.data.id === id);
+        cartData.splice(productIndex, 1);
+        localStorage.setItem('AROACart', JSON.stringify(cartData));
+        dispatch(setProducts(cartData));
+      }else{
+        dispatch(deleteProduct(itemId));
+
+      }
     }
    
 
@@ -75,7 +127,7 @@ const Cart = (props) => {
       if(!products || products.length === 0)
         return <p className={style.emptyCart}>The cart is empty</p>
     }
-
+    console.log("test", products);
     return ( 
       <>
         <Modal
@@ -94,7 +146,7 @@ const Cart = (props) => {
               products.map((product) => (
                 <div className={`${style.item} row`} key={product.data.id}>
                     <div className={`${style.buttons} col-md-1 row`}>
-                      <span onClick={()=> { handleDelete(product.data.id)}} className={style.delete_btn}><RiDeleteBin5Fill fill={'red'} size={'20'}/></span>
+                      <span onClick={()=> { handleDelete(product.data.id, product.itemId)}} className={style.delete_btn}><RiDeleteBin5Fill fill={'red'} size={'20'}/></span>
                     </div>
                     <div className={`${style.image} col-md-3`}>
                         <img width={110} height={75} src={`${imageUrl}${product.data.productPic}`} alt={product.data.name} />
