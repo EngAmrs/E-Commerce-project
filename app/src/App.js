@@ -32,9 +32,6 @@ const router = createBrowserRouter([
     ]
   },
   {path: 'orderiscreated', element: <Success/>, loader: checkAuthLoader,  hidden: true},
-  {path: 'test', element: <Currency/>},
-
-
 ])
 
 function App() {

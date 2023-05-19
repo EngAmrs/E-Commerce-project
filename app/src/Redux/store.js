@@ -10,6 +10,7 @@ import AddToCartReducer from "./Slices/Cart/AddToCartSlice"
 import userCartrReducer from "./Slices/Cart/userCartSlice"
 import deleteFromCartReducer from "./Slices/Cart/deleteFromCartSlice"
 import UpdateCartReducer from "./Slices/Cart/UpdateCartSlice"
+import userOrdersReducer from "./Slices/Order/getOrdersSlice"
 
 
 const store = configureStore({
@@ -24,10 +25,12 @@ const store = configureStore({
     addtoCart: AddToCartReducer,
     deleteFromCart: deleteFromCartReducer,
     updateCart: UpdateCartReducer,
+
     // Order Reducers
     orderUserAddress: getAddressReducer,
     setNewAddress: setNewAddressReducer,
     createNewOrder: CreateOrderReducer,
+    getUserOrders: userOrdersReducer,
 
   },
 });

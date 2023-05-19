@@ -2,6 +2,7 @@ import React from "react";
 import { useSearchParams, useNavigate, json, redirect } from "react-router-dom";
 import Profile from "../Components/userProfile/Profile";
 import Address from "../Components/userProfile/Address";
+import Orders from "../Components/userProfile/Orders";
 import MainScreen from "../Components/UI/MainScreen";
 import { getAuthToken } from "../util/auth";
 const UserProfilePage = () => {
@@ -10,7 +11,7 @@ const UserProfilePage = () => {
 
   return (
     <MainScreen title="EDIT PROFILE">
-      { profileMode === 'profile' ? <Profile/> : <Address/>}
+      { profileMode === 'profile' ? <Profile/> : profileMode === 'orders' ?  <Orders/> :<Address/>}
     </MainScreen>
   )
 };
@@ -38,7 +39,7 @@ export async function action({request}) {
   const searchParams = new URL(request.url).searchParams;
   const mode = searchParams.get('mode');
 
-  if(mode!== 'profile' && mode !== 'address') {
+  if(mode!== 'profile' && mode !== 'address' && mode !== 'orders') {
     throw json({message: 'Unsupported mode.'}, {status: 422});
   }
 

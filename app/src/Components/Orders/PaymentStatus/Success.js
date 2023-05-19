@@ -9,7 +9,7 @@ const Success = () => {
 
     useEffect(()=>{
         setTimeout(()=>{
-            navigate('/')
+            navigate('/userProfile?mode=orders')
 
         }, 5000)
         
