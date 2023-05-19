@@ -8,6 +8,8 @@ import { addNewAddress } from '../../../Redux/Slices/Order/setNewAddressSlice';
 import { createOrder } from '../../../Redux/Slices/Order/createOrderSlice';
 import { useLoaderData, useNavigate } from 'react-router';
 import {Button, Modal, Row } from 'react-bootstrap';
+import { deleteProduct} from "../../../Redux/Slices/Cart/deleteFromCartSlice";
+
 const Checkout = () => {
     const [showModal, setShowModal] = useState(false);
     const [showDifferentAddress, setShowDifferentAddress] = useState(false);
@@ -47,20 +49,27 @@ const Checkout = () => {
     const confirmOrder = ()=>{
         if(paymentMethod === 'CASH'){
             dispatch(createOrder({
-                'phone': phone,
+                'phone': "+2" + phone,
                 'note': note,
                 'address': selectionRef.current.value,
                 'payment_method': paymentMethod,
             }));
+            if(status === "succeeded"){
+                products.forEach((e)=>{
+                    dispatch(deleteProduct(e.itemId));
 
+                })
+                navigate('/orderiscreated')
+            }
+        
         }else if(paymentMethod === 'VISA')
             console.log('Visa');
        
     }
     const checkOutSchema = yup.object().shape({
         email: yup.string().email("Please Enter a valid email!").required("Required!"),
-        phone: yup.string().matches(/^(?=.*[0-9])/, "Invalid number").min(11,"Invalid phone number").required("Required!"),
-        description: yup.string().min(5,"Must be more than 3").max(500,"Must be less than 500"),
+        phone: yup.string().matches(/^01[0-9]*$/, "Invalid number").min(11,"Invalid phone number").required("Required!"),
+        description: yup.string().min(5,"Must be more than 5").max(500,"Must be less than 500"),
         payment: yup.string().min(3,"Must be more than 3").max(100,"Must be less than 100"),
     })
 
@@ -169,11 +178,11 @@ const Checkout = () => {
 
     return ( 
         <Fragment >
-            <header>
-			    <h1>Checkout</h1>
-            </header>
-            <div className={styles.whiteSpace}></div>
+           
             <div className={`${styles.container} ${styles.checkout} container`}>
+                    <header>
+                        <h1>Check Out</h1>
+                    </header>
                     <div className={`${styles.row} row`}>
                                 <div className={`col-md-7`}>
                                     <form id="Form1" onSubmit={checkOutFormik.handleSubmit}  className='row'>
@@ -188,7 +197,7 @@ const Checkout = () => {
                                             
                                         </div>
                                         <div className={styles.width50}>
-                                            <label htmlFor="tel">Phone</label>
+                                            <label htmlFor="tel">Phone (Egypt Only)</label>
                                             <input value={checkOutFormik.values.phone} onChange={checkOutFormik.handleChange} id="tel" onBlur={checkOutFormik.handleBlur} type="text" name="phone"/>
                                             {(checkOutFormik.errors.phone && checkOutFormik.touched.phone) && <p className={styles.errorMessage}>{checkOutFormik.errors.phone}</p>}
                                         </div>

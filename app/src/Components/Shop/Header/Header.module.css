@@ -22,7 +22,7 @@ article{
     padding-bottom: 1.25rem;
     color: #fff;
     text-align: left !important;
-    z-index: 15;
+    z-index: 3;
 }
 article h3{
     font-weight: bolder;

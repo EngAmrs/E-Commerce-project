@@ -8,6 +8,8 @@ import UserProfilePage, {action as userProfileAction, loader as addressLoader} f
 import AuthForm, {action as authAction} from './pages/Form';
 import {action as logoutAction} from './pages/Logout';
 import {checkAuthLoader, tokenLoader} from './util/auth';
+import Success from './Components/Orders/PaymentStatus/Success';
+import NotFound from './Components/NotFound/NotFound';
 
 
 
@@ -24,9 +26,13 @@ const router = createBrowserRouter([
       {path: 'shop/:id', element: <Shop/> },
       {path: 'checkout', element: <Checkout/>, loader: checkAuthLoader},
       {path: 'userProfile', element: <UserProfilePage/>, loader: addressLoader, action: userProfileAction},
-      {path: 'logout', action:logoutAction}
+      {path: 'logout', action:logoutAction},
+      {path: '*', element: <NotFound/>, loader: checkAuthLoader,  hidden: true},
     ]
-  }
+  },
+  {path: 'orderiscreated', element: <Success/>, loader: checkAuthLoader,  hidden: true},
+  
+
 ])
 
 function App() {

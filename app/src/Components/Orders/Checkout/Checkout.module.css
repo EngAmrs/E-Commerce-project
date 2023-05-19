@@ -364,7 +364,6 @@ q:before, q:after {
 {
 	font-family: 'Raleway', sans-serif;
 	color: #959595;
-    margin-top: 3em;
     margin-bottom: 3em;
 }
 
@@ -440,17 +439,21 @@ q:before, q:after {
     background: #fff;
     padding: 0 10px 0 0;
     position: relative;
-    z-index: 5;
+    z-index: 2;
 }
 /* Heading Top Border Styles End Here */
 
 
 header
 {
-	height: 50vh;
+	margin-top: 3em;
 	/* background-image: url('../../../assets/Checkout/slide-05.jpg'); */
 	text-align: center;
 	line-height: 210px;
+	font-weight: bold;
+	font-style: italic;
+	background-color: #6e7bd1;
+	padding: 1.5em;
 }
 
 .white-space

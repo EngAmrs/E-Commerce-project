@@ -1,0 +1,89 @@
+:root {
+	--green: rgb(89, 188, 105);
+	--black: rgb(87, 90, 91);
+	--light-gray: rgb(162, 181, 185);
+  }
+  
+  .modal * {
+	margin: 0;
+  }
+  
+  .modal {
+	background-color: rgb(213, 221, 222);
+	color: var(--black);
+	font-family: "Open Sans", Helvetica, Arial, sans-serif;
+  }
+  
+  .modal {
+	position: relative;
+	background-color: #fff;
+	box-sizing: border-box;
+	width: 90%;
+	max-width: 460px;
+	margin: 0 auto;
+	margin-top: 100px;
+	border-radius: 4px;
+	padding: 105px 38px 20px 38px;
+	text-align: center;
+	box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.25);
+  }
+  
+  .modal h1 {
+	font-size: 37px;
+  }
+  
+  .points {
+	color: var(--light-gray);
+	font-size: 18px;
+  }
+  
+  .modal hr {
+	border: none;
+	height: 1px;
+	background-color: rgb(221, 221, 221);
+	margin: 20px auto;
+  }
+  
+  .progress {
+	margin-top: 20px;
+	margin-bottom: 27px;
+  }
+  
+  .progress rect {
+	fill: var(--green);
+  }
+  
+  #close-modal {
+	position: absolute;
+	top: 12px;
+	right: 12px;
+	width: 11px;
+	height: 11px;
+	stroke: var(--black);
+	cursor: pointer;
+  }
+  
+  #success-icon {
+	position: absolute;
+	width: 110px;
+	height: 110px;
+	left: 50%;
+	margin-left: -55px;
+	top: -5%;
+	background-color: var(--green);
+	border-radius: 50%;
+	box-sizing: border-box;
+	border: solid 5px white;
+	box-shadow: 0px 2px 3px 0px rgba(0, 0, 0, 0.3);
+  }
+  
+  #success-icon div {
+	position: absolute;
+	top: 34%;
+	left: 26%;
+	transform: rotate(-45deg);
+	border-bottom: solid 0.8em white;
+	border-left: solid 0.8em white;
+	height: 25%;
+	width: 50%;
+  }
