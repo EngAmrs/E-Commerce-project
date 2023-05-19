@@ -118,7 +118,7 @@ console.log(products.length);
                             </li>
                         )}
                         <li>EN</li>
-                        <li>USD</li>
+                        <li>EGP</li>
                         {token && 
                             <li>
                             <Form action="/logout" method='post'>

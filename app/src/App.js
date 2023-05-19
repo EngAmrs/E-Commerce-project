@@ -10,6 +10,7 @@ import {action as logoutAction} from './pages/Logout';
 import {checkAuthLoader, tokenLoader} from './util/auth';
 import Success from './Components/Orders/PaymentStatus/Success';
 import NotFound from './Components/NotFound/NotFound';
+import Currency from './Components/UI/Currency';
 
 
 
@@ -31,7 +32,8 @@ const router = createBrowserRouter([
     ]
   },
   {path: 'orderiscreated', element: <Success/>, loader: checkAuthLoader,  hidden: true},
-  
+  {path: 'test', element: <Currency/>},
+
 
 ])
 

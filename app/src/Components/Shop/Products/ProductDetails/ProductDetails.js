@@ -8,7 +8,7 @@ import {fetchUserCart} from '../../../../Redux/Slices/Cart/userCartSlice'
 import { useRouteLoaderData } from 'react-router';
 import { addProductToCart } from '../../../../Redux/Slices/Cart/AddToCartSlice';
 import { updateUserCart } from '../../../../Redux/Slices/Cart/UpdateCartSlice';
-
+import formattedCurrency from '../../../UI/Currency';
 function ProductDetails({ show, onCloseModal ,product }) {
   const token = useRouteLoaderData('root');
   const dispatch = useDispatch();
@@ -116,9 +116,9 @@ function ProductDetails({ show, onCloseModal ,product }) {
               </h5>
               <p className={style.description}>{product.description}</p>
               <h3 className={style.cost}>
-                <span className="glyphicon glyphicon-usd"></span>{'$'} {product.price}
+                <span className="glyphicon glyphicon-usd"></span>{formattedCurrency.format(product.price)}
                 <small className={style.pre_cost}>
-                  <span className="glyphicon glyphicon-usd"></span> 60.00
+                  <span className="glyphicon glyphicon-usd"></span> {formattedCurrency.format(product.price - 5)}
                 </small>
               </h3>
               <div className={`${style.action} row`}>

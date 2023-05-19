@@ -6,6 +6,7 @@ import Pagination from 'react-bootstrap/Pagination';
 import { fetchAllProducts } from '../../../../Redux/Slices/Shop/allProductsSlice'
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import formattedCurrency from '../../../UI/Currency';
 
 const AllProducts = ({onProductClick}) => {
     // productImage url
@@ -120,7 +121,7 @@ const AllProducts = ({onProductClick}) => {
                                     <div className={`${style.text_container}`}>
                                         <span>{product.name}</span>
                                         <span><BsHeart/></span>       
-                                        <span>{product.price} $</span> 
+                                        <span>{formattedCurrency.format(product.price)}</span> 
                                     </div>
                                 </div>
                             </div>

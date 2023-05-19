@@ -5,7 +5,7 @@ import Pagination from 'react-bootstrap/Pagination';
 import { fetchProducts } from '../../../../Redux/Slices/Shop/ProductsSlice'
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-
+import formattedCurrency from '../../../UI/Currency';
 const CategorizedProducts = (props) => {
     // productImage url
     const imageUrl = 'http://localhost:8000/'
@@ -121,7 +121,7 @@ const CategorizedProducts = (props) => {
                                 <div className={`${style.text_container}`}>
                                     <span>{product.name}</span>
                                     <span><BsHeart/></span>       
-                                    <span>{product.price} $</span> 
+                                    <span>{formattedCurrency.format(product.price)}</span> 
                                 </div>
                             </div>
                         </div>

@@ -9,7 +9,7 @@ import { createOrder } from '../../../Redux/Slices/Order/createOrderSlice';
 import { useLoaderData, useNavigate } from 'react-router';
 import {Button, Modal, Row } from 'react-bootstrap';
 import { deleteProduct} from "../../../Redux/Slices/Cart/deleteFromCartSlice";
-
+import formattedCurrency from '../../UI/Currency';
 const Checkout = () => {
     const [showModal, setShowModal] = useState(false);
     const [showDifferentAddress, setShowDifferentAddress] = useState(false);
@@ -300,7 +300,7 @@ const Checkout = () => {
                                                     <p className={`${styles.prodDescription} ${styles.inline}`}>{product.data.name}
                                                         <div className={`${styles.qty} ${styles.inline}`}><span className={styles.smalltxt}>x </span>{product.qty}</div>
                                                     </p>
-                                                    <p className={`${styles.inline} ${styles.alignright}`}>$ {product.totalPrice}</p>
+                                                    <p className={`${styles.inline} ${styles.alignright}`}>{formattedCurrency.format(product.totalPrice)}</p>
                                                 </div>
                                                                 
                                             ))
@@ -309,7 +309,7 @@ const Checkout = () => {
                                         </div>
                                         <div className='row'>
                                             <h5 style={{paddingLeft: '10px'}} className='col-md-6' >Cart Subtotal</h5>
-                                            <h4 style={{textAlign: 'right'}} className='col-md-6'>$ {subTotal}</h4>
+                                            <h4 style={{textAlign: 'right'}} className='col-md-6'>{formattedCurrency.format(subTotal)}</h4>
                                             
                                         </div>
                                         
@@ -319,7 +319,7 @@ const Checkout = () => {
                                         </div>
                                         <div className='row'> 
                                             <h5 style={{paddingLeft: '10px'}} className='col-md-6' >Order Total</h5>
-                                            <h4 style={{textAlign: 'right'}} className='col-md-6'>$ {subTotal * shipping}</h4>
+                                            <h4 style={{textAlign: 'right'}} className='col-md-6'>{formattedCurrency.format(subTotal + shipping)}</h4>
                                         
                                         </div>
 

@@ -9,6 +9,7 @@ import { Link, useRouteLoaderData } from 'react-router-dom';
 import { addProductToCart } from '../../Redux/Slices/Cart/AddToCartSlice';
 import { deleteProduct} from "../../Redux/Slices/Cart/deleteFromCartSlice";
 import { updateUserCart } from '../../Redux/Slices/Cart/UpdateCartSlice';
+import formattedCurrency from '..//UI/Currency';
 
 
 
@@ -163,7 +164,7 @@ const Cart = (props) => {
                           {qtyOptions(product.data.quantity, product.qty)}
                         </select>
                     </div>
-                    <div className={`${style.total_price} col-md-2`}>$ {product.totalPrice}</div>     
+                    <div className={`${style.total_price} col-md-2`}>{formattedCurrency.format(product.totalPrice)}</div>     
               </div>
             ))
           }
