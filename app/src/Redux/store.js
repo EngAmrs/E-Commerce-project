@@ -11,7 +11,7 @@ import userCartrReducer from "./Slices/Cart/userCartSlice"
 import deleteFromCartReducer from "./Slices/Cart/deleteFromCartSlice"
 import UpdateCartReducer from "./Slices/Cart/UpdateCartSlice"
 import userOrdersReducer from "./Slices/Order/getOrdersSlice"
-
+import cancelOrderReducer from './Slices/Order/cancelOrderSlice'
 
 const store = configureStore({
   reducer: {
@@ -31,6 +31,7 @@ const store = configureStore({
     setNewAddress: setNewAddressReducer,
     createNewOrder: CreateOrderReducer,
     getUserOrders: userOrdersReducer,
+    cancelOrder: cancelOrderReducer,
 
   },
 });

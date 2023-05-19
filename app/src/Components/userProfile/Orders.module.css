@@ -1,6 +1,7 @@
 .table {
     width: 100%;
     border-collapse: collapse;
+    margin: 2em 0;
   }
   
   .table th,
@@ -26,6 +27,8 @@
   
   .deleteButton {
     background-color: #f44336;
+    display: table;
+    margin: 0 auto;
   }
 
   .no_orders{

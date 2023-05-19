@@ -23,21 +23,21 @@ export const CreateOrderSlice = createSlice({
   name: 'userNewOrder',
   initialState: {
     newOrder: {},
-    status: 'idle',
+    orderStatus: 'idle',
     error: null,
   },
   reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase(createOrder.pending, (state) => {
-        state.status = 'loading';
+        state.orderStatus = 'loading';
       })
       .addCase(createOrder.fulfilled, (state, action) => {
-        state.status = 'succeeded';
+        state.orderStatus = 'succeeded';
         state.newAddress = action.payload; // Assuming the response contains the newly added address
       })
       .addCase(createOrder.rejected, (state, action) => {
-        state.status = 'failed';
+        state.orderStatus = 'failed';
         state.error = action.payload; // Access the error message from the action.payload
       });
   },

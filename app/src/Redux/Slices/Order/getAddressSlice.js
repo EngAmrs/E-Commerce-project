@@ -15,21 +15,21 @@ export const userAddressesSlice = createSlice({
   name: "userAddresses",
   initialState: {
     addresses: [],
-    status: 'idle',
+    addressStatus: 'idle',
     error: null,
   },
   reducers: { },
   extraReducers: (builder) => {
     builder
       .addCase(fetchUserAddresses.pending, (state) => {
-        state.status = 'loading';
+        state.addressStatus = 'loading';
       })
       .addCase(fetchUserAddresses.fulfilled, (state, action) => {
-        state.status = 'succeeded';
+        state.addressStatus = 'succeeded';
         state.addresses = action.payload;
       })
       .addCase(fetchUserAddresses.rejected, (state, action) => {
-        state.status = 'failed';
+        state.addressStatus = 'failed';
         state.error = action.error.message;
       });
   },

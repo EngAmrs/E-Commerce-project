@@ -19,7 +19,9 @@ const Checkout = () => {
     const { products } = useSelector((state) => state.userCart);
     const dispatch = useDispatch();
     const addresses = useSelector((state) => state.orderUserAddress);
+    const {newOrder, orderStatus } = useSelector((state) => state.createNewOrder);
     const {newAddress, status } = useSelector((state) => state.setNewAddress);
+    
     // Order requeirements
     const selectionRef = useRef('');
     const [paymentMethod, setPaymentMethod] = useState('VISA');
@@ -48,16 +50,17 @@ const Checkout = () => {
 
     const confirmOrder = ()=>{
         if(paymentMethod === 'CASH'){
-            dispatch(createOrder({
+           dispatch(createOrder({
                 'phone': "+2" + phone,
                 'note': note,
                 'address': selectionRef.current.value,
                 'payment_method': paymentMethod,
-            }));
-            if(status === "succeeded"){
+             }));
+
+            if(newOrder){
                 products.forEach((e)=>{
                     dispatch(deleteProduct(e.itemId));
-
+    
                 })
                 navigate('/orderiscreated')
             }
@@ -68,7 +71,7 @@ const Checkout = () => {
     }
     const checkOutSchema = yup.object().shape({
         email: yup.string().email("Please Enter a valid email!").required("Required!"),
-        phone: yup.string().matches(/^01[0-9]*$/, "Invalid number").min(11,"Invalid phone number").required("Required!"),
+        phone: yup.string().matches(/^01[0-9]*$/, "Invalid number").min(11,"Invalid phone number").max(11, 'Invalid phone number').required("Required!"),
         description: yup.string().min(5,"Must be more than 5").max(500,"Must be less than 500"),
         payment: yup.string().min(3,"Must be more than 3").max(100,"Must be less than 100"),
     })
@@ -130,14 +133,9 @@ const Checkout = () => {
 
     // get Addresses
     useEffect(()=>{
-        const test = async() =>{
-            await dispatch(fetchUserAddresses())
-            selectionRef = useRef(addresses.addresses[addresses.addresses.length -1].id)
-            
-        }
-        test();
+        dispatch(fetchUserAddresses())
 
-    }, [dispatch, newAddress])
+    }, [dispatch, newAddress, newOrder])
     
 
     useEffect(()=>{
