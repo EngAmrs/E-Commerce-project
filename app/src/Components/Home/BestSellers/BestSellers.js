@@ -1,9 +1,20 @@
 import style from './BestSellers.module.css'
 import {Button} from 'react-bootstrap';
 import { BsHeartFill } from "react-icons/bs";
+import { fetchCategories } from '../../../Redux/Slices/Shop/CategoriesSlice'
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect } from 'react';
 
 
 const BestSellers = () => {
+    const categories = useSelector((state) => state.categories.categories);
+    const dispatch = useDispatch();
+
+    useEffect(()=>{
+        dispatch(fetchCategories({limit: 3, page: 1}))
+    },[dispatch])
+    console.log(categories);
+    
     return ( 
         <div id={style.cards_landscape_wrap_2}>
         <div className={`${style.container} container`}>

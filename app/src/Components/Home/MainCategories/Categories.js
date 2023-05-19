@@ -1,49 +1,44 @@
 import style from './Categories.module.css'
+import { fetchCategories } from '../../../Redux/Slices/Shop/CategoriesSlice'
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect } from 'react';
+
 const Categories = () => {
+    const categories = useSelector((state) => state.categories.categories);
+        const dispatch = useDispatch();
+
+        useEffect(()=>{
+            dispatch(fetchCategories({limit: 3, page: 1}))
+        },[dispatch])
+        console.log(categories);
     return ( 
         <>
         
         <div id={style.cards_landscape_wrap_2}>
         <div className={`${style.container} container`}>
             <div className="row">
-                <div className="col-xs-12 col-sm-6 col-md-3 col-lg-4">
+                {categories.map((cat)=> (
+                    <div className="col-xs-12 col-sm-6 col-md-3 col-lg-4" key={cat.id}>
                         <div className={style.card_flyer}>
                             <div className={style.text_box}>
                                 <div className={style.image_box}>
-                                    <img src={require("../../../assets/Home/banner-01.jpg")} alt="" />
+                                {cat.categoryPic &&
+                                        <img src={require(cat.categoryPic)} alt="" />
+                                    }
+                                      {!cat.categoryPic &&
+                                            <img src={require("../../../assets/Home/banner-01.jpg")} alt="" />
+                                    }
                                 </div>
                                 <div className={style.text_container}>                                    
-                                    <h6>Title 02</h6>
+                                    <h6>{cat.name}</h6>
                                 </div>
                             </div>
                         </div>
-                </div>
-                <div className="col-xs-12 col-sm-6 col-md-3 col-lg-4">
-                        <div className={style.card_flyer}>
-                            <div className={style.text_box}>
-                                <div className={style.image_box}>
-                                    <img src={require("../../../assets/Home/banner-02.jpg")} alt="" />
-                                </div>
+                    </div>
 
-                                <div className={style.text_container}>
-                                    <h6>Title 03</h6>
-                                </div>
-                            </div>
-                        </div>
-                </div>
-                <div className="col-xs-12 col-sm-6 col-md-3 col-lg-4">
-                        <div className={style.card_flyer}>
-                            <div className={style.text_box}>
-                                <div className={style.image_box}>
-                                    <img src={require("../../../assets/Home/banner-03.jpg")} alt="" />
-                                </div>
-
-                                <div className={style.text_container}>
-                                    <h6>Title 03</h6>
-                                </div>
-                            </div>
-                        </div>
-                </div>
+         
+                ))}
+     
             </div>
         </div>
     </div>
