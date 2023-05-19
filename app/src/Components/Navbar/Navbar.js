@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Form, NavLink, useRouteLoaderData } from 'react-router-dom';
 import VisitorCart from "../Cart/visitorCart/VisitorCar";
 import { fetchUserCart } from "../../Redux/Slices/Cart/userCartSlice";
+import ProductDetails from "../Shop/Products/ProductDetails/ProductDetails";
 
 const NavbarCom = () => {
 
@@ -24,7 +25,57 @@ const NavbarCom = () => {
     const [showModal, setShowModal] = useState(false);
     const { updatedCart } = useSelector((state) => state.updateCart);
     const { newproduct } = useSelector((state) => state.addtoCart);
-    
+
+    // Search Logic // 
+
+    // Open
+    const [isSearchOpen, setIsSearchOpen] = useState(false);
+    const toggleSearch = () => {
+      setIsSearchOpen(!isSearchOpen);
+    };
+    const [searchTerm, setSearchTerm] = useState('');
+    const [searchResults, setSearchResults] = useState([]);
+  
+    const handleInputChange = (e) => {
+      setSearchTerm(e.target.value);
+    };
+  
+    const fetchData = async () => { 
+            try {
+                if(searchTerm){
+                    const response = await fetch(`http://127.0.0.1:8000/product/search?key=${searchTerm}&limit=10&page=1`);
+                    const data = await response.json();
+                    setSearchResults(data);
+                }
+                else if (searchTerm === ''){
+                    setSearchResults('');
+
+                }
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+    };
+
+    useEffect(() => {    
+            fetchData();
+        
+      }, [searchTerm]);
+      const [showSearchModal, setShowSearchModal] = useState(false);
+
+
+
+      const [selectedProduct, setSelectedProduct] = useState(null);
+
+      const handleProductCli = (product) => {
+        setSelectedProduct(product);
+        setShowSearchModal(true);
+      };
+  
+      const handleCloseCli = () => {
+          setSelectedProduct(null);
+          setShowSearchModal(false);
+        };
+
     // Handle Cart
     useEffect(()=>{ 
       let cartData = JSON.parse(localStorage.getItem('AROACart'));
@@ -37,24 +88,7 @@ const NavbarCom = () => {
       dispatch(fetchUserCart());
     }, [dispatch, updatedCart, newproduct])
 
-    // Handle Scroll
-    // useEffect(() => {
-    //   const handleScroll = () => {
-    //     const isScrolled = window.scrollY > 25;
-    //     if (isScrolled !== scrolled) {
-    //         setTimeout(()=>{
-    //         setScrolled(isScrolled);
-    //     }, 150)
-    //     }
-    //   };
-    //   document.addEventListener("scroll", handleScroll);
-    //   return () => {
-    //     document.removeEventListener("scroll", handleScroll);
-    //   };
-    // }, [scrolled]);
-
-
-
+ 
     /***  Cart ***/
 
     // Cart On click
@@ -136,6 +170,7 @@ console.log(products.length);
                     <Navbar.Brand href="/"><span>A</span>ROA</Navbar.Brand>
                     <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                     <Navbar.Collapse id="responsive-navbar-nav">
+              
                     <Nav className="me-auto links">
                         <LinkContainer to="/">
                                 <Nav.Link className={(navData) => (navData.isActive ? "active" : 'none')}>Home</Nav.Link>
@@ -147,7 +182,27 @@ console.log(products.length);
                         <Nav.Link to="home">Contact</Nav.Link>
                     
                     </Nav>
+                    <div className="search_res_par">
+                    {isSearchOpen && (
+                            <div className="search-input">
+                                <input type="text" value={searchTerm} onChange={handleInputChange} placeholder="Search" />
+                            </div>
+                        )}
+                        <ul className="search_res">
+                            {searchResults.results && searchResults.results.map((result) => (
+                                <li onClick={() => handleProductCli(result)}   key={result.id}>{result.name}</li>
+                            ))}
+                        </ul>
+                    </div>
                     <Nav className="nav_icons">
+                       
+                        <Nav.Link> 
+                            <div className="" onClick={toggleSearch}>
+                            <FaSearch fill={'#555'} />
+                            </div>
+                        </Nav.Link>
+
+
                         {!token && visitorProducts &&
                              <Nav.Link  data-notify={visitorProducts.length} onClick={handleProductClick}><FaShoppingCart fill={'#555'}/></Nav.Link>
                         }
@@ -158,7 +213,16 @@ console.log(products.length);
                     </Nav>
                     </Navbar.Collapse>
                 </Container>
-            </Navbar>   
+            </Navbar> 
+
+
+            {showSearchModal && selectedProduct && (
+                <ProductDetails
+                    product={selectedProduct}
+                    onCloseModal={handleCloseCli}
+                    show ={showSearchModal}
+                />
+    )}  
         </>
 
      );
@@ -166,19 +230,4 @@ console.log(products.length);
  
 export default NavbarCom;
 
-            // {/* Modal Search  */}
-            // {/* <div className="modal-search-header flex-c-m trans-04 js-hide-modal-search">
-            //     <button className="flex-c-m btn-hide-modal-search trans-04">
-            //         <i className="zmdi zmdi-close"></i>
-            //     </button>
-    
-            //     <form className="container-search-header">
-            //         <div className="wrap-search-header">
-            //             <input className="plh0" type="text" name="search" placeholder="Search...">
-    
-            //             <button className="flex-c-m trans-04">
-            //                 <i className="zmdi zmdi-search"></i>
-            //             </button>
-            //         </div>
-            //     </form>
-            // </div> */}
+  

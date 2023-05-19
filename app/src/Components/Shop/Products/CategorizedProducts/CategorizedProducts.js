@@ -16,7 +16,7 @@ const CategorizedProducts = (props) => {
     const status = useSelector((state) => state.products.status);
     // const error = useSelector((state) => state.products.error);
     // eslint-disable-next-line no-unused-vars
-    const [limit, setLimit] = useState(2);
+    const [limit, setLimit] = useState(8);
     const [activePage, setActivePage] = useState(1);
 
     // Status from fech data 

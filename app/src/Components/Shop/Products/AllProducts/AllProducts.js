@@ -17,7 +17,7 @@ const AllProducts = ({onProductClick}) => {
     const status = useSelector((state) => state.allProducts.status);
     // const error = useSelector((state) => state.allProducts.error);
     // eslint-disable-next-line no-unused-vars
-    const [limit, setLimit] = useState(2);
+    const [limit, setLimit] = useState(8);
     const [activePage, setActivePage] = useState(1);
     
     // Status from fech data 
