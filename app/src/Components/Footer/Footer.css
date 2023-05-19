@@ -28,6 +28,8 @@
 	font-size: 20px;
     font-weight: 600;
     color: #fff;
+	text-align: left;
+
 }
 .social-links img{
 	padding-bottom: 25px;
@@ -58,6 +60,7 @@ li{
 	padding-bottom: 15px;
 	font-size: 20px;
     font-weight: 600;
+	text-align: left;
 }
 .useful-link img{
 	padding-bottom: 15px;
@@ -81,6 +84,8 @@ li{
 	padding-bottom: 15px;
 	font-size: 20px;
     font-weight: 600;
+	text-align: left;
+
 }
 .address img{
 	padding-bottom: 15px;
@@ -137,6 +142,8 @@ a{
 @media (max-width: 991px) {
     #footer h2{
         margin-top: 2em;
+	text-align: left;
+		
     }
 
   }

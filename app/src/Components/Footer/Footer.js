@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import './Footer.css'
 const Footer = () => {
     return ( 
@@ -17,10 +18,18 @@ const Footer = () => {
 							<h2>Useful Links</h2>
 							<img src="./assets/images/about/home_line.png" alt="" className="img-fluid"></img>
 							<div className="use-links">
-								<li><a href="index.html"><i className="fa-solid fa-angles-right"></i> Home</a></li>
-								<li><a href="about.html"><i className="fa-solid fa-angles-right"></i> Shop</a></li>
-								<li><a href="gallery.html"><i className="fa-solid fa-angles-right"></i> About</a></li>
-								<li><a href="contact.html"><i className="fa-solid fa-angles-right"></i> Contact</a></li>
+							<li>
+							<	Link to="/"><i className="fa-solid fa-angles-right"></i> Home</Link>
+							</li>
+							<li>
+								<Link to="/shop"><i className="fa-solid fa-angles-right"></i> Shop</Link>
+							</li>
+							<li>
+								<Link to="/about"><i className="fa-solid fa-angles-right"></i> About</Link>
+							</li>
+							<li>
+								<Link to="/contact"><i className="fa-solid fa-angles-right"></i> Contact</Link>
+							</li>
 							</div>
 						</div>
 
@@ -57,8 +66,8 @@ const Footer = () => {
 
 		</footer>
 		<section id="copy-right">
-			<div className="copy-right-sec"><i className="fa-solid fa-copyright"></i>  
-				lorem ispum lorem ispum 2022 Powerd By lorem ispum
+			<div className="copy-right-sec">
+				Copyright 2022 Powerd By AROA
 			</div>
 
 		</section>
