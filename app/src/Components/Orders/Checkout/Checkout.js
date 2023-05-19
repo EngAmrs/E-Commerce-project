@@ -3,38 +3,60 @@ import styles from './Checkout.module.css'
 import {useFormik} from 'formik';
 import * as yup from "yup";
 import { useDispatch, useSelector } from 'react-redux';
-import { Button } from 'react-bootstrap';
 import { fetchUserAddresses } from '../../../Redux/Slices/Order/getAddressSlice'
 import { addNewAddress } from '../../../Redux/Slices/Order/setNewAddressSlice';
 import { createOrder } from '../../../Redux/Slices/Order/createOrderSlice';
-import { useNavigate } from 'react-router';
-
+import { useLoaderData, useNavigate } from 'react-router';
+import {Button, Modal, Row } from 'react-bootstrap';
 const Checkout = () => {
+    const [showModal, setShowModal] = useState(false);
     const [showDifferentAddress, setShowDifferentAddress] = useState(false);
     const  [subTotal, setSubTotal] = useState(0)
     const navigate = useNavigate();
     const shipping = 1;
-    const { products } = useSelector((state) => state.cartProducts);
+    const { products } = useSelector((state) => state.userCart);
     const dispatch = useDispatch();
     const addresses = useSelector((state) => state.orderUserAddress);
     const {newAddress, status } = useSelector((state) => state.setNewAddress);
     // Order requeirements
-    const selectionRef = useRef();
-    const [paymentMethod, setPaymentMethod] = useState('banktransfer');
+    const selectionRef = useRef('');
+    const [paymentMethod, setPaymentMethod] = useState('VISA');
+    const [phone, setPhone] = useState('');
+    const [note, setNote] = useState('');
+
 
     
+    
+    const handleOpenModal = () => {
+        setShowModal(true);
+      };
+    
+      const handleCloseModal = () => {
+        setShowModal(false);
+      };
 
     // Check out schema
     const onSubmitOrder = (values, actions) => {
-        dispatch(createOrder({
-            'phone':values.phone,
-            'note':values.description,
-            'address_id':selectionRef.current.value,
-            'payment_method':paymentMethod,
-        }));
-
+        setNote(values.description)
+        
+        setPhone(values.phone);
+        handleOpenModal();
         actions.resetForm();
     };
+
+    const confirmOrder = ()=>{
+        if(paymentMethod === 'CASH'){
+            dispatch(createOrder({
+                'phone': phone,
+                'note': note,
+                'address': selectionRef.current.value,
+                'payment_method': paymentMethod,
+            }));
+
+        }else if(paymentMethod === 'VISA')
+            console.log('Visa');
+       
+    }
     const checkOutSchema = yup.object().shape({
         email: yup.string().email("Please Enter a valid email!").required("Required!"),
         phone: yup.string().matches(/^(?=.*[0-9])/, "Invalid number").min(11,"Invalid phone number").required("Required!"),
@@ -99,7 +121,13 @@ const Checkout = () => {
 
     // get Addresses
     useEffect(()=>{
-        dispatch(fetchUserAddresses())
+        const test = async() =>{
+            await dispatch(fetchUserAddresses())
+            selectionRef = useRef(addresses.addresses[addresses.addresses.length -1].id)
+            
+        }
+        test();
+
     }, [dispatch, newAddress])
     
 
@@ -109,7 +137,7 @@ const Checkout = () => {
 
         const cartSubTotal = products.reduce((acc, product) => {
 
-            return acc + product.totalPrice ;
+            return acc + +product.totalPrice ;
             }, 0);
             setSubTotal(cartSubTotal)
 
@@ -289,26 +317,26 @@ const Checkout = () => {
                                         <div>
                                             <input
                                                 type="radio"
-                                                id="banktransfer"
-                                                value="banktransfer"
+                                                id="VISA"
+                                                value="VISA"
                                                 name="payment"
-                                                checked={paymentMethod === 'banktransfer'}
+                                                checked={paymentMethod === 'VISA'}
                                                 onChange={handlePaymentChange}
                                             />
-                                            <label htmlFor="banktransfer" className={`${styles.banktransfer} p-2`}>
+                                            <label htmlFor="VISA" className={`${styles.banktransfer} p-2`}>
                                                 Pay using your bank card
                                             </label>
                                             </div>
                                                 <div>
                                                 <input
                                                     type="radio"
-                                                    id="cash"
-                                                    value="cash"
+                                                    id="CASH"
+                                                    value="CASH"
                                                     name="payment"
-                                                    checked={paymentMethod === 'cash'}
+                                                    checked={paymentMethod === 'CASH'}
                                                     onChange={handlePaymentChange}
                                                 />
-                                                <label htmlFor="cash" className={`${styles.cash} p-2`}>
+                                                <label htmlFor="casCASHh" className={`${styles.cash} p-2`}>
                                                     Cash
                                                 </label>
                                         </div>
@@ -316,6 +344,85 @@ const Checkout = () => {
                                     </div>
                                 </div>                    
                             </div>
+
+      <Modal 
+        show={showModal}
+        onHide={handleCloseModal}
+        dialogClassName={styles.confirmCart}
+        contentClassName={`${styles.confirmCartContent}`}
+        size={'lg'}
+        >
+        
+        <Modal.Header closeButton>
+          <Modal.Title></Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <h3>Address:</h3>
+          {(() => {
+            const foundAddress = addresses.addresses.find((address) => {
+                return address.id === parseInt(selectionRef.current.value);
+            });
+
+            if (foundAddress) {
+                return (
+                <div className={`${styles.address} row`}>
+                    <p className={`${styles.tit} col-md-6`}>
+                    <span >Street name:</span> {foundAddress.street_name}
+                    </p>
+                    <p className={`${styles.tit} col-md-6`}>
+                    <span>Street no:</span> {foundAddress.street_no}
+                    </p>
+                    <p className={`${styles.tit} col-md-6`}>
+                    <span >Government:</span> {foundAddress.government}
+                    </p>
+                    <p className={`${styles.tit} col-md-6`}>
+                    <span >District:</span> {foundAddress.district}
+                    </p>
+                    <p className={`${styles.tit} col-md-6`}>
+                    <span >House no:</span> {foundAddress.house_no}
+                    </p>
+                    <p className={`${styles.tit} col-md-6`}>
+                    <span >Apartment no:</span> {foundAddress.apartment_no}
+                    </p>
+                    <p className={`${styles.tit} col-md-6`}>
+                    <span >Floor no:</span> {foundAddress.floor_no}
+                    </p>
+                    {foundAddress.additional_info ? (
+                    <p className={`${styles.tit} col-md-6`}>
+                        <span >Additional info:</span> {foundAddress.additional_info}
+                    </p>
+                    ) : (
+                    <p className={`${styles.tit} col-md-6`}>
+                        <span >Additional info:</span> No additional info
+                    </p>
+                    )}
+                </div>
+                );
+            }
+
+            return null; // Address not found, return null or handle it accordingly
+            })()}
+          <br/>
+          <h3>Payment Method:</h3>
+          <p>{paymentMethod}</p>
+          <br/>
+        
+          <h3>Phone Number:</h3>
+          <p>{phone}</p>
+          <br/>
+          <h3>Notes:</h3>
+          <p>{note}</p>               
+                                 
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleCloseModal}>
+            Close
+          </Button>
+          <Button variant="primary" type="submit" onClick={confirmOrder}>
+            Confirm
+          </Button>
+        </Modal.Footer>
+      </Modal>
       
         </Fragment>
      );

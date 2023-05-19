@@ -8,6 +8,7 @@ import { RiDeleteBin5Fill } from 'react-icons/ri';
 import { Link, useRouteLoaderData } from 'react-router-dom';
 import { addProductToCart } from '../../Redux/Slices/Cart/AddToCartSlice';
 import { deleteProduct} from "../../Redux/Slices/Cart/deleteFromCartSlice";
+import { updateUserCart } from '../../Redux/Slices/Cart/UpdateCartSlice';
 
 
 
@@ -69,16 +70,16 @@ const Cart = (props) => {
     // Handle pptions selections
     const handleSelectChange = (event, data) => {
       const selectedValue = parseInt(event.target.value);
-      const cartData = JSON.parse(localStorage.getItem('AROACart'));
-      const currentItem = cartData.findIndex(e => e.data.id === data.data.id);
-      if (cartData[currentItem] && selectedValue <= 10) {
-        cartData[currentItem].qty = selectedValue;
-        cartData[currentItem].totalPrice = cartData[currentItem].qty * data.data.price;
-        localStorage.setItem('AROACart', JSON.stringify(cartData));
-        // Force the component to re-render to update the displayed total price
-        dispatch(setProducts(cartData));
-        setProducts(cartData)
-      } 
+
+      if(token){
+        dispatch(fetchUserCart())
+        console.log('prods2',products);
+        let productIndex = products.findIndex((e) => e.data.id === data.data.id)
+          console.log('te',productIndex);
+        if(products[productIndex] && products[productIndex].qty + parseInt(selectedValue) <= 10){ 
+            dispatch(updateUserCart({product: products[productIndex].data.id, quantity: parseInt(selectedValue), id: products[productIndex].itemId}))
+        }
+      }
     };
 
     // Delete items

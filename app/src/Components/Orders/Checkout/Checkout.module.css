@@ -4,7 +4,10 @@
 /* CSS Reset */
 /* HTML5 display-role reset for older browsers */
 
-
+.tit {
+    font-style: italic;
+    color: #555;
+}
 .checkout ol, .checkout ul {
 	list-style: none;
 }
