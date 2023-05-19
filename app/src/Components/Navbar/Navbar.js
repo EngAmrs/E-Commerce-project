@@ -143,8 +143,6 @@ console.log(products.length);
                         <LinkContainer to="/shop">
                             <Nav.Link className={(navData) => (navData.isActive ? "active" : 'none')}>Shop</Nav.Link>
                         </LinkContainer>
-                        <Nav.Link  to="home">Features</Nav.Link>
-                        <Nav.Link to={"s"}>Blog</Nav.Link>
                         <Nav.Link to="home">About</Nav.Link>
                         <Nav.Link to="home">Contact</Nav.Link>
                     

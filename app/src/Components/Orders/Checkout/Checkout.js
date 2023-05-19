@@ -6,14 +6,17 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchUserAddresses } from '../../../Redux/Slices/Order/getAddressSlice'
 import { addNewAddress } from '../../../Redux/Slices/Order/setNewAddressSlice';
 import { createOrder } from '../../../Redux/Slices/Order/createOrderSlice';
-import { useLoaderData, useNavigate } from 'react-router';
+import { redirect, useLoaderData, useNavigate } from 'react-router';
 import {Button, Modal, Row } from 'react-bootstrap';
 import { deleteProduct} from "../../../Redux/Slices/Cart/deleteFromCartSlice";
 import formattedCurrency from '../../UI/Currency';
+import { paymentCard } from '../../../Redux/Slices/Order/PaymentSlice'
+import axios from 'axios';
 const Checkout = () => {
     const [showModal, setShowModal] = useState(false);
     const [showDifferentAddress, setShowDifferentAddress] = useState(false);
     const  [subTotal, setSubTotal] = useState(0)
+    const {payment} = useSelector((state) => state.paymentCard);
     const navigate = useNavigate();
     const shipping = 1;
     const { products } = useSelector((state) => state.userCart);
@@ -30,6 +33,7 @@ const Checkout = () => {
 
 
     
+
     
     const handleOpenModal = () => {
         setShowModal(true);
@@ -40,21 +44,30 @@ const Checkout = () => {
       };
 
     // Check out schema
-    const onSubmitOrder = (values, actions) => {
+    const onSubmitOrder = async(values, actions) => {
         setNote(values.description)
-        
         setPhone(values.phone);
+        if(paymentMethod === "VISA"){
+           await dispatch(paymentCard())
+        }
         handleOpenModal();
         actions.resetForm();
     };
 
-    const confirmOrder = ()=>{
+    const confirmOrder = async ()=>{
+        const data = {
+            address: selectionRef.current.value,
+            phone: "+2" + phone,
+            payment_method: paymentMethod,
+            note: note,
+        }
+
         if(paymentMethod === 'CASH'){
            dispatch(createOrder({
-                'phone': "+2" + phone,
-                'note': note,
-                'address': selectionRef.current.value,
-                'payment_method': paymentMethod,
+                'phone': data.phone,
+                'note': data.note,
+                'address': data.address,
+                'payment_method': data.payment_method,
              }));
 
             if(newOrder){
@@ -66,8 +79,8 @@ const Checkout = () => {
             }
         
         }else if(paymentMethod === 'VISA')
-            console.log('Visa');
-       
+            localStorage.setItem('orderData', JSON.stringify(data));
+            window.location.href = payment
     }
     const checkOutSchema = yup.object().shape({
         email: yup.string().email("Please Enter a valid email!").required("Required!"),
@@ -135,7 +148,7 @@ const Checkout = () => {
     useEffect(()=>{
         dispatch(fetchUserAddresses())
 
-    }, [dispatch, newAddress, newOrder])
+    }, [dispatch, newAddress, newOrder, payment])
     
 
     useEffect(()=>{

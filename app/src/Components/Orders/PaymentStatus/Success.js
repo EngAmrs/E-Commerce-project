@@ -1,22 +1,43 @@
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import styles from './Success.module.css';
 import { useNavigate } from 'react-router';
+import { createOrder } from '../../../Redux/Slices/Order/createOrderSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { deleteProduct} from "../../../Redux/Slices/Cart/deleteFromCartSlice";
 
 
 const Success = () => {
     const navigate = useNavigate();
+    const [isLoaded, setIsLoaded] = useState(false);
+    const dispatch = useDispatch();
+    const { products } = useSelector((state) => state.userCart);
 
     useEffect(()=>{
-        setTimeout(()=>{
-            navigate('/userProfile?mode=orders')
+        const savedData = JSON.parse(localStorage.getItem('orderData'));
+        const urlParams = new URLSearchParams(window.location.search);
+        const stpValue = urlParams.get('stp');
 
-        }, 5000)
-        
+        if(savedData && savedData.payment_method === "VISA" && stpValue){
+            savedData.token = stpValue
+            dispatch(createOrder(savedData))
+        }
     
+    setIsLoaded(true);
+    products.forEach((e)=>{
+        dispatch(deleteProduct(e.itemId));
+
     })
+    localStorage.removeItem('orderData');
+    setTimeout(()=>{
+        navigate('/userProfile?mode=orders')
+
+    }, 5000)
+    },[isLoaded])
+
     return ( 
         <>
+        {isLoaded &&
             <div className={styles.modal}>
             <div id={styles['success-icon']}>
                 <div></div>
@@ -30,6 +51,7 @@ const Success = () => {
             <hr />
             <p className={styles.message}>Thanks for Shopping with us!</p>
             </div>
+        }
         </>
      );
 }

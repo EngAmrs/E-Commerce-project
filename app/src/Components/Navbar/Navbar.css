@@ -93,10 +93,10 @@
     color: #6e7bd1 !important;
 }
 
-.navbar  .links a:nth-child(3){
+.navbar  .links a:nth-child(2){
     position: relative;
 }
-.navbar  .links a:nth-child(3)::after{
+.navbar  .links a:nth-child(2)::after{
     content: 'hot';
     font-family: Poppins-Regular;
     font-size: 10px;
