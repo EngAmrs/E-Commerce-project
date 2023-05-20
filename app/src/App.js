@@ -11,6 +11,7 @@ import {checkAuthLoader, tokenLoader} from './util/auth';
 import Success from './Components/Orders/PaymentStatus/Success';
 import NotFound from './Components/NotFound/NotFound';
 import Currency from './Components/UI/Currency';
+import About from './Components/About/About';
 
 
 
@@ -25,6 +26,7 @@ const router = createBrowserRouter([
       {path: 'auth', element: <AuthForm/>, action: authAction },
       {path: 'shop', element: <Shop/> },
       {path: 'shop/:id', element: <Shop/> },
+      {path: 'about', element: <About/> },
       {path: 'checkout', element: <Checkout/>, loader: checkAuthLoader},
       {path: 'userProfile', element: <UserProfilePage/>, loader: addressLoader, action: userProfileAction},
       {path: 'logout', action:logoutAction},

@@ -1,0 +1,31 @@
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    min-height: 60vh;
+    padding: 20px;
+    margin-bottom: 30px;
+  }
+  .imageContainer img{
+    border-radius: 100px;
+  }
+  .title {
+    font-weight: bold;
+    font-size: 24px;
+    text-align: center;
+    margin-bottom: 30px;
+  }
+  
+  .description {
+    font-size: 16px;
+    margin-bottom: 20px;
+  }
+  
+  .imageContainer {
+    text-align: center;
+  }
+  
+  .image {
+    max-width: 100%;
+    height: auto;
+    margin-top: 20px;
+  }
