@@ -5,12 +5,16 @@ import { useDispatch, useSelector } from "react-redux";
 import { setProducts } from "../../../../Redux/Slices/Cart/CartProductsSlice";
 import {BsHeart} from 'react-icons/bs'
 import {fetchUserCart} from '../../../../Redux/Slices/Cart/userCartSlice'
-import { useRouteLoaderData } from 'react-router';
+import { useLoaderData, useRouteLoaderData } from 'react-router';
 import { addProductToCart } from '../../../../Redux/Slices/Cart/AddToCartSlice';
 import { updateUserCart } from '../../../../Redux/Slices/Cart/UpdateCartSlice';
 import formattedCurrency from '../../../UI/Currency';
-function ProductDetails({ show, onCloseModal ,product}) {
-  const token = useRouteLoaderData('root');
+import { getAuthToken } from '../../../../util/auth';
+
+
+function ProductDetails({ show, onCloseModal ,product }) {
+  const userInfo = useLoaderData();
+  const token = getAuthToken();
   const dispatch = useDispatch();
   const { products, status } = useSelector((state) => state.userCart);
   const { updatedCart } = useSelector((state) => state.updateCart);
@@ -20,6 +24,9 @@ function ProductDetails({ show, onCloseModal ,product}) {
   const [addButton, setAddButton] = useState(false);
   const [addText, setAddText] = useState('Add to Cart');
 
+  console.log('userInfo fe el prodDe', userInfo);
+  console.log('ana token', token);
+  
       useEffect(()=>{
         setCartData(JSON.parse(localStorage.getItem('AROACart')));
         dispatch(setProducts(cartData));
@@ -97,6 +104,33 @@ function ProductDetails({ show, onCloseModal ,product}) {
         }
         return selections;
     }
+    
+    function addToWishListHandler(productId) {
+      // make an API call to add the product to the wish list
+      // console.log(productId, userInfo.id);
+      const info = {
+        user: userInfo.id,
+        product: productId
+      };
+      console.log(typeof(productId));
+      fetch('http://localhost:8000/wishlist/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Token ${token}`
+        },
+        body: JSON.stringify(info)
+      })
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Failed to add product to wishlist');
+          }
+          console.log('Added successfully')
+        })
+        .catch(error => {
+          console.error(error);
+        });
+    }
   return (
     <>
       <Modal
@@ -144,9 +178,8 @@ function ProductDetails({ show, onCloseModal ,product}) {
                     }}
                 
                 onClick={() => submitProductToCart({id:product.id, name:product.name, price:product.price, productPic:product.productPic, quantity: product.quantity})} className={`${style.add_to_cart} col-sm-10 `}>{addText}</Button>  
-               }
-                
-                <Button className={`${style.add_to_fav} col-sm-1 `}><BsHeart /></Button>
+               }        
+                <Button onClick={() => addToWishListHandler(product.id)} className={`${style.add_to_fav} col-sm-1 `}><BsHeart /></Button>
                 </div>                                
               </div>
             </div>

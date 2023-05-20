@@ -5,6 +5,7 @@ import { useEffect, useState} from 'react';
 import { setProducts } from "../../../Redux/Slices/Cart/CartProductsSlice";
 import { RiDeleteBin5Fill } from 'react-icons/ri';
 import { Link, useRouteLoaderData } from 'react-router-dom';
+import { getAuthToken } from '../../../util/auth';
 
 
 
@@ -13,7 +14,7 @@ const VisitorCart = (props) => {
     const dispatch = useDispatch();
     const { visitorProducts, status } = useSelector((state) => state.cartProducts);
 
-    const token = useRouteLoaderData('root');
+    const token = getAuthToken();
     
 
     useEffect(() => {

@@ -3,36 +3,85 @@ import { useSearchParams, useNavigate, json, redirect } from "react-router-dom";
 import Profile from "../Components/userProfile/Profile";
 import Address from "../Components/userProfile/Address";
 import Orders from "../Components/userProfile/Orders";
+import WishList from "../Components/userProfile/WishList";
 import MainScreen from "../Components/UI/MainScreen";
 import { getAuthToken } from "../util/auth";
+import axios from "axios";
 const UserProfilePage = () => {
   const [searchParams] = useSearchParams();
   const profileMode = searchParams.get('mode');
-
+  let view = '';
+  if(profileMode === 'profile') {
+    view = <Profile/>;
+  }else if(profileMode === 'address'){
+    view = <Address/>;
+  }else if (profileMode === 'wishlist') {
+    view = <WishList/>
+  }else if (profileMode === 'orders'){
+    view = <Orders/>
+  }
+  
   return (
     <MainScreen title="EDIT PROFILE">
-      { profileMode === 'profile' ? <Profile/> : profileMode === 'orders' ?  <Orders/> :<Address/>}
+      {view}
     </MainScreen>
   )
 };
 
 export default UserProfilePage;
 
-export async function loader() {
+//To get the user address
+export async function loader({request}) {
+  const searchParams = new URL(request.url).searchParams;
+  const mode = searchParams.get('mode');
   const token = getAuthToken();
-  const response = await fetch('http://127.0.0.1:8000/user/address/', {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Token ${token}` 
-    }, 
-  })
-  if(!response.ok){
-    //...
-  }else {
-    const resData = await response.json();
-    return resData;
+
+  if(mode!== 'profile' && mode !== 'address' && mode !== 'wishlist' && mode !== 'orders') {
+    throw json({message: 'Unsupported mode.'}, {status: 422});
   }
+  if(mode === 'wishlist'){
+    const response = await fetch('http://localhost:8000/wishlist/', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Token ${token}` 
+      }, 
+    })
+    if(!response.ok){
+      //...
+    }else {
+      const resData = await response.json();
+      return resData;
+    }
+  }else if(mode === 'orders'){
+    return null
+  }else if (mode === 'address') {
+    const response = await fetch('http://127.0.0.1:8000/user/address/', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Token ${token}` 
+      }, 
+    })
+  
+    if(!response.ok){
+      //...
+    }else {
+      const resData = await response.json();
+      return resData;
+    }
+  }else if(mode === 'profile') {
+    return null;
+  }  else if (mode === 'orders'){
+
+    const response = await axios.get(`http://127.0.0.1:8000/userorder/`);
+    if(!response.ok){
+      //...
+    }else {
+      const resData = await response.json();
+      return resData;
+    }
+}
 }
 
 export async function action({request}) {
@@ -93,10 +142,15 @@ export async function action({request}) {
     if(mode === 'address'){
       const resData = await response.json();
       console.log("tmam");
-      // console.log("ana response",response);
-      // console.log("ana resData",resData);
-      return null;
-    }  
+      console.log("ana response",response.status);
+      console.log("ana resData",resData);
+      return response.status;
+    } 
+    if(mode === 'orders'){
+      const ordersData = await response.json();
+      console.log(ordersData);
+      
+    } 
   // }else if(mode === 'register'){
   //     return redirect('/auth?mode=login');
   // }

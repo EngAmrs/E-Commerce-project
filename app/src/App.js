@@ -10,9 +10,9 @@ import {action as logoutAction} from './pages/Logout';
 import {checkAuthLoader, tokenLoader} from './util/auth';
 import Success from './Components/Orders/PaymentStatus/Success';
 import NotFound from './Components/NotFound/NotFound';
-import Currency from './Components/UI/Currency';
 import About from './Components/About/About';
 import Contact from './Components/Contact/Contact';
+import {loader as userInfoLoader} from './pages/RootLayout';
 
 
 
@@ -21,12 +21,12 @@ const router = createBrowserRouter([
     path: '/',
     element: <RootLayout/>,
     id: 'root',
-    loader: tokenLoader,
+    loader: userInfoLoader, //=> I need to add onther loader tokenLoader 
     children: [
       {index: true, element: <Home/>},
       {path: 'auth', element: <AuthForm/>, action: authAction },
-      {path: 'shop', element: <Shop/> },
-      {path: 'shop/:id', element: <Shop/> },
+      {path: 'shop', element: <Shop/>, loader: userInfoLoader},
+      {path: 'shop/:id', element: <Shop/>, loader: userInfoLoader },
       {path: 'about', element: <About/> },
       {path: 'contact', element: <Contact/> },
       {path: 'checkout', element: <Checkout/>, loader: checkAuthLoader},

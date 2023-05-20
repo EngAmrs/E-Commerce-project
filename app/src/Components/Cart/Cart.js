@@ -10,6 +10,7 @@ import { addProductToCart } from '../../Redux/Slices/Cart/AddToCartSlice';
 import { deleteProduct} from "../../Redux/Slices/Cart/deleteFromCartSlice";
 import { updateUserCart } from '../../Redux/Slices/Cart/UpdateCartSlice';
 import formattedCurrency from '..//UI/Currency';
+import { getAuthToken } from '../../util/auth';
 
 
 
@@ -20,7 +21,7 @@ const Cart = (props) => {
     const { deletedProduct } = useSelector((state) => state.deleteFromCart);
     const { newproduct } = useSelector((state) => state.addtoCart);
 
-    const token = useRouteLoaderData('root');
+    const token = getAuthToken();
     
 
     useEffect(()=>{

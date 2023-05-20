@@ -11,11 +11,12 @@ import { Form, NavLink, useRouteLoaderData } from 'react-router-dom';
 import VisitorCart from "../Cart/visitorCart/VisitorCar";
 import { fetchUserCart } from "../../Redux/Slices/Cart/userCartSlice";
 import ProductDetails from "../Shop/Products/ProductDetails/ProductDetails";
+import { getAuthToken } from "../../util/auth";
 
 const NavbarCom = () => {
 
     // Auth
-    const token = useRouteLoaderData('root');
+    const token = getAuthToken();
     const dispatch = useDispatch();
     // eslint-disable-next-line no-unused-vars
     const [scrolled, setScrolled] = useState(false);

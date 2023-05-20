@@ -21,6 +21,12 @@ function MainScreen({ children, title }) {
               <NavLink to='/userProfile?mode=orders' className={({ isActive }) =>
                 isActive ? classes.active : undefined
               }>Orders</NavLink>
+              <NavLink to='/userProfile?mode=wishlist' className={({ isActive }) =>
+                isActive ? classes.active : undefined
+              }>Wish List</NavLink>
+
+
+              {/* <NavLink to>Orders</NavLink> */}
             </div>
             <hr/>
             {children}

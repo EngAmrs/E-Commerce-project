@@ -8,6 +8,7 @@ const Orders = () => {
     const canceledProduct = useSelector((state) => state.cancelOrder);
     const dispatch = useDispatch()
     useEffect(()=>{
+        console.log('test');
         dispatch(fetchUserOrders())
     },[dispatch, canceledProduct])
 
