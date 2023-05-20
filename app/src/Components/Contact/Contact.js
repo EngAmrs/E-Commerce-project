@@ -1,9 +1,20 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './Contact.module.css';
+import Loader from '../Loader/Loader';
 
 const Contact = () => {
+    const [loading, setLoading] = useState(true);
+    useEffect(() => {
+        // Simulate an asynchronous operation
+        setTimeout(() => {
+          setLoading(false);
+        }, 2000);
+      }, []);
   return (
-    <><h2>Contact Us</h2>
+    <>
+      {loading ? <Loader /> : ''}
+    
+    <h2>Contact Us</h2>
     <div className={`${styles.contactPage}`}>
         
       <div className={`${styles.contactInfo } container`}>

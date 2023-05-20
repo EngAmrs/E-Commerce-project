@@ -21,14 +21,13 @@ const Success = () => {
         if(savedData && savedData.payment_method === "VISA" && stpValue){
             savedData.token = stpValue
             dispatch(createOrder(savedData))
+            products.forEach((e)=>{
+                dispatch(deleteProduct(e.itemId));
+        
+            })
+            localStorage.removeItem('orderData');
         }
-    
     setIsLoaded(true);
-    products.forEach((e)=>{
-        dispatch(deleteProduct(e.itemId));
-
-    })
-    localStorage.removeItem('orderData');
     setTimeout(()=>{
         navigate('/userProfile?mode=orders')
 

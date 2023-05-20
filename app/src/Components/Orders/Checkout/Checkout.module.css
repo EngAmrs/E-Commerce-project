@@ -4,6 +4,19 @@
 /* CSS Reset */
 /* HTML5 display-role reset for older browsers */
 
+.proceed{
+	text-align: center;
+    margin: 1em 0;
+	background-color: #6e7bd1;
+    color: #fff;
+    border: 1px solid #6e7bd1;
+
+    transition: .5s;
+}
+.proceed:hover{
+	background-color: #fff;
+    color: #000;
+}
 .tit {
     font-style: italic;
     color: #555;

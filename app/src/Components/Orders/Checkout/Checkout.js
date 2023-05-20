@@ -63,7 +63,7 @@ const Checkout = () => {
         }
 
         if(paymentMethod === 'CASH'){
-           dispatch(createOrder({
+           await dispatch(createOrder({
                 'phone': data.phone,
                 'note': data.note,
                 'address': data.address,
@@ -78,9 +78,10 @@ const Checkout = () => {
                 navigate('/orderiscreated')
             }
         
-        }else if(paymentMethod === 'VISA')
+        }else if(paymentMethod === 'VISA'){
             localStorage.setItem('orderData', JSON.stringify(data));
             window.location.href = payment
+        }
     }
     const checkOutSchema = yup.object().shape({
         email: yup.string().email("Please Enter a valid email!").required("Required!"),
@@ -360,7 +361,7 @@ const Checkout = () => {
                                                     Cash
                                                 </label>
                                         </div>
-                                        <Button className='mt-4' type="submit" form="Form1">Proceed</Button>
+                                        <Button  className={`${styles.proceed} mt-4`} type="submit" form="Form1">Proceed</Button>
                                     </div>
                                 </div>                    
                             </div>

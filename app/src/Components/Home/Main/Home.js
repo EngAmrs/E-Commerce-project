@@ -13,6 +13,7 @@ const Home = () => {
           setLoading(false);
         }, 2000);
       }, []);
+      
     return ( 
         
         <Fragment>
