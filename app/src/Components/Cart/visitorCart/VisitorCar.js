@@ -96,7 +96,6 @@ const VisitorCart = (props) => {
       if(!visitorProducts || visitorProducts.length === 0)
         return <p className={style.emptyCart}>The cart is empty</p>
     }
-    console.log("test", visitorProducts);
     return ( 
       <>
         <Modal

@@ -8,7 +8,6 @@ export const addProductToCart = createAsyncThunk(
   'newProductToCart/addProductToCart',
   async (ProductData, { rejectWithValue }) => {
     const token = localStorage.getItem('token');
-    console.log(ProductData);
     setAuthToken(token);
     try {
       const response = await axios.post('http://127.0.0.1:8000/usercart/cart/add/', ProductData);

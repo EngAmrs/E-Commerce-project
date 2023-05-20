@@ -16,7 +16,6 @@ const Orders = () => {
     }
 
 
-    console.log(orders);
     return ( 
         <>
             <h3>Note:</h3>

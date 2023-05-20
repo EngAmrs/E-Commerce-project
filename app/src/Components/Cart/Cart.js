@@ -74,9 +74,7 @@ const Cart = (props) => {
 
       if(token){
         dispatch(fetchUserCart())
-        console.log('prods2',products);
         let productIndex = products.findIndex((e) => e.data.id === data.data.id)
-          console.log('te',productIndex);
         if(products[productIndex] && products[productIndex].qty + parseInt(selectedValue) <= 10){ 
             dispatch(updateUserCart({product: products[productIndex].data.id, quantity: parseInt(selectedValue), id: products[productIndex].itemId}))
         }
@@ -129,7 +127,6 @@ const Cart = (props) => {
       if(!products || products.length === 0)
         return <p className={style.emptyCart}>The cart is empty</p>
     }
-    console.log("test", products);
     return ( 
       <>
         <Modal

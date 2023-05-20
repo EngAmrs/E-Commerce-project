@@ -37,7 +37,6 @@ export const fetchUserCart = createAsyncThunk('cartProducts/fetchUserCart', asyn
               state.products[productIndex].itemId = cartItem.id;
             }
           }
-          console.log(state.products);
         })
         .addCase(fetchUserCart.rejected, (state, action) => {
           state.status = 'failed';

@@ -11,7 +11,6 @@ export const paymentCard = createAsyncThunk(
   async () => {
       const response =  await axios.post('http://127.0.0.1:8000/userorder/payment/')
       .then(response => {
-        console.log(response.data);
         return response.data; // Return the response data, not the entire response object
       }).catch(res =>{
           return res.response.data.checkouturl

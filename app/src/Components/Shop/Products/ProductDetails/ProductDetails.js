@@ -37,7 +37,6 @@ function ProductDetails({ show, onCloseModal ,product}) {
       if(token){
    
          dispatch(fetchUserCart())
-        console.log('prods2',products);
 
           if(products.length === 0){
             dispatch(addProductToCart({ product: data.id, quantity: parseInt(selectedValue) }));
@@ -98,7 +97,6 @@ function ProductDetails({ show, onCloseModal ,product}) {
         }
         return selections;
     }
-    console.log('prods',products);
   return (
     <>
       <Modal

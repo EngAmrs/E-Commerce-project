@@ -16,7 +16,6 @@ const NavbarCom = () => {
 
     // Auth
     const token = useRouteLoaderData('root');
-    console.log(token);
     const dispatch = useDispatch();
     // eslint-disable-next-line no-unused-vars
     const [scrolled, setScrolled] = useState(false);
@@ -119,10 +118,6 @@ const NavbarCom = () => {
        }
       
     }
-
-
-console.log(products.length);
-
     return (   
         <>  
             {/* Cart */}

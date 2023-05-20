@@ -9,7 +9,6 @@ export const deleteProduct = createAsyncThunk(
   async (id, { rejectWithValue }) => {
     const token = localStorage.getItem('token');
     setAuthToken(token);
-    console.log(token);
     try {
       const response = await axios.delete(`http://127.0.0.1:8000/usercart/cart/items/${id}/remove/`);
       return response.data;

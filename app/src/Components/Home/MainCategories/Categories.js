@@ -10,7 +10,6 @@ const Categories = () => {
         useEffect(()=>{
             dispatch(fetchCategories({limit: 3, page: 1}))
         },[dispatch])
-        console.log(categories);
     return ( 
         <>
         
