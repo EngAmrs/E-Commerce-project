@@ -1,0 +1,32 @@
+.loader {
+    position: fixed;
+    top: 0;
+    background: #F8F9FA;
+    width: 100%;
+    z-index: 99;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+  }
+  
+  .loader h1 {
+	position: absolute;
+	left: 52%;
+	margin-left: -1.9em;
+	color: hsla(0, 18%, 78%, 0.749);
+	font: 900 800% Baskerville, sans-serif;	
+}
+
+@keyframes loading {
+	from { max-width: 0; }
+}
+
+.loader h1:before {
+	content: attr(data-content);
+	position: absolute;
+	overflow: hidden;
+	max-width: 4em;
+	color: #6e7bd1;
+	animation: loading 2s linear;
+}
