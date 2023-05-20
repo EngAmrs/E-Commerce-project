@@ -156,6 +156,10 @@
     letter-spacing: 2px;
   }
   
+  .spanButton{
+    display: block;
+  }
+
   @media (max-width: 557px) {
     #cards_landscape_wrap_2 .card_flyer .text_box{
         display: flex;

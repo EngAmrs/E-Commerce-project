@@ -8,6 +8,7 @@ import UserProfilePage, {action as userProfileAction, loader as addressLoader} f
 import AuthForm, {action as authAction} from './pages/Form';
 import {action as logoutAction} from './pages/Logout';
 import {checkAuthLoader, tokenLoader} from './util/auth';
+import {loader as userInfoLoader} from './pages/RootLayout';
 
 
 
@@ -16,14 +17,14 @@ const router = createBrowserRouter([
     path: '/',
     element: <RootLayout/>,
     id: 'root',
-    loader: tokenLoader,
+    loader: userInfoLoader, //=> I need to add onther loader tokenLoader 
     children: [
       {index: true, element: <Home/>},
       {path: 'auth', element: <AuthForm/>, action: authAction },
-      {path: 'shop', element: <Shop/> },
-      {path: 'shop/:id', element: <Shop/> },
+      {path: 'shop', element: <Shop/>, loader: userInfoLoader },
+      {path: 'shop/:id', element: <Shop/>},
       {path: 'checkout', element: <Checkout/>, loader: checkAuthLoader},
-      {path: 'userProfile', element: <UserProfilePage/>, loader: addressLoader, action: userProfileAction},
+      {path: 'userProfile', element: <UserProfilePage/>, loader: addressLoader, action: userProfileAction},//=> I need to anthor loader to secure the route
       {path: 'logout', action:logoutAction}
     ]
   }

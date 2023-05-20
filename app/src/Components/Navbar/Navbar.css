@@ -51,7 +51,7 @@
 /****** Start NavBar ******/
 
 .navbar{
-    z-index: 2;
+    z-index: 5;
     position:sticky;
     top: 0%;
     width: 100%;

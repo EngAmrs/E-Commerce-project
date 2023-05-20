@@ -18,6 +18,11 @@ function MainScreen({ children, title }) {
                 isActive ? classes.active : undefined
               }>Address</NavLink>
 
+              <NavLink to='/userProfile?mode=wishlist' className={({ isActive }) =>
+                isActive ? classes.active : undefined
+              }>Wish List</NavLink>
+
+
               {/* <NavLink to>Orders</NavLink> */}
             </div>
             <hr/>

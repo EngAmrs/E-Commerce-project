@@ -3,17 +3,21 @@ import { addressSchema } from "../../schemas";
 import {useFormik} from 'formik';
 import {Button, Row, Col, Card, Header, Footer} from "react-bootstrap";
 import classes from '../forms/Register.module.css';
-import { Link, useActionData, Form, useNavigation, useLoaderData } from "react-router-dom";
+import { Link, useActionData, Form, useNavigation, useLoaderData, useNavigate } from "react-router-dom";
 import Cardd from '../UI/Card';
 import styles from './Profile.module.css';
 import DispalyAlert from "../UI/DisplayAlert";
 import style from './Address.module.css';
+import { getAuthToken } from "../../util/auth";
+
 const onSubmit = (values, actions) => {
     console.log(values);
     actions.resetForm();
 };
 const Address = () => {
     const addresses = useLoaderData();
+    const token = getAuthToken();
+    const navigate = useNavigate();
     // console.log('ana adresses', addresses);
     const data  = useActionData();
     
@@ -37,9 +41,29 @@ const Address = () => {
     });
 
     const btnClass = `${classes.btn} ${classes['btn-primary']}`;
-    if(data) {
-        // console.log("ana hena", data)
+    if(data===201) {
+        console.log("ana hena", data)
         // console.log("ana satus", data.status)
+    }
+    const handleRemoveAddress = (addressId) => {
+        fetch(`http://localhost:8000/user/address/${addressId}/`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Token ${token}`
+        }
+      })
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Failed to remove address');
+          }
+          console.log('removed successfully');
+          navigate('/userProfile?mode=address');
+
+        })
+        .catch(error => {
+          console.error(error);
+        });
     }
     
     return (
@@ -47,8 +71,9 @@ const Address = () => {
         <Row className={styles.profileContainer}>
             <Col md={4}>
             <Cardd>
+                {data && data === 201 && <DispalyAlert variant="success">Added</DispalyAlert>}
+                {data && data !== 201 && <DispalyAlert variant="danger">Failed</DispalyAlert>}
                 <Form method="post" className={classes['login-form']}>
-                    {data ? <DispalyAlert variant="danger">Invalid Entery</DispalyAlert> : undefined}
                     {/* {data && <p>Error!</p>} */}
                     {/* {data && data.message && <p>{data.message}</p>} */}
                     <div className="mb-4">
@@ -129,7 +154,7 @@ const Address = () => {
                         </div>
                         </Card.Body>
                         <Card.Footer>
-                        <Button variant="danger" className={style['edit-address']}>Delete</Button>
+                        <Button variant="danger" onClick={() => handleRemoveAddress(address.id)} className={style['edit-address']}>Delete</Button>
                         </Card.Footer>
                     </Card>
                     </Col>

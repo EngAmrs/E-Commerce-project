@@ -102,7 +102,7 @@ const AllProducts = ({onProductClick}) => {
     * End Pagination 
     * 
     */
-
+    console.log("ana products", products);
     return ( 
         <div id={style.cards_landscape_wrap_2} className='col-md-9'>
         <div className={`${style.container} container`}>
