@@ -12,6 +12,7 @@ import Success from './Components/Orders/PaymentStatus/Success';
 import NotFound from './Components/NotFound/NotFound';
 import Currency from './Components/UI/Currency';
 import About from './Components/About/About';
+import Contact from './Components/Contact/Contact';
 
 
 
@@ -27,6 +28,7 @@ const router = createBrowserRouter([
       {path: 'shop', element: <Shop/> },
       {path: 'shop/:id', element: <Shop/> },
       {path: 'about', element: <About/> },
+      {path: 'contact', element: <Contact/> },
       {path: 'checkout', element: <Checkout/>, loader: checkAuthLoader},
       {path: 'userProfile', element: <UserProfilePage/>, loader: addressLoader, action: userProfileAction},
       {path: 'logout', action:logoutAction},

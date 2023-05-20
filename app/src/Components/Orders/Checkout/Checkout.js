@@ -18,7 +18,7 @@ const Checkout = () => {
     const  [subTotal, setSubTotal] = useState(0)
     const {payment} = useSelector((state) => state.paymentCard);
     const navigate = useNavigate();
-    const shipping = 1;
+    const shipping = 0;
     const { products } = useSelector((state) => state.userCart);
     const dispatch = useDispatch();
     const addresses = useSelector((state) => state.orderUserAddress);

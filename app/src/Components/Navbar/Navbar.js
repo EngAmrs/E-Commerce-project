@@ -20,12 +20,12 @@ const NavbarCom = () => {
     const dispatch = useDispatch();
     // eslint-disable-next-line no-unused-vars
     const [scrolled, setScrolled] = useState(false);
-    const { visitorProducts } = useSelector((state) => state.cartProducts);
+    const { visitorProducts, count } = useSelector((state) => state.cartProducts);
     const { products} = useSelector((state) => state.userCart);
     const [showModal, setShowModal] = useState(false);
     const { updatedCart } = useSelector((state) => state.updateCart);
     const { newproduct } = useSelector((state) => state.addtoCart);
-
+    const [cartData, setCartData] = useState(JSON.parse(localStorage.getItem('AROACart')))
     // Search Logic // 
 
     // Open
@@ -35,6 +35,7 @@ const NavbarCom = () => {
     };
     const [searchTerm, setSearchTerm] = useState('');
     const [searchResults, setSearchResults] = useState([]);
+    
   
     const handleInputChange = (e) => {
       setSearchTerm(e.target.value);
@@ -58,12 +59,10 @@ const NavbarCom = () => {
 
     useEffect(() => {    
             fetchData();
+            setCartData(JSON.parse(localStorage.getItem('AROACart')))
         
       }, [searchTerm]);
       const [showSearchModal, setShowSearchModal] = useState(false);
-
-
-
       const [selectedProduct, setSelectedProduct] = useState(null);
 
       const handleProductCli = (product) => {
@@ -78,15 +77,14 @@ const NavbarCom = () => {
 
     // Handle Cart
     useEffect(()=>{ 
-      let cartData = JSON.parse(localStorage.getItem('AROACart'));
       if(cartData === null){
             localStorage.setItem('AROACart', JSON.stringify([]));
-            cartData = JSON.parse(localStorage.getItem('AROACart'));
+            setCartData(JSON.parse(localStorage.getItem('AROACart')));
       }
 
       dispatch(setProducts(cartData));
       dispatch(fetchUserCart());
-    }, [dispatch, updatedCart, newproduct])
+    }, [dispatch, updatedCart, newproduct, count, cartData])
 
  
     /***  Cart ***/
@@ -156,7 +154,7 @@ console.log(products.length);
                         {token && 
                             <li>
                             <Form action="/logout" method='post'>
-                                <button>Logout</button>
+                                <button className="logoutNav">Logout</button>
                             </Form>
                             </li>
                         }
@@ -181,8 +179,11 @@ console.log(products.length);
                         <LinkContainer to="/about">
                             <Nav.Link >About</Nav.Link>
                         </LinkContainer>
+                        <LinkContainer to="/contact">
+                            <Nav.Link to="home">Contact</Nav.Link>
 
-                        <Nav.Link to="home">Contact</Nav.Link>
+                        </LinkContainer>
+
                     
                     </Nav>
                     <div className="search_res_par">
@@ -224,6 +225,7 @@ console.log(products.length);
                     product={selectedProduct}
                     onCloseModal={handleCloseCli}
                     show ={showSearchModal}
+                    pr={setCartData}
                 />
     )}  
         </>

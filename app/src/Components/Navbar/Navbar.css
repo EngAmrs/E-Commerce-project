@@ -156,6 +156,18 @@
     position: relative;
     width: 30%;
 }
+
+.logoutNav{
+    background-color: transparent;
+    color: #fff;
+    border: 1px solid #ccc;
+    padding: .5em .6em;
+    border-radius: 10px;
+    margin-top: -5px;
+}
+.logoutNav:hover{
+    background-color: #6e7bd1;
+}
 .search_res{
     margin-top: .5em;
     position: absolute;

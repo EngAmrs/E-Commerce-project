@@ -9,7 +9,7 @@ import { useRouteLoaderData } from 'react-router';
 import { addProductToCart } from '../../../../Redux/Slices/Cart/AddToCartSlice';
 import { updateUserCart } from '../../../../Redux/Slices/Cart/UpdateCartSlice';
 import formattedCurrency from '../../../UI/Currency';
-function ProductDetails({ show, onCloseModal ,product }) {
+function ProductDetails({ show, onCloseModal ,product}) {
   const token = useRouteLoaderData('root');
   const dispatch = useDispatch();
   const { products, status } = useSelector((state) => state.userCart);
@@ -17,7 +17,9 @@ function ProductDetails({ show, onCloseModal ,product }) {
   const imageUrl = 'http://localhost:8000/'
   const [selectedValue, setSelectedValue] = useState('');
   const  [cartData, setCartData] = useState(JSON.parse(localStorage.getItem('AROACart')))
-  
+  const [addButton, setAddButton] = useState(false);
+  const [addText, setAddText] = useState('Add to Cart');
+
       useEffect(()=>{
         setCartData(JSON.parse(localStorage.getItem('AROACart')));
         dispatch(setProducts(cartData));
@@ -74,6 +76,12 @@ function ProductDetails({ show, onCloseModal ,product }) {
             localStorage.setItem('AROACart', JSON.stringify(cartData));
           }     
       } 
+      setAddButton(true)
+      setAddText('Added')
+      setTimeout(() => {
+        setAddButton(false)
+        setAddText('Add to Cart')
+      }, 1000);
     };
 
     const qtyOptions = ()=>{
@@ -116,9 +124,9 @@ function ProductDetails({ show, onCloseModal ,product }) {
               </h5>
               <p className={style.description}>{product.description}</p>
               <h3 className={style.cost}>
-                <span className="glyphicon glyphicon-usd"></span>{formattedCurrency.format(product.price)}
+                <span className={`glyphicon glyphicon-usd`}></span>{formattedCurrency.format(product.price - 5)}
                 <small className={style.pre_cost}>
-                  <span className="glyphicon glyphicon-usd"></span> {formattedCurrency.format(product.price - 5)}
+                  <span className="glyphicon glyphicon-usd"></span> {formattedCurrency.format(product.price)}
                 </small>
               </h3>
               <div className={`${style.action} row`}>
@@ -129,7 +137,17 @@ function ProductDetails({ show, onCloseModal ,product }) {
                   </select>
                 </div>
                 <div className='row'>
-                <Button onClick={() => submitProductToCart({id:product.id, name:product.name, price:product.price, productPic:product.productPic, quantity: product.quantity})} className={`${style.add_to_cart} col-sm-10 `}>Add to Cart</Button>  
+                  {product.quantity !== 0 &&
+                  <Button       style={{
+                      backgroundColor: addButton ? 'green': '',
+                      color: addButton ? 'white' : '',
+                      fontSize: addButton ? '20px' : '',
+                      // Add more styles based on the case
+                    }}
+                
+                onClick={() => submitProductToCart({id:product.id, name:product.name, price:product.price, productPic:product.productPic, quantity: product.quantity})} className={`${style.add_to_cart} col-sm-10 `}>{addText}</Button>  
+               }
+                
                 <Button className={`${style.add_to_fav} col-sm-1 `}><BsHeart /></Button>
                 </div>                                
               </div>
