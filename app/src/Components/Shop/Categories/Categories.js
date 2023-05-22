@@ -47,9 +47,11 @@ const Categories = () => {
                             <Link activeclassname={`active`} className="list-group-item list-group-item-action">All Products</Link>
                     </LinkContainer>
                     {categories.map((category, index) => 
-                        <LinkContainer to={`/shop/${category.id}`} key={category.id * index}>
-                        <Link activeclassname={`active`} className="list-group-item list-group-item-action">{category.name} ({category.num_products})</Link>
-                        </LinkContainer>
+                        <div key={category.id + Date.now().toString()}>
+                            <LinkContainer to={`/shop/${category.id}`}>
+                            <Link activeclassname={`active`} className="list-group-item list-group-item-action">{category.name} ({category.num_products})</Link>
+                            </LinkContainer>
+                        </div>
                     )}
                 </ul>
                     {isAll()}          

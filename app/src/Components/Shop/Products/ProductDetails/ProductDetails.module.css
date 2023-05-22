@@ -38,7 +38,7 @@ h5 span{
 .bsHeart:hover{
     color: #6e7bd1;
 }
-.action .add_to_cart, .add_to_fav{
+.action .add_to_cart{
     text-align: center;
     margin: 1em 0;
     display: table;
@@ -50,16 +50,21 @@ h5 span{
     transition: .5s;
   }
   .add_to_fav{
-    padding: 0;
+    text-align: center;
+    margin: 1em 0;
+    display: table;
+    margin-left: auto;
+    margin-right: auto;
+    transition: .5s;
+    cursor: pointer;
+
   }
+
   .action .add_to_cart:hover{
     background-color: #6e7bd1;
     color: #fff;
   }
-  .action .add_to_fav:hover{
-    background-color: #000;
-    color: #fff;
-  }
+
 
 
  

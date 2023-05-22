@@ -72,18 +72,18 @@ const CategorizedProducts = (props) => {
       if(activePage > totalPages - 2){
         pages.pop();
         pages.push(
-            <>
+            <div key={Date.now().toString()}>
             <Pagination.Item
              key={totalPages}
              active={totalPages === activePage}
              onClick={() => handleClick(totalPages)}
              className={style['page-link']}
             >{totalPages}</Pagination.Item>
-            </>
+            </div>
           )
       }else{
       pages.push(
-        <>
+        <div key={Date.now().toString()}>
         <Pagination.Ellipsis />
         <Pagination.Item
          key={totalPages}
@@ -91,7 +91,7 @@ const CategorizedProducts = (props) => {
          onClick={() => handleClick(totalPages)}
          className={style['page-link']}
         >{totalPages}</Pagination.Item>
-        </>
+        </div>
       )
       }
       return pages;

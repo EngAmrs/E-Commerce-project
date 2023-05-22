@@ -3,7 +3,6 @@ import Modal from "../Components/UI/Modal";
 import Login from "../Components/forms/LogIn"
 import Register from "../Components/forms/Register"
 import { useSearchParams, useNavigate, json, redirect } from "react-router-dom";
-import style from './form.module.css'
 
 const AuthForm = (props) => {
     const [formIsShown, setformIsShown] = useState(true);

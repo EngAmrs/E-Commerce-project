@@ -15,7 +15,7 @@ import cancelOrderReducer from './Slices/Order/cancelOrderSlice'
 import paymentReducer from './Slices/Order/PaymentSlice'
 import AddToWishlistReducer from "./Slices/Wishlist/Wishlist";
 import DeleteWishlistReducer from "./Slices/Wishlist/DeleteItems";
-
+import userDataReducer from './Slices/User/UserData'
 const store = configureStore({
   reducer: {
     categories: categoriesReducer,
@@ -41,6 +41,8 @@ const store = configureStore({
     addToWishlist: AddToWishlistReducer,
     deleteFromWishlist: DeleteWishlistReducer,
 
+    // User
+    userData: userDataReducer,
   },
 });
 

@@ -11,9 +11,9 @@ export const registerSchema = yup.object().shape({
 })
 
 export const updateSchema = yup.object().shape({
-    first_name: yup.string().min(3, "Min length is 3!"),
-    last_name: yup.string().min(3,"Min length is 3!"),
-    email: yup.string().email("Please Enter a valid email!"),
+    first_name: yup.string().min(3, "Min length is 3!").required("Required!"),
+    last_name: yup.string().min(3,"Min length is 3!").required("Required!"),
+    email: yup.string().email("Please Enter a valid email!").required("Required!"),
     password: yup.string().min(8, "Min length is 8!").matches(passwordRules, {message: "Please enter a strong password!"}),
     password_confirm: yup.string().oneOf([yup.ref('password'), null], "Passwords must match!")
 })

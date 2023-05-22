@@ -60,7 +60,7 @@ const AllProducts = ({onProductClick}) => {
       for (let i = startPage; i <= endPage; i++) {
         pages.push(
           <Pagination.Item
-            key={i}
+            key={Date.now().toString()}
             active={i === activePage}
             onClick={() => handleClick(i)}
             className={style['page-link']}
@@ -73,26 +73,24 @@ const AllProducts = ({onProductClick}) => {
       if(activePage > totalPages - 2){
         pages.pop();
         pages.push(
-            <>
+            <div key={Date.now().toString()}>
             <Pagination.Item
-             key={totalPages}
              active={totalPages === activePage}
              onClick={() => handleClick(totalPages)}
              className={style['page-link']}
             >{totalPages}</Pagination.Item>
-            </>
+            </div>
           )
       }else{
       pages.push(
-        <>
+        <div key={Date.now().toString()}>
         <Pagination.Ellipsis />
         <Pagination.Item
-         key={totalPages}
          active={totalPages === activePage}
          onClick={() => handleClick(totalPages)}
          className={style['page-link']}
         >{totalPages}</Pagination.Item>
-        </>
+        </div>
       )
       }
       return pages;
@@ -111,7 +109,7 @@ const AllProducts = ({onProductClick}) => {
             {noProducts()}
                 {
                     products.map((product, index)=> (
-                        <div className="col-xs-12 col-sm-6 col-md-3 col-lg-3" key={index}>
+                        <div className="col-xs-12 col-sm-6 col-md-3 col-lg-3" key={product.id + Date.now().toString()}>
                             <div className={style.card_flyer}>
                                 <div className={style.text_box}>
                                     <div className={style.image_box}>

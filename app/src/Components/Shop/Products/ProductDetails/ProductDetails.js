@@ -3,14 +3,15 @@ import style from './ProductDetails.module.css';
 import React, { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux";
 import { setProducts } from "../../../../Redux/Slices/Cart/CartProductsSlice";
-import {BsHeart} from 'react-icons/bs'
+import {BsHeart, BsHeartFill} from 'react-icons/bs'
 import {fetchUserCart} from '../../../../Redux/Slices/Cart/userCartSlice'
-import { useLoaderData, useRouteLoaderData } from 'react-router';
+import { useLoaderData, useNavigate, useRouteLoaderData } from 'react-router';
 import { addProductToCart } from '../../../../Redux/Slices/Cart/AddToCartSlice';
 import { updateUserCart } from '../../../../Redux/Slices/Cart/UpdateCartSlice';
 import formattedCurrency from '../../../UI/Currency';
 import { getAuthToken } from '../../../../util/auth';
 import { AddToWishlist } from '../../../../Redux/Slices/Wishlist/Wishlist';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 
 function ProductDetails({ show, onCloseModal ,product }) {
@@ -25,8 +26,8 @@ function ProductDetails({ show, onCloseModal ,product }) {
   const { visitorProducts} = useSelector((state) => state.cartProducts);
   const [addButton, setAddButton] = useState(false);
   const [addText, setAddText] = useState('Add to Cart');
-
-  
+  const [addtoWish, setaddtoWish] = useState(false)
+    const navigate = useNavigate();
       useEffect(()=>{
         if(!token){
         setCartData(JSON.parse(localStorage.getItem('AROACart')));
@@ -35,7 +36,7 @@ function ProductDetails({ show, onCloseModal ,product }) {
         dispatch(fetchUserCart())
       }
   
-      }, [dispatch, updatedCart])
+      }, [dispatch, updatedCart, addtoWish])
 
       
     const handleSelectChange = (event) => {
@@ -98,23 +99,29 @@ function ProductDetails({ show, onCloseModal ,product }) {
         const selections = []
         if(product.quantity >= 10){
             for(let i = 1; i <= 10; i++){
-                selections.push(<option value={i}>{i}</option>)
+                 selections.push(
+                  <option key={i} value={i}>{i}</option>)
               }
         }
         else{
             for(let i = 1; i <= product.quantity; i++){
-                selections.push(<option value={i}>{i}</option>)
+                selections.push(<option key={i}  value={i}>{i}</option>)
               }
         }
         return selections;
     }
     
     function addToWishListHandler(productId) {
+      if(!token)
+        navigate('/login')
+
       const info = {
         user: userInfo.id,
         product: productId
       };
       dispatch(AddToWishlist(info))
+      setaddtoWish(true)
+      
     }
   return (
     <>
@@ -148,8 +155,8 @@ function ProductDetails({ show, onCloseModal ,product }) {
               </h3>
               <div className={`${style.action} row`}>
                 <div className="col-sm-12 quantity">
-                  <select onChange={handleSelectChange} className="form-control" name="select">
-                    <option selected value="" disabled>QTY</option>
+                  <select defaultValue={'DEFAULT'} onChange={handleSelectChange} className="form-control" name="select">
+                    <option  value="DEFAULT" disabled>QTY</option>
                     {qtyOptions()}
                   </select>
                 </div>
@@ -163,8 +170,14 @@ function ProductDetails({ show, onCloseModal ,product }) {
                     }}
                 
                 onClick={() => submitProductToCart({id:product.id, name:product.name, price:product.price, productPic:product.productPic, quantity: product.quantity})} className={`${style.add_to_cart} col-sm-10 `}>{addText}</Button>  
-               }        
-                <Button onClick={() => addToWishListHandler(product.id)} className={`${style.add_to_fav} col-sm-1 `}><BsHeart /></Button>
+               }    
+
+               {!addtoWish && 
+                <BsHeart beatFade size={'60'} onClick={() => addToWishListHandler(product.id)} className={`${style.add_to_fav} col-sm-1 `} />
+               }
+                 {addtoWish &&
+                <BsHeartFill fill='purple' beatFade size={'60'} className={`${style.add_to_fav} col-sm-1 `} />
+               }
                 </div>                                
               </div>
             </div>

@@ -27,7 +27,7 @@ const BestSellers = ({onProductClick}) => {
         setShowModal(false);
       };
     useEffect(()=>{
-        dispatch(fetchAllProducts({limit: 3, page: 1}))
+        dispatch(fetchAllProducts({limit: 8, page: 1}))
     },[dispatch])
     
     return ( 

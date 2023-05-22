@@ -7,7 +7,7 @@ import './Navbar.css'
 import Cart from "../Cart/Cart";
 import { setProducts } from "../../Redux/Slices/Cart/CartProductsSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { Form, Link, NavLink, useLoaderData, useRouteLoaderData, useSearchParams } from 'react-router-dom';
+import { Form, NavLink, useSearchParams } from 'react-router-dom';
 import VisitorCart from "../Cart/visitorCart/VisitorCar";
 import { fetchUserCart } from "../../Redux/Slices/Cart/userCartSlice";
 import ProductDetails from "../Shop/Products/ProductDetails/ProductDetails";
@@ -53,7 +53,7 @@ const NavbarCom = () => {
                 // Handle any errors that occurred during the fetch request
                 console.error('Error:', error);
             });
-    }, [wishlistProduct, DeletedProduct])
+    }, [wishlistProduct, DeletedProduct, token])
 
 
     // Search Logic // 
@@ -120,7 +120,7 @@ const NavbarCom = () => {
       dispatch(setProducts(cartData));
       if(token)
         dispatch(fetchUserCart());
-    }, [dispatch, updatedCart, newproduct, cartData])
+    }, [dispatch, updatedCart, newproduct, cartData, token])
 
  
     /***  Cart ***/
@@ -183,6 +183,7 @@ const NavbarCom = () => {
                         )}
                         <li>EN</li>
                         <li>EGP</li>
+                        
                         {token && 
                             <li>
                             
@@ -214,7 +215,6 @@ const NavbarCom = () => {
                         </LinkContainer>
                         <LinkContainer to="/contact">
                             <Nav.Link to="home">Contact</Nav.Link>
-
                         </LinkContainer>
 
                     
@@ -229,7 +229,7 @@ const NavbarCom = () => {
                             {searchResults.results && searchResults.results.map((result) => (
                                 <li className="row" onClick={() => handleProductCli(result)}   key={result.id}>
                                     <div style={{marginRight: '10px'}} className="col-md-4">
-                                        <img  height={50} width={60} src={`${imageUrl}${result.productPic}`} />
+                                        <img  height={50} width={60} src={`${imageUrl}${result.productPic}`} alt="result.name" />
                                     </div>
                                     <p className="col-md-5">{result.name}</p>
 
@@ -253,11 +253,11 @@ const NavbarCom = () => {
                              <Nav.Link  data-notify={products.length} onClick={handleProductClick}><FaShoppingCart fill={'#555'}/></Nav.Link>
                         }
 
-                    <Nav.Link data-notify={wishList.length || 0}>
-                      <Link to={{ pathname: '/userProfile', search: '?mode=wishlist' }}>
-                                <FaRegHeart fill={'#555'} />
-                        </Link>
-                    </Nav.Link>
+                    <LinkContainer to={token ? { pathname: '/userProfile', search: '?mode=wishlist' }: { pathname: '/auth', search: '?mode=login' }}>
+                        <Nav.Link data-notify={wishList.length || 0}>
+                                    <FaRegHeart fill={'#555'} />
+                        </Nav.Link>
+                    </LinkContainer>
                     </Nav>
                     </Navbar.Collapse>
                 </Container>

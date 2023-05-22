@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {Button, Row, Col} from "react-bootstrap";
+import {Row, Col} from "react-bootstrap";
 import styles from './Profile.module.css';
 import classes from '../forms/Register.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -7,12 +7,14 @@ import { faEye } from '@fortawesome/free-solid-svg-icons';
 import { faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import {useFormik} from 'formik';
 import { updateSchema } from '../../schemas/index';
-import { Link, useActionData, Form } from "react-router-dom";
+import {Form } from "react-router-dom";
 import Card from '../UI/Card';
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector} from "react-redux";
 // import { updateProfile } from "../../actions/userActions";
-import Loading from "../UI/Loading";
+// import Loading from "../UI/Loading";
 import axios from "axios";
+import { loader } from "../../pages/RootLayout";
+import { fetchUser } from "../../Redux/Slices/User/UserData";
 
 
 
@@ -20,11 +22,54 @@ import axios from "axios";
 const Profile = ({ location, history }) => {
   const [updated, setUpdated] = useState(false);
   const [update, setUpdate] = useState("SUBMIT");
-
   const dispatch = useDispatch()
+  const {user, status }= useSelector((state) => state.userData);
+  const [userData2, setUserData2] = useState(user);
 
-    const [passwordIsVisible, setPasswordIsVisible] = useState(false);
 
+  const [passwordIsVisible, setPasswordIsVisible] = useState(false);
+
+  const onSubmit = (values, actions) => {
+    console.log(values);
+    submitRequest(values)
+    actions.resetForm();
+};
+const formik = useFormik({
+  initialValues: {
+    first_name: '',
+    last_name: '',
+    email: '',
+    // password: '',
+    // password_confirm: '',
+  },
+  validationSchema: updateSchema,
+  onSubmit,
+});
+
+useEffect(() => {
+  formik.setValues((prevValues) => ({
+    ...prevValues,
+    first_name: userData2.first_name,
+    last_name: userData2.last_name,
+    email: userData2.email,
+    username: userData2.username,
+  }));
+}, [userData2]);
+
+useEffect(() => {
+  setUserData2(user);
+}, [user]);
+
+useEffect(() => {
+  const fetchData = async () => {
+    await dispatch(fetchUser());
+  };
+
+  fetchData();
+}, [dispatch, updated]);
+
+
+console.log(user.user);
     const togglePasswordVisibility = (event) => {
         event.preventDefault();
         setPasswordIsVisible((prevState) => !prevState);
@@ -43,25 +88,6 @@ const Profile = ({ location, history }) => {
         });
       }
 
-      const onSubmit = (values, actions) => {
-        console.log(values);
-        submitRequest(values)
-        actions.resetForm();
-    };
-
-
-
-    const formik = useFormik({
-        initialValues: {
-            first_name: "",
-            last_name: "",
-            email: "",
-            password: "",
-            password_confirm: "",
-        },
-        validationSchema: updateSchema,
-        onSubmit,
-    });
 
 
 //   const submitHandler = (e) => {
@@ -89,19 +115,19 @@ const Profile = ({ location, history }) => {
                         {(formik.errors.last_name && formik.touched.last_name)   && <p className={classes['error-text']}>{formik.errors.last_name}</p>}
                     </div>
 
-                    <div className="mt-5 mb-4 col-md-6">
+                    <div className="mt-3  mb-4 col-md-6">
                         <label htmlFor="user_name">User name</label>
-                        <input value={formik.values.username} type="text" className={classes['form-control']} id="user_name" name="username" placeholder="User Name" onChange={formik.handleChange} onBlur={formik.handleBlur}/>
+                        <input value={formik.values.username} disabled type="text" className={classes['form-control']} id="user_name" name="username" placeholder="User Name" onChange={formik.handleChange} onBlur={formik.handleBlur}/>
                         {(formik.errors.username && formik.touched.username)   && <p className={classes['error-text']}>{formik.errors.user_name}</p>}
                     </div>
 
-                    <div className="mt-5 mb-4 col-md-6">
+                    <div className="mt-3 mb-4 col-md-6">
                         <label htmlFor="email">Email address</label>
                         <input value={formik.values.email} type="email" className={classes['form-control']} id="email" name="email" placeholder="Enter email" onChange={formik.handleChange} onBlur={formik.handleBlur}/>
                         {(formik.errors.email && formik.touched.email)   && <p className={classes['error-text']}>{formik.errors.email}</p>}
                     </div>
 
-                    <div className="mt-5 mb-4 col-md-6">
+                    {/* <div className="mt-5 mb-4 col-md-6">
                         <label htmlFor="password">Password</label>
                         <div className={classes.password}>
                             <input value={formik.values.password} type={passwordIsVisible ? 'text' : 'password'} className={classes['form-control']} id="password" name="password" placeholder="Password" onChange={formik.handleChange} onBlur={formik.handleBlur}/>
@@ -121,9 +147,9 @@ const Profile = ({ location, history }) => {
                             </button>
                         </div>
                         {(formik.errors.password_confirm && formik.touched.password_confirm)  && <p className={classes['error-text']}>{formik.errors.password_confirm}</p>}
-                    </div>
+                    </div> */}
 
-                    <button  disabled={!formik.isValid || updated === true} type="submit" className={`btn btn-primary  col-md-2 ${classes.updatebtn}`}>{update}</button>
+                    <button  disabled={!formik.isValid || updated === true} type="submit" className={`btn btn-primary mt-3 col-md-2 ${classes.updatebtn}`}>{update}</button>
                 </Form>
             </Card>
           </Col>
