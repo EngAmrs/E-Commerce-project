@@ -44,11 +44,11 @@ const Categories = () => {
                 {fechStatus()}
                 <ul className="list-group list-group-flush">
                     <LinkContainer to={`/shop`}>
-                            <Link activeClassName={`active`} className="list-group-item list-group-item-action">All Products</Link>
+                            <Link activeclassname={`active`} className="list-group-item list-group-item-action">All Products</Link>
                     </LinkContainer>
-                    {categories.map((category) => 
-                        <LinkContainer to={`/shop/${category.id}`} key={category.id}>
-                        <Link activeClassName={`active`} className="list-group-item list-group-item-action">{category.name} ({category.num_products})</Link>
+                    {categories.map((category, index) => 
+                        <LinkContainer to={`/shop/${category.id}`} key={category.id * index}>
+                        <Link activeclassname={`active`} className="list-group-item list-group-item-action">{category.name} ({category.num_products})</Link>
                         </LinkContainer>
                     )}
                 </ul>

@@ -10,6 +10,13 @@
   color: rgb(64, 69, 83);
 }
 
+.bdy .btn{
+  border: 1px solid #ccc !important;
+  color: #6e7bd1 !important;
+  display: table;
+  margin: 0 auto;
+}
+
 h2 {
   font-size: 24px;
   margin-bottom: 20px;

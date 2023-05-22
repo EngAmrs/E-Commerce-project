@@ -1,23 +1,25 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import Modal from "../Components/UI/Modal";
 import Login from "../Components/forms/LogIn"
 import Register from "../Components/forms/Register"
 import { useSearchParams, useNavigate, json, redirect } from "react-router-dom";
-
+import style from './form.module.css'
 
 const AuthForm = (props) => {
     const [formIsShown, setformIsShown] = useState(true);
     const [searchParams] = useSearchParams();
     const isLogin = searchParams.get('mode');
     const navigate = useNavigate();
-  
+    
     const hideFormHandler = ()=> {
       setformIsShown(false);
       navigate('/');
     }
 
-    return <Modal onClick={props.onHideLogin}>
-            {formIsShown && isLogin === 'login' ? <Login onClick={hideFormHandler}/> : <Register onClick={hideFormHandler}/>}
+
+    return <Modal  
+             onClick={props.onHideLogin}>
+            {formIsShown && isLogin === 'login' ? <Login  onClick={hideFormHandler}/> : <Register onClick={hideFormHandler}/>}
     </Modal>
 };
 
@@ -53,7 +55,6 @@ export async function action({request}) {
             username: data.get('username'),
             password: data.get('password'),
         }
-        console.log(authData);
         
         response = await fetch('http://localhost:8000/account/register/', {
             method: 'POST',
@@ -75,8 +76,6 @@ export async function action({request}) {
 
     if(mode === 'login'){
         const resData = await response.json();
-        console.log("ana response",response);
-        console.log("ana resData",resData);
         const token = resData.token;
         localStorage.setItem('token', token)
         return redirect('/');

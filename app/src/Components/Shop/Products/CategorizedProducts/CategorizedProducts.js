@@ -112,7 +112,7 @@ const CategorizedProducts = (props) => {
             {noProducts()}
                 {
                     products.map((product)=> (
-                        <div className="col-xs-12 col-sm-6 col-md-3 col-lg-3" key={product.id}>
+                        <div className="col-xs-12 col-sm-6 col-md-3 col-lg-3" key={product.id +'C'}>
                         <div className={style.card_flyer}>
                             <div className={style.text_box}>
                                 <div className={style.image_box}>

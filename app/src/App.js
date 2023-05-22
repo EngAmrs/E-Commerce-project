@@ -13,6 +13,7 @@ import NotFound from './Components/NotFound/NotFound';
 import About from './Components/About/About';
 import Contact from './Components/Contact/Contact';
 import {loader as userInfoLoader} from './pages/RootLayout';
+import WishList from './Components/userProfile/WishList';
 
 
 

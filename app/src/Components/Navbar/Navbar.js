@@ -7,41 +7,77 @@ import './Navbar.css'
 import Cart from "../Cart/Cart";
 import { setProducts } from "../../Redux/Slices/Cart/CartProductsSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { Form, NavLink, useRouteLoaderData } from 'react-router-dom';
+import { Form, Link, NavLink, useLoaderData, useRouteLoaderData, useSearchParams } from 'react-router-dom';
 import VisitorCart from "../Cart/visitorCart/VisitorCar";
 import { fetchUserCart } from "../../Redux/Slices/Cart/userCartSlice";
 import ProductDetails from "../Shop/Products/ProductDetails/ProductDetails";
 import { getAuthToken } from "../../util/auth";
-
+import { debounce } from 'lodash';
 const NavbarCom = () => {
 
     // Auth
     const token = getAuthToken();
     const dispatch = useDispatch();
+    const imageUrl = 'http://localhost:8000/'
     // eslint-disable-next-line no-unused-vars
     const [scrolled, setScrolled] = useState(false);
-    const { visitorProducts, count } = useSelector((state) => state.cartProducts);
+    const { visitorProducts} = useSelector((state) => state.cartProducts);
     const { products} = useSelector((state) => state.userCart);
     const [showModal, setShowModal] = useState(false);
     const { updatedCart } = useSelector((state) => state.updateCart);
     const { newproduct } = useSelector((state) => state.addtoCart);
     const [cartData, setCartData] = useState(JSON.parse(localStorage.getItem('AROACart')))
+    const [searchParams] = useSearchParams();
+    const [wishList,setWishList] = useState('');
+    const {wishlistProduct} = useSelector((state) => state.addToWishlist); 
+    const {DeletedProduct} = useSelector((state) => state.deleteFromWishlist); 
+    
+    const isLogin = searchParams.get('mode');
+
+
+
+    useEffect(()=>{
+        // Wishlist
+        fetch('http://localhost:8000/wishlist/', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Token ${token}`
+            },
+            })
+            .then(res => res.json()) // Parse the response body as JSON
+            .then(data => {
+                setWishList(data);
+            })
+            .catch(error => {
+                // Handle any errors that occurred during the fetch request
+                console.error('Error:', error);
+            });
+    }, [wishlistProduct, DeletedProduct])
+
+
     // Search Logic // 
 
     // Open
     const [isSearchOpen, setIsSearchOpen] = useState(false);
+    const [islogOut, setIslogOut] = useState(false);
+
+
     const toggleSearch = () => {
       setIsSearchOpen(!isSearchOpen);
     };
-    const [searchTerm, setSearchTerm] = useState('');
     const [searchResults, setSearchResults] = useState([]);
     
+    const debouncedSearch = debounce((searchTerm) => {
+        fetchData(searchTerm)
+      }, 600); 
   
     const handleInputChange = (e) => {
-      setSearchTerm(e.target.value);
+        const searchTerm = e.target.value;
+        debouncedSearch(searchTerm);
     };
   
-    const fetchData = async () => { 
+    const fetchData = async (searchTerm) => { 
             try {
                 if(searchTerm){
                     const response = await fetch(`http://127.0.0.1:8000/product/search?key=${searchTerm}&limit=10&page=1`);
@@ -58,10 +94,9 @@ const NavbarCom = () => {
     };
 
     useEffect(() => {    
-            fetchData();
             setCartData(JSON.parse(localStorage.getItem('AROACart')))
         
-      }, [searchTerm]);
+      }, [islogOut, isLogin]);
       const [showSearchModal, setShowSearchModal] = useState(false);
       const [selectedProduct, setSelectedProduct] = useState(null);
 
@@ -83,8 +118,9 @@ const NavbarCom = () => {
       }
 
       dispatch(setProducts(cartData));
-      dispatch(fetchUserCart());
-    }, [dispatch, updatedCart, newproduct, count, cartData])
+      if(token)
+        dispatch(fetchUserCart());
+    }, [dispatch, updatedCart, newproduct, cartData])
 
  
     /***  Cart ***/
@@ -149,8 +185,9 @@ const NavbarCom = () => {
                         <li>EGP</li>
                         {token && 
                             <li>
+                            
                             <Form action="/logout" method='post'>
-                                <button className="logoutNav">Logout</button>
+                                <button onClick={()=> {setIslogOut(!islogOut)}} className="logoutNav">Logout</button>
                             </Form>
                             </li>
                         }
@@ -185,12 +222,18 @@ const NavbarCom = () => {
                     <div className="search_res_par">
                     {isSearchOpen && (
                             <div className="search-input">
-                                <input type="text" value={searchTerm} onChange={handleInputChange} placeholder="Search" />
+                                <input type="text" onChange={handleInputChange} placeholder="Search" />
                             </div>
                         )}
                         <ul className="search_res">
                             {searchResults.results && searchResults.results.map((result) => (
-                                <li onClick={() => handleProductCli(result)}   key={result.id}>{result.name}</li>
+                                <li className="row" onClick={() => handleProductCli(result)}   key={result.id}>
+                                    <div style={{marginRight: '10px'}} className="col-md-4">
+                                        <img  height={50} width={60} src={`${imageUrl}${result.productPic}`} />
+                                    </div>
+                                    <p className="col-md-5">{result.name}</p>
+
+                                </li>
                             ))}
                         </ul>
                     </div>
@@ -208,8 +251,13 @@ const NavbarCom = () => {
                         }
                         {token && products &&
                              <Nav.Link  data-notify={products.length} onClick={handleProductClick}><FaShoppingCart fill={'#555'}/></Nav.Link>
-                        }                  
-                        <Nav.Link ><FaRegHeart fill={'#555'}/></Nav.Link>
+                        }
+
+                    <Nav.Link data-notify={wishList.length || 0}>
+                      <Link to={{ pathname: '/userProfile', search: '?mode=wishlist' }}>
+                                <FaRegHeart fill={'#555'} />
+                        </Link>
+                    </Nav.Link>
                     </Nav>
                     </Navbar.Collapse>
                 </Container>

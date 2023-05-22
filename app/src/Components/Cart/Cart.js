@@ -28,26 +28,25 @@ const Cart = (props) => {
       dispatch(fetchUserCart());
     },[dispatch, deletedProduct, newproduct])
     
-    useEffect(() => {
-      const fetchData = async () => {
-        if (!token) {
-          let cartData = JSON.parse(localStorage.getItem('AROACart'));
-          dispatch(setProducts(cartData));
-        } else {
-          let cartData = JSON.parse(localStorage.getItem('AROACart'));
+    // useEffect(() => {
+    //   const fetchData = async () => {
+    //     if (!token) {
+    //       let cartData = JSON.parse(localStorage.getItem('AROACart'));
+    //       dispatch(setProducts(cartData));
+    //     } else {
+    //       let cartData = JSON.parse(localStorage.getItem('AROACart'));
           
-          if (cartData ===null || cartData.length === 0) return;
+    //       if (cartData ===null || cartData.length === 0) return;
           
-        }
+    //     }
     
         
-      };
+    //   };
     
-      fetchData();
-    }, [token]);
+    //   fetchData();
+    // }, [token, dispatch]);
     
     useEffect(() => {     
-       
       const processCartData = async () => {
         if (!token || !products) return;
     

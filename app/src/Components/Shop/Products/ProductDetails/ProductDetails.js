@@ -10,6 +10,7 @@ import { addProductToCart } from '../../../../Redux/Slices/Cart/AddToCartSlice';
 import { updateUserCart } from '../../../../Redux/Slices/Cart/UpdateCartSlice';
 import formattedCurrency from '../../../UI/Currency';
 import { getAuthToken } from '../../../../util/auth';
+import { AddToWishlist } from '../../../../Redux/Slices/Wishlist/Wishlist';
 
 
 function ProductDetails({ show, onCloseModal ,product }) {
@@ -21,16 +22,18 @@ function ProductDetails({ show, onCloseModal ,product }) {
   const imageUrl = 'http://localhost:8000/'
   const [selectedValue, setSelectedValue] = useState('');
   const  [cartData, setCartData] = useState(JSON.parse(localStorage.getItem('AROACart')))
+  const { visitorProducts} = useSelector((state) => state.cartProducts);
   const [addButton, setAddButton] = useState(false);
   const [addText, setAddText] = useState('Add to Cart');
 
-  console.log('userInfo fe el prodDe', userInfo);
-  console.log('ana token', token);
   
       useEffect(()=>{
+        if(!token){
         setCartData(JSON.parse(localStorage.getItem('AROACart')));
         dispatch(setProducts(cartData));
+      }else{
         dispatch(fetchUserCart())
+      }
   
       }, [dispatch, updatedCart])
 
@@ -80,7 +83,8 @@ function ProductDetails({ show, onCloseModal ,product }) {
           }else if (!cartData[CurrentItem]){
             cartData.push({ data, qty: parseInt(selectedValue), totalPrice:  parseInt(selectedValue) * data.price });
             localStorage.setItem('AROACart', JSON.stringify(cartData));
-          }     
+          }   
+          dispatch(setProducts(cartData))
       } 
       setAddButton(true)
       setAddText('Added')
@@ -106,30 +110,11 @@ function ProductDetails({ show, onCloseModal ,product }) {
     }
     
     function addToWishListHandler(productId) {
-      // make an API call to add the product to the wish list
-      // console.log(productId, userInfo.id);
       const info = {
         user: userInfo.id,
         product: productId
       };
-      console.log(typeof(productId));
-      fetch('http://localhost:8000/wishlist/', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Token ${token}`
-        },
-        body: JSON.stringify(info)
-      })
-        .then(response => {
-          if (!response.ok) {
-            throw new Error('Failed to add product to wishlist');
-          }
-          console.log('Added successfully')
-        })
-        .catch(error => {
-          console.error(error);
-        });
+      dispatch(AddToWishlist(info))
     }
   return (
     <>
@@ -164,7 +149,7 @@ function ProductDetails({ show, onCloseModal ,product }) {
               <div className={`${style.action} row`}>
                 <div className="col-sm-12 quantity">
                   <select onChange={handleSelectChange} className="form-control" name="select">
-                    <option value="" disabled selected>QTY</option>
+                    <option selected value="" disabled>QTY</option>
                     {qtyOptions()}
                   </select>
                 </div>

@@ -4,10 +4,16 @@
     align-items: center;
     padding: 20px;
   }
+  .profileContainer button{
+    display: table;
+    margin: 0 auto;
+   }
   .profileContainer {
     display: flex;
     margin: 20px;
   }
+
+
   @media only screen and (max-width: 768px) {
     .profileContainer {
       flex-direction: column-reverse;

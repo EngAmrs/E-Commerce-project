@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {Fragment, useState} from "react";
 import classes from './LogIn.module.css';
 import useInput from "../../hooks/use-input";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -53,7 +53,8 @@ const Login = (props) => {
         console.log("ana hena", data)
     }
     return (
-        <>
+        <Fragment >
+            <div  className={classes.bdy}>
             <div className="d-flex justify-content-end">
                 <button className={classes.showIcon} onClick={props.onClick}>
                     <FontAwesomeIcon icon={faXmark}/>
@@ -84,14 +85,14 @@ const Login = (props) => {
                     {passwordInputHasError && <p className={classes['error-text']}>Invalid password!</p>}
                 </div>
 
-                <button disabled={isSubmitting} type="submit" className={btnClass}>{isSubmitting? 'Loading...' : 'SIGN IN'}</button>
+                <button disabled={isSubmitting} type="submit" className={`btn ${classes.btn}`}>{isSubmitting? 'Loading...' : 'SIGN IN'}</button>
             </Form>
 
             <footer className={classes['login-form-footer']}>
                 <p>Don't have an account yet? <Link to="/auth?mode=register">Sign up</Link></p>
             </footer>
-
-        </>
+            </div>
+            </Fragment>
         
       );
 };

@@ -8,6 +8,14 @@
     color: rgb(64, 69, 83);
 }
 
+.register-form .btn{
+  border: 1px solid #ccc !important;
+  color: #6e7bd1 !important;
+  display: table;
+  margin: 0 auto;
+  font-weight: bold;
+}
+
 .sign {
   font-size: 1.785rem;
   font-weight: 800;

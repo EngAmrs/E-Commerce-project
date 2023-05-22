@@ -157,9 +157,10 @@
   }
   
   .spanButton{
-    display: block;
+    margin-top: 2em !important;
+    flex-basis: 100% !important;
+    text-align: center !important;
   }
-
   @media (max-width: 557px) {
     #cards_landscape_wrap_2 .card_flyer .text_box{
         display: flex;

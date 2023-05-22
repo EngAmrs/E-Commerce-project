@@ -103,7 +103,6 @@ const AllProducts = ({onProductClick}) => {
     * End Pagination 
     * 
     */
-    console.log("ana products", products);
     return ( 
         <div id={style.cards_landscape_wrap_2} className='col-md-9'>
         <div className={`${style.container} container`}>
@@ -111,8 +110,8 @@ const AllProducts = ({onProductClick}) => {
             {fechStatus()}
             {noProducts()}
                 {
-                    products.map((product)=> (
-                        <div className="col-xs-12 col-sm-6 col-md-3 col-lg-3" key={product.id}>
+                    products.map((product, index)=> (
+                        <div className="col-xs-12 col-sm-6 col-md-3 col-lg-3" key={index}>
                             <div className={style.card_flyer}>
                                 <div className={style.text_box}>
                                     <div className={style.image_box}>

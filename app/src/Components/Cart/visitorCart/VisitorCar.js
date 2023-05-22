@@ -6,6 +6,7 @@ import { setProducts } from "../../../Redux/Slices/Cart/CartProductsSlice";
 import { RiDeleteBin5Fill } from 'react-icons/ri';
 import { Link, useRouteLoaderData } from 'react-router-dom';
 import { getAuthToken } from '../../../util/auth';
+import { date } from 'yup';
 
 
 
@@ -13,27 +14,22 @@ const VisitorCart = (props) => {
     const imageUrl = 'http://localhost:8000/'
     const dispatch = useDispatch();
     const { visitorProducts, status } = useSelector((state) => state.cartProducts);
+    const  [cartData, setCartData] = useState(JSON.parse(localStorage.getItem('AROACart')))
 
     const token = getAuthToken();
     
 
     useEffect(() => {
-      const fetchData = async () => {
         if (!token) {
-          let cartData = JSON.parse(localStorage.getItem('AROACart'));
+          setCartData(JSON.parse(localStorage.getItem('AROACart')));
           dispatch(setProducts(cartData));
-        } else {
-          let cartData = JSON.parse(localStorage.getItem('AROACart'));
           
-          if (cartData ===null || cartData.length === 0) return;
-          
+
         }
-    
         
-      };
-    
-      fetchData();
-    }, [token]);
+        
+
+    }, [token, dispatch]);
     
     
 
@@ -53,17 +49,19 @@ const VisitorCart = (props) => {
     };
 
     // Delete items
-    const handleDelete = (id, itemId)=>{
-      if(!token){
+    const handleDelete = (id, itemId) => {
+      if (!token) {
         const cartData = JSON.parse(localStorage.getItem('AROACart'));
         const productIndex = cartData.findIndex((item) => item.data.id === id);
-        cartData.splice(productIndex, 1);
-        localStorage.setItem('AROACart', JSON.stringify(cartData));
-        dispatch(setProducts(cartData));
-
-
+    
+        if (productIndex !== -1) {
+          cartData.splice(productIndex, 1);
+          setCartData(cartData);
+          localStorage.setItem('AROACart', JSON.stringify(cartData));
+          dispatch(setProducts(cartData));
+        }
       }
-    }
+    };
    
 
     // Push JSX options
@@ -94,7 +92,7 @@ const VisitorCart = (props) => {
 
 
     const emptyCart = ()=>{
-      if(!visitorProducts || visitorProducts.length === 0)
+      if(!cartData || cartData.length === 0)
         return <p className={style.emptyCart}>The cart is empty</p>
     }
     return ( 
@@ -111,8 +109,8 @@ const VisitorCart = (props) => {
           </Modal.Header>
           <Modal.Body>
 
-            { visitorProducts &&
-              visitorProducts.map((product) => (
+            { cartData &&
+              cartData.map((product, index) => (
                 <div className={`${style.item} row`} key={product.data.id}>
                     <div className={`${style.buttons} col-md-1 row`}>
                       <span onClick={()=> { handleDelete(product.data.id, product.itemId)}} className={style.delete_btn}><RiDeleteBin5Fill fill={'red'} size={'20'}/></span>
@@ -127,7 +125,7 @@ const VisitorCart = (props) => {
 
                     <div className={`${style.quantity} col-md-2`}>
                     <select onChange={(event) => handleSelectChange(event,product)} className="form-control" name="select">
-                          <option value="" disabled selected>QTY</option>
+                          <option value="" disabled>QTY</option>
                           {qtyOptions(product.data.quantity, product.qty)}
                         </select>
                     </div>
@@ -138,7 +136,7 @@ const VisitorCart = (props) => {
 
           {emptyCart()}
 
-          { visitorProducts && visitorProducts.length > 0 &&
+          { cartData && visitorProducts.length > 0 &&
             <div className={`${style.checkout_btns}`}>
               <Link to='/checkout' onClick={props.onCloseCart} className={style.check}>
                 <Button className={`${style.check_out}`}>Check Out</Button>

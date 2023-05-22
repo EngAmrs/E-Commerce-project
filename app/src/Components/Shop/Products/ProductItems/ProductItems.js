@@ -31,7 +31,7 @@ const ProductItems = () => {
     
     const test = ()=>{
         if(!id)
-            return <AllProducts onProductClick={handleProductClick} />
+            return <AllProducts  onProductClick={handleProductClick} />
         else{
            return <CategorizedProducts onProductClick={handleProductClick} categoryId={id} />
         }

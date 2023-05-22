@@ -13,6 +13,8 @@ import UpdateCartReducer from "./Slices/Cart/UpdateCartSlice"
 import userOrdersReducer from "./Slices/Order/getOrdersSlice"
 import cancelOrderReducer from './Slices/Order/cancelOrderSlice'
 import paymentReducer from './Slices/Order/PaymentSlice'
+import AddToWishlistReducer from "./Slices/Wishlist/Wishlist";
+import DeleteWishlistReducer from "./Slices/Wishlist/DeleteItems";
 
 const store = configureStore({
   reducer: {
@@ -35,6 +37,9 @@ const store = configureStore({
     cancelOrder: cancelOrderReducer,
     paymentCard: paymentReducer,
     
+    // Wishlist
+    addToWishlist: AddToWishlistReducer,
+    deleteFromWishlist: DeleteWishlistReducer,
 
   },
 });

@@ -34,7 +34,6 @@ export async function loader() {
       //...
     }else {
       const resData = await response.json();
-      console.log("user Info", resData);
       return resData;
     }
       

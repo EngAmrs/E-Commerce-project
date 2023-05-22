@@ -20,8 +20,8 @@ const portalElement = document.getElementById('overlays');
 
 const Modal = (props) => {
     return <>
-        {ReactDOM.createPortal(<BackDrop onClick={props.onClick}/>, portalElement)}
-        {ReactDOM.createPortal(<ModelOverlay className={props.className}>{props.children}</ModelOverlay>, portalElement)}
+        {ReactDOM.createPortal(<BackDrop  onClick={props.onClick}/>, portalElement)}
+        {ReactDOM.createPortal(<ModelOverlay  className={props.className}>{props.children}</ModelOverlay>, portalElement)}
     </>
 }
 
